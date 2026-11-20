@@ -150,6 +150,7 @@ const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" heig
 const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "changed", "photos", "docs", "note"];
 const DEFAULT_OFF = { view: [], print: ["led", "icon"] };
 const MM = 96 / 25.4; // pixels per millimetre (widths of the printout are stored in mm)
+const NOCLIP = ["value", "cur", "target", "unit", "access", "pos", "tilt", "bright", "state", "mode", "action", "led", "icon", "photos", "changed"]; // short columns: a width from the column editor is only a minimum, the content is never cut off (no "…")
 const REFRESH_MS = 6000; // the table follows state changes at most this often (the values are live, but a calm table is easier to read and cheaper)
 const CHUNK = 300; // rows drawn at once
 const OFFLINE = new Set(["unavailable", "unknown"]);
@@ -227,8 +228,8 @@ class EntityInventoryPanel extends HTMLElement {
 
   async _loadMeta() {
     try {
-      this._meta = await this._hass.callWS({ type: "entity_inventory/list" });
-      if (this._rows) this._render();
+      const r = await this._hass.callWS({ type: "entity_inventory/list" });
+      if (r && r.notes && r.photos && r.docs) { this._meta = r; if (this._rows) this._render(); }
     } catch (e) { /* server part not installed: the columns stay empty */ }
   }
 
@@ -305,7 +306,7 @@ class EntityInventoryPanel extends HTMLElement {
   // decimal separator of the user's number format (Home Assistant profile setting, else the language)
   get _dec() {
     const h = this._hass, nf = h.locale && h.locale.number_format;
-    if (nf === "comma_decimal") return ".";
+    if (nf === "comma_decimal" || nf === "none") return ".";
     if (nf === "decimal_comma" || nf === "space_comma") return ",";
     try { return new Intl.NumberFormat(nf === "system" ? undefined : (h.locale && h.locale.language) || h.language).formatToParts(1.1).find((x) => x.type === "decimal").value; } catch (x) { return "."; }
   }
@@ -401,7 +402,8 @@ class EntityInventoryPanel extends HTMLElement {
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
       td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id]:hover{color:var(--primary-color)}
-      td{font-variant-numeric:tabular-nums}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
+      td{font-variant-numeric:tabular-nums}
+      td[data-col=value],td[data-col=cur],td[data-col=target]{overflow:visible;text-overflow:clip;max-width:none}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
       td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
       td[data-col=cur] .vf{min-width:var(--wf-cur,0)}td[data-col=cur] .vu{min-width:var(--wu-cur,0)}
       td[data-col=target] .vf{min-width:var(--wf-target,0)}td[data-col=target] .vu{min-width:var(--wu-target,0)}
@@ -751,7 +753,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
       return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
-    const wcss = cols.filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return `td[data-col=${c}],th[data-col=${c}]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
+    const wcss = cols.filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return NOCLIP.includes(c) ? `td[data-col=${c}],th[data-col=${c}]{min-width:${w}px}` : `td[data-col=${c}],th[data-col=${c}]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
     ["value", "cur", "target"].forEach((c) => { // widths of the decimals and of the unit = longest in the column, so separators and units line up
       this._wrap.style.removeProperty("--wf-" + c); this._wrap.style.removeProperty("--wu-" + c);
