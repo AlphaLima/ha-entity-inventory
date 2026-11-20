@@ -12,7 +12,8 @@ const L10N = {
     search: "Search (name, entity ID, area, device, integration …)", count: "Entities shown / in this tab",
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
-    c_retention: "Recorder", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity (click to change)",
+    retSince: "Stored in the recorder since: {t} ({n} days)", retSinceNone: "No history stored in the recorder.", retSinceFail: "Age of the history could not be read.", retSinceBusy: "Reading the age of the history …",
+    c_retention: "Recorder", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click and type the number of days (empty = no rule), Shift+click opens the dialog",
     retIntro: "History of this entity (the recorder database) older than the chosen number of days is deleted every night. A rule can only shorten the global retention of the recorder (purge_keep_days), it cannot keep data longer.",
     retNone: "No rule (recorder default)", retDays: "{n} days", retCustom: "Other number of days", retJob: "Run the nightly retention job (03:20) for all entities with a rule", retRules: "{n} entities with a rule",
     retRunNow: "Run now", retRunAsk: "Delete the history older than the rules of all entities that have a retention rule? This cannot be undone.", retLast: "Last run: {t}", retDone: "Done: {n} entities processed.", retFail: "The recorder reported an error: {e}", retNoRec: "The recorder is not available.", retAdmin: "Only administrators can change the recorder retention.", retNever: "never",
@@ -51,7 +52,8 @@ const L10N = {
     search: "Suche (Name, Entity-ID, Bereich, Gerät, Integration …)", count: "Angezeigte Entitäten / in diesem Tab",
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
-    c_retention: "Recorder", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität (Klick: ändern)",
+    retSince: "Im Recorder gespeichert seit: {t} ({n} Tage)", retSinceNone: "Im Recorder ist kein Verlauf gespeichert.", retSinceFail: "Das Alter des Verlaufs konnte nicht gelesen werden.", retSinceBusy: "Alter des Verlaufs wird gelesen …",
+    c_retention: "Recorder", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: anklicken und Anzahl Tage eintippen (leer = keine Regel), Umschalt+Klick öffnet den Dialog",
     retIntro: "Der Verlauf dieser Entität (Recorder-Datenbank), der älter ist als die gewählte Anzahl Tage, wird jede Nacht gelöscht. Eine Regel kann die globale Aufbewahrung des Recorders (purge_keep_days) nur verkürzen, nicht verlängern.",
     retNone: "Keine Regel (Recorder-Standard)", retDays: "{n} Tage", retCustom: "Andere Anzahl Tage", retJob: "Nächtlichen Aufbewahrungs-Job (03:20) für alle Entitäten mit Regel ausführen", retRules: "{n} Entitäten mit Regel",
     retRunNow: "Jetzt ausführen", retRunAsk: "Den Verlauf, der älter ist als die Regeln, für alle Entitäten mit Aufbewahrungsregel jetzt löschen? Das lässt sich nicht rückgängig machen.", retLast: "Letzter Lauf: {t}", retDone: "Fertig: {n} Entitäten bearbeitet.", retFail: "Der Recorder meldet einen Fehler: {e}", retNoRec: "Der Recorder ist nicht verfügbar.", retAdmin: "Nur Administratoren können die Recorder-Aufbewahrung ändern.", retNever: "nie",
@@ -2812,12 +2814,41 @@ class EntityInventoryPanel extends HTMLElement {
     inp.focus(); inp.select();
   }
 
+  // type the retention (days) right into the Recorder column: Enter / click elsewhere saves, Esc cancels, empty removes the rule
+  _retentionInline(span, e) {
+    const L = this._L, cur = (this._meta.retention || {})[e.id] || 0, td = span.closest("td");
+    if (!td || td.querySelector("input")) return;
+    const html = td.innerHTML, inp = Object.assign(document.createElement("input"), { type: "number", min: 1, max: 3650, value: cur || "", placeholder: "–" });
+    inp.style.cssText = "width:70px;box-sizing:border-box;padding:1px 4px;border-radius:4px;border:1px solid var(--primary-color);background:var(--card-background-color,transparent);color:var(--primary-text-color);font:inherit";
+    td.innerHTML = ""; td.appendChild(inp); inp.focus(); inp.select();
+    let done = false;
+    const finish = async (save) => {
+      if (done) return; done = true;
+      const v = parseInt(inp.value, 10), days = v >= 1 ? Math.min(v, 3650) : 0;
+      if (!save || days === cur) { td.innerHTML = html; return; }
+      try { await this._call({ type: "entity_inventory/set_retention", entity_id: e.id, days: days || null }); }
+      catch (x) { alert(`${(x && x.message) || x}`); td.innerHTML = html; }
+    };
+    inp.onkeydown = (ev) => { ev.stopPropagation(); if (ev.key === "Enter") finish(true); else if (ev.key === "Escape") finish(false); };
+    inp.onblur = () => finish(true);
+    inp.onclick = (ev) => ev.stopPropagation();
+  }
+
   // recorder retention of one entity: how many days of history to keep (a nightly job calls recorder.purge_entities)
   _retentionDialog(e) {
     const L = this._L, admin = this._admin, m = this._meta, { body, close } = this._modal(`${L.retTitle} – ${e.name}`, e.id);
     const info = m.retention_info || {}, cur = (m.retention || {})[e.id] || 0;
     const note = (txt, css) => { const d = document.createElement("div"); d.style.cssText = css || "font-size:12px;opacity:.7;margin:6px 0"; d.textContent = txt; body.appendChild(d); return d; };
     note(L.retIntro);
+    // how far back the history of this entity reaches: the oldest state the recorder still has
+    const since = note(L.retSinceBusy, "font-size:13px;font-weight:600;margin:8px 0");
+    (async () => {
+      try {
+        const now = Date.now(), res = await this._hass.callWS({ type: "history/history_during_period", start_time: new Date(now - 1100 * 864e5).toISOString(), end_time: new Date(now).toISOString(), entity_ids: [e.id], minimal_response: true, no_attributes: true, significant_changes_only: false });
+        const first = ((res || {})[e.id] || [])[0], ts = first && (first.lu || first.lc);
+        since.textContent = ts ? L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", Math.max(0, Math.round((now / 1000 - ts) / 86400))) : L.retSinceNone;
+      } catch (x) { since.textContent = L.retSinceFail; }
+    })();
     let sel = cur;
     const PRESETS = [0, 1, 3, 7, 14, 30, 90, 180, 365];
     const box = document.createElement("div"); box.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;margin:8px 0";
@@ -2999,7 +3030,7 @@ class EntityInventoryPanel extends HTMLElement {
         return;
       }
       if (e && act.dataset.act === "icon") { this._hidePop(); this._iconDialog(e); return; }
-      if (e && act.dataset.act === "retention") { this._hidePop(); this._retentionDialog(e); return; }
+      if (e && act.dataset.act === "retention") { this._hidePop(); if (ev.shiftKey || !this._admin) this._retentionDialog(e); else this._retentionInline(act, e); return; }
       if (e) { this._hidePop(); if (act.dataset.act === "photos") this._photosDialog(e); else if (act.dataset.act === "docs") this._docsDialog(e); else this._noteDialog(e); }
       return;
     }
