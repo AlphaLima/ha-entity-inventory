@@ -38,7 +38,7 @@ Everything is computed live in the browser from `hass.states` and the entity / d
 
 > Status: **v0.x – test versions.** In daily use on the author's system (Home Assistant **2026.11**, several thousand entities). It needs Home Assistant 2024.7 or newer but has so far only been tested on 2026.11. Please report problems as an [issue](https://github.com/AlphaLima/ha-entity-inventory/issues) with your Home Assistant version.
 
-**Languages:** English and German (taken from the language of the logged-in user; every other language shows English). Translations for more languages are welcome as pull requests – the texts are in `frontend/entity-inventory-panel.js`, object `L10N`.
+**Languages:** English, German, French, Spanish, Dutch, Italian, Polish, Portuguese, Czech, Russian, Swedish, Norwegian, Danish and Afrikaans (taken from the language of the logged-in user; every other language shows English). All languages except English and German are machine translations – corrections as pull requests are welcome (the texts are in `frontend/entity-inventory-panel.js`, object `L10N`).
 
 ## Install
 
