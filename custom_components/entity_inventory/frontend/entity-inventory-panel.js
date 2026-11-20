@@ -544,7 +544,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._hico = document.createElement("ha-icon"); this._hico.style.cssText = "--mdc-icon-size:22px";
     this._htxt = document.createElement("span");
     head.append(this._hico, this._htxt);
-    const bar = document.createElement("div"); bar.className = "bar";
+    const bar = this._bar = document.createElement("div"); bar.className = "bar";
     const mkBtn = (svg, title, fn) => { const b = document.createElement("button"); b.className = "ib"; b.title = title; b.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="${svg}"/></svg>`; b.onclick = fn; return b; };
     const pb = mkBtn("M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z", L.print, () => this._print());
     // paper format of the printout: portrait / landscape sheet symbol (remembered in this browser)
@@ -633,11 +633,17 @@ class EntityInventoryPanel extends HTMLElement {
     let acc = 0;
     const setHidden = (hide) => {
       if (hide === top.classList.contains("hide")) return;
-      const h = top.offsetHeight;
       top.classList.toggle("hide", hide);
-      if (hide) wrap.style.setProperty("--ei-wrap-max", `calc(100vh - ${Math.max(60, 190 - Math.max(h, 56))}px)`);
-      else wrap.style.removeProperty("--ei-wrap-max");
+      fit();
     };
+    // the list gets exactly the height that is left below the toolbar (the toolbar wraps into several rows on a phone), so the list scrolls and not the page
+    const fit = () => {
+      const off = wrap.getBoundingClientRect().top - body.getBoundingClientRect().top;
+      wrap.style.setProperty("--ei-wrap-max", `${Math.max(120, innerHeight - (top.classList.contains("hide") ? 0 : top.offsetHeight) - off - 24)}px`);
+    };
+    this._fitWrap = fit;
+    if (window.ResizeObserver) { const ro = new ResizeObserver(fit); ro.observe(top); ro.observe(this._bar || body); }
+    window.addEventListener("resize", fit); fit();
     mq.addEventListener && mq.addEventListener("change", () => { if (!mq.matches) setHidden(false); });
     let last = wrap.scrollTop; const born = Date.now();
     wrap.addEventListener("scroll", () => {
