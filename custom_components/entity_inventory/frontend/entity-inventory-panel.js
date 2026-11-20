@@ -888,7 +888,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
       return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
-    const wcss = cols.filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return NOCLIP.includes(c) ? `td[data-col=${c}],th[data-col=${c}]{min-width:${w}px}` : `td[data-col=${c}],th[data-col=${c}]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
+    const wcss = ["#", ...cols].filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return (c === "#" || NOCLIP.includes(c)) ? `td[data-col="${c}"],th[data-col="${c}"]{min-width:${w}px}` : `td[data-col="${c}"],th[data-col="${c}"]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
     ["value", "cur", "target"].forEach((c) => { // widths of the decimals and of the unit = longest in the column, so separators and units line up
       this._wrap.style.removeProperty("--wf-" + c); this._wrap.style.removeProperty("--wu-" + c);
@@ -899,7 +899,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
     });
     this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
-    this._wrap.innerHTML = `<style>${wcss}</style><table><thead><tr><th>#</th>${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
+    this._wrap.innerHTML = `<style>${wcss}</style><table><thead><tr>${this._edit ? '<th data-col="#" style="position:relative"># <span class="grip" data-cfg="grip" title="↔"></span></th>' : "<th>#</th>"}${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
     this._fillIcons();
     if (prevTop > 0) { while (this._shown < list.length && this._wrap.scrollHeight < prevTop + this._wrap.clientHeight + 400) this._more(); } // keep the scroll position after a refresh
     this._wrap.scrollTop = prevTop; this._wrap.scrollLeft = prevLeft;
@@ -1186,7 +1186,7 @@ class EntityInventoryPanel extends HTMLElement {
     const cols = this._cols_, out = [];
     for (let i = from; i < to; i++) {
       const e = this._list[i];
-      out.push(`<tr data-id="${esc(e.id)}"><td class="dim">${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
+      out.push(`<tr data-id="${esc(e.id)}"><td class="dim" data-col="#">${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
     }
     return out.join("");
   }
@@ -1273,7 +1273,7 @@ class EntityInventoryPanel extends HTMLElement {
     const th = g.closest("th"), c = th.dataset.col, cfg = this._layout(this._tgt), tgt = this._tgt;
     const x0 = ev.clientX, w0 = th.getBoundingClientRect().width; let cur = w0;
     const cells = () => [th, ...this._wrap.querySelectorAll(`td[data-col="${c}"]`)];
-    const mv = (e) => { cur = Math.max(24, w0 + e.clientX - x0); cells().forEach((x) => { x.style.width = x.style.maxWidth = x.style.minWidth = cur + "px"; }); };
+    const mv = (e) => { cur = Math.max(12, w0 + e.clientX - x0); cells().forEach((x) => { x.style.width = x.style.maxWidth = x.style.minWidth = cur + "px"; }); };
     const up = () => {
       document.removeEventListener("mousemove", mv); document.removeEventListener("mouseup", up);
       if (cur !== w0) { cfg.w[c] = tgt === "print" ? Math.round(cur / MM) : Math.round(cur); this._saveLayout(tgt); this._render(); }
@@ -1290,7 +1290,7 @@ class EntityInventoryPanel extends HTMLElement {
     tb.querySelectorAll("tbody tr").forEach((r) => [...r.children].forEach((td) => { const c = td.dataset.col; if (!c) return; const x = natural(td); if (!(w[c] >= x)) w[c] = x; }));
     // the heading counts with its text only (the editor controls fit into 76 px anyway when the column is that wide)
     const probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:inherit;font-weight:600"; tb.appendChild(probe);
-    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
+    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "#" ? "#" : c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
     probe.remove();
     Object.keys(w).forEach((c) => { cfg.w[c] = tgt === "print" ? Math.round(w[c] / MM) : w[c]; });
     this._saveLayout(tgt); this._render();
