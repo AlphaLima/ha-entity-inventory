@@ -257,13 +257,35 @@ class EntityInventoryPanel extends HTMLElement {
     return c[col] || (c[col] = this._cell0(e, col));
   }
 
+  // decimal separator of the user's number format (Home Assistant profile setting, else the language)
+  get _dec() {
+    const h = this._hass, nf = h.locale && h.locale.number_format;
+    if (nf === "comma_decimal") return ".";
+    if (nf === "decimal_comma" || nf === "space_comma") return ",";
+    try { return new Intl.NumberFormat(nf === "system" ? undefined : (h.locale && h.locale.language) || h.language).formatToParts(1.1).find((x) => x.type === "decimal").value; } catch (x) { return "."; }
+  }
+
+  _fmtNum(v) {
+    try { return new Intl.NumberFormat((this._hass.locale && this._hass.locale.language) || this._hass.language, { maximumFractionDigits: 2 }).format(v); } catch (x) { return String(v); }
+  }
+
+  // splits "10.994,696 kWh" into integer part and "decimals + unit" so that the decimal separators of a column stand under each other
+  _split(text, key) {
+    const m = /^(\D*?)(-?\d[\d.,\s  ']*)(.*)$/s.exec(text);
+    if (!m) return [esc(text), key, 0];
+    const d = this._dec, num = m[2].replace(/[\s  ]+$/, ""), rest = m[2].slice(num.length) + m[3];
+    const i = num.lastIndexOf(d), hasDec = i >= 0 && /^\d+$/.test(num.slice(i + 1));
+    const ip = m[1] + (hasDec ? num.slice(0, i) : num), dec = hasDec ? num.slice(i) : "";
+    return [`<span>${esc(ip)}</span><span class="vf">${esc(dec)}</span><span class="vu">${esc(rest)}</span>`, key, dec.length, rest.length];
+  }
+
   _cell0(e, col) {
     const L = this._L;
     switch (col) {
       case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
       case "name": return [esc(e.name), e.name.toLowerCase()];
       case "id": return [esc(e.id), e.id];
-      case "value": { const t = this._valueText(e); return [esc(t), num(e.state) ?? t]; }
+      case "value": { const t = this._valueText(e), n = num(e.state); return n === null ? [esc(t), t] : this._split(t, n); }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
       case "area": return [esc(e.area), e.area.toLowerCase()];
       case "device": return [esc(e.device), e.device.toLowerCase()];
@@ -285,8 +307,8 @@ class EntityInventoryPanel extends HTMLElement {
       case "pos": { const v = e.a.current_position; return [v == null ? "" : v + " %", v ?? -1]; }
       case "tilt": { const v = e.a.current_tilt_position; return [v == null ? "" : v + " %", v ?? -1]; }
       case "bright": { const v = e.a.brightness; if (v == null) return [e.state === "on" ? "" : "", -1]; const p = Math.round(v / 2.55); return [p + " %", p]; }
-      case "cur": { const v = e.a.current_temperature; return [v == null ? "" : v + " °", v ?? -999]; }
-      case "target": { const v = e.a.temperature; return [v == null ? "" : v + " °", v ?? -999]; }
+      case "cur": { const v = e.a.current_temperature; return v == null ? ["", -999] : this._split(this._fmtNum(v) + " °", v); }
+      case "target": { const v = e.a.temperature; return v == null ? ["", -999] : this._split(this._fmtNum(v) + " °", v); }
       case "mode": { const t = this._valueText(e); return [esc(t), t]; }
       case "action": { const v = e.a.hvac_action || ""; return [esc(v), v]; }
     }
@@ -322,6 +344,10 @@ class EntityInventoryPanel extends HTMLElement {
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
       td[data-col=id]{cursor:copy;opacity:.8}
+      td{font-variant-numeric:tabular-nums}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
+      td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
+      td[data-col=cur] .vf{min-width:var(--wf-cur,0)}td[data-col=cur] .vu{min-width:var(--wu-cur,0)}
+      td[data-col=target] .vf{min-width:var(--wf-target,0)}td[data-col=target] .vu{min-width:var(--wu-target,0)}
       td[data-col=value],th[data-col=value],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target]{text-align:right}
       button,select{cursor:pointer;padding:4px 10px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font-size:13px}
       select{max-width:200px;padding:4px 6px}
@@ -512,6 +538,14 @@ class EntityInventoryPanel extends HTMLElement {
     if (!list.length) { this._wrap.innerHTML = `<div class="none">${esc(L.none)}</div>`; return; }
     const th = cols.map((c) => `<th data-col="${c}" title="${esc(L["c_" + c] || c)}">${c === "led" ? "●" : esc(L["c_" + c] || c)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
+    ["value", "cur", "target"].forEach((c) => { // widths of the decimals and of the unit = longest in the column, so separators and units line up
+      this._wrap.style.removeProperty("--wf-" + c); this._wrap.style.removeProperty("--wu-" + c);
+      if (cols.includes(c)) {
+        let f = 0, u = 0;
+        for (const e of list) { const x = this._cell(e, c); if (x[2] > f) f = x[2]; if (x[3] > u) u = x[3]; }
+        this._wrap.style.setProperty("--wf-" + c, f + "ch"); this._wrap.style.setProperty("--wu-" + c, u + "ch");
+      }
+    });
     this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
     this._wrap.innerHTML = `<table><thead><tr><th>#</th>${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
     if (prevTop > 0) { while (this._shown < list.length && this._wrap.scrollHeight < prevTop + this._wrap.clientHeight + 400) this._more(); } // keep the scroll position after a refresh
