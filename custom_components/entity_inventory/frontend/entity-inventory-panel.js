@@ -391,7 +391,8 @@ class EntityInventoryPanel extends HTMLElement {
       .badge{position:absolute;top:8px;right:2px;min-width:16px;height:16px;border-radius:8px;background:var(--error-color,#db4437);color:#fff;font-size:10px;line-height:16px;text-align:center;padding:0 3px}
       .body{padding:12px}
       ha-card{padding:4px 8px 6px;display:block}
-      .wrap{overflow:auto;max-height:calc(100vh - 190px)}
+      .wrap{overflow:auto;max-height:var(--ei-wrap-max,calc(100vh - 190px))}
+      .top.hide{display:none}
       table{width:auto;border-collapse:collapse;font-size:12px}
       th{position:sticky;top:0;z-index:1;background:var(--card-background-color,#fff);text-align:left;padding:3px 4px;border-bottom:2px solid var(--divider-color,#888);cursor:pointer;user-select:none;white-space:nowrap}
       th:hover{color:var(--primary-color)}
@@ -445,6 +446,7 @@ class EntityInventoryPanel extends HTMLElement {
       try { localStorage.setItem("eiBadges", showBadges ? "1" : "0"); } catch (e) { /* ignore */ }
       paintTgl();
     };
+    this._top = top;
     top.append(this._menu, this._tabs, tcfg, tgl);
     this._body = document.createElement("div"); this._body.className = "body";
     root.append(st, top, this._body);
@@ -454,6 +456,7 @@ class EntityInventoryPanel extends HTMLElement {
     try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; } catch (e) { /* ignore */ }
     this._meta = { notes: {}, photos: {}, docs: {} };
     this._buildCard();
+    this._initMobile();
     this._loadMeta(); this._metaTimer = setInterval(() => (this.isConnected ? this._loadMeta() : clearInterval(this._metaTimer)), 300000); // signed URLs last one hour
     this._loadUsers(); this._userTimer = setInterval(() => (this.isConnected ? this._loadUsers() : clearInterval(this._userTimer)), 300000);
   }
@@ -544,6 +547,39 @@ class EntityInventoryPanel extends HTMLElement {
     this._wrap.addEventListener("scroll", () => { if (this._wrap.scrollTop + this._wrap.clientHeight > this._wrap.scrollHeight - 500) this._more(); }, { passive: true });
     card.append(head, bar, this._wrap);
     this._body.appendChild(card);
+  }
+
+  // small screens: the tab bar slides away while the table is scrolled down; only pulling down at the very top of the list (or a swipe / wheel up there) brings it back
+  _initMobile() {
+    const top = this._top, wrap = this._wrap, body = this._body;
+    const mq = window.matchMedia("(max-width: 700px), ((max-height: 520px) and (pointer: coarse))");
+    let acc = 0;
+    const setHidden = (hide) => {
+      if (hide === top.classList.contains("hide")) return;
+      const h = top.offsetHeight;
+      top.classList.toggle("hide", hide);
+      if (hide) wrap.style.setProperty("--ei-wrap-max", `calc(100vh - ${Math.max(60, 190 - Math.max(h, 56))}px)`);
+      else wrap.style.removeProperty("--ei-wrap-max");
+    };
+    mq.addEventListener && mq.addEventListener("change", () => { if (!mq.matches) setHidden(false); });
+    let last = wrap.scrollTop; const born = Date.now();
+    wrap.addEventListener("scroll", () => {
+      const t = wrap.scrollTop, dy = t - last; last = t;
+      if (Date.now() - born < 500) return;
+      if (!mq.matches) { setHidden(false); return; }
+      acc = Math.sign(dy) === Math.sign(acc) ? acc + dy : dy;
+      if (t > 12 && acc > 12) setHidden(true); // scrolling up does not bring it back
+    }, { passive: true });
+    // pulling further down at the very top of the list (finger or mouse wheel) shows the bar again
+    let y0 = null, wheel = 0;
+    wrap.addEventListener("touchstart", (e) => { y0 = wrap.scrollTop <= 0 ? e.touches[0].clientY : null; }, { passive: true });
+    wrap.addEventListener("touchmove", (e) => { if (y0 !== null && wrap.scrollTop <= 0 && e.touches[0].clientY - y0 > 40) { y0 = null; setHidden(false); } }, { passive: true });
+    wrap.addEventListener("wheel", (e) => { if (wrap.scrollTop <= 0 && e.deltaY < 0) { wheel += -e.deltaY; if (wheel > 60) { wheel = 0; setHidden(false); } } else wheel = 0; }, { passive: true });
+    // a swipe up or wheel down hides the bar even when the list is too short to scroll, so it always behaves the same
+    let sy = null, wd = 0;
+    body.addEventListener("touchstart", (e) => { sy = e.touches[0].clientY; }, { passive: true });
+    body.addEventListener("touchmove", (e) => { if (sy !== null && mq.matches && sy - e.touches[0].clientY > 20) { sy = null; setHidden(true); } }, { passive: true });
+    body.addEventListener("wheel", (e) => { if (!mq.matches) return; if (e.deltaY > 0) { wd += e.deltaY; if (wd > 20) { wd = 0; setHidden(true); } } else wd = 0; }, { passive: true });
   }
 
   _tick() { if (!this._paused) this._refresh(); }
@@ -695,6 +731,16 @@ class EntityInventoryPanel extends HTMLElement {
     const tgt = this._edit ? this._tgt : "view", cfg = this._layout(tgt), cols = this._cols(tgt, this._edit);
     this._offSet = this._edit ? cfg.off : new Set();
     this._wrap.className = "wrap al-" + this._align + (this._edit ? " edit" : "");
+    if (this._edit) {
+      const rgb = tgt === "print" ? "251,140,0" : "30,136,229";
+      const icon = tgt === "print"
+        ? "<path d='M6 9V3h12v6'/><path d='M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2'/><rect x='6' y='14' width='12' height='7'/>"
+        : "<rect x='2' y='3' width='20' height='14' rx='2'/><path d='M8 21h8M12 17v4'/>";
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='-0.5 -0.5 25 25' width='500' height='500'><g fill='none' stroke='rgba(${rgb},0.13)' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'>${icon}</g></svg>`;
+      Object.assign(this._wrap.style, { backgroundImage: `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`, backgroundRepeat: "no-repeat", backgroundPosition: "center", backgroundSize: "contain", minHeight: "460px", outline: `3px solid rgb(${rgb})`, outlineOffset: "-3px" });
+    } else {
+      Object.assign(this._wrap.style, { backgroundImage: "", backgroundRepeat: "", backgroundPosition: "", backgroundSize: "", minHeight: "", outline: "", outlineOffset: "" });
+    }
     const [sc, sd] = this._sort[k] || SORT_DEFAULT[k] || ["name", 1];
     const prevTop = this._wrap.scrollTop, prevLeft = this._wrap.scrollLeft;
     if (!list.length && !this._edit) { this._wrap.innerHTML = `<div class="none">${esc(L.none)}</div>`; return; }
