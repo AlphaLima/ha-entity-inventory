@@ -4,9 +4,10 @@
   "codeowners": ["@AlphaLima"],
   "config_flow": true,
   "dependencies": ["http", "websocket_api", "frontend", "panel_custom"],
-  "documentation": "https://github.com/AlphaLima/ha-device-inventory",
+  "documentation": "https://github.com/AlphaLima/ha-entity-inventory",
+  "issue_tracker": "https://github.com/AlphaLima/ha-entity-inventory/issues",
   "integration_type": "service",
   "iot_class": "calculated",
   "single_config_entry": true,
-  "version": "0.2.0"
+  "version": "0.3.0b0"
 }
