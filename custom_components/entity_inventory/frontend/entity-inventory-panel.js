@@ -87,16 +87,16 @@ const GROUPS = [
 // columns shown per tab (the first one is the sort default unless "sort" is given)
 const BASE = ["led", "name", "id", "area", "device", "platform", "changed"];
 const TABCOLS = {
-  all: ["led", "name", "id", "value", "area", "device", "platform", "class", "changed"],
-  temperature: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
-  humidity: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
-  power: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
-  energy: ["led", "name", "id", "value", "sc", "area", "device", "platform", "changed"],
-  consumption: ["led", "name", "id", "value", "class", "sc", "area", "device", "platform", "changed"],
-  voltage: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
-  frequency: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
-  current: ["led", "name", "id", "value", "class", "area", "device", "platform", "changed"],
-  battery: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
+  all: ["led", "name", "id", "value", "unit", "area", "device", "platform", "class", "changed"],
+  temperature: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
+  humidity: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
+  power: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
+  energy: ["led", "name", "id", "value", "unit", "sc", "area", "device", "platform", "changed"],
+  consumption: ["led", "name", "id", "value", "unit", "class", "sc", "area", "device", "platform", "changed"],
+  voltage: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
+  frequency: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
+  current: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
+  battery: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
   cover: ["led", "name", "id", "state", "pos", "tilt", "area", "device", "platform", "changed"],
   tilt: ["led", "name", "id", "state", "pos", "tilt", "area", "device", "platform", "changed"],
   light: ["led", "name", "id", "state", "bright", "area", "device", "platform", "changed"],
@@ -110,11 +110,17 @@ const TABCOLS = {
   presence: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
   auto: ["led", "name", "id", "state", "platform", "changed"],
   helper: ["led", "name", "id", "value", "platform", "changed"],
-  sensor: ["led", "name", "id", "value", "class", "area", "device", "platform", "changed"],
+  sensor: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
   unavailable: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
 };
 const SORT_DEFAULT = { battery: ["value", 1], unavailable: ["changed", 1], cover: ["area", 1], tilt: ["area", 1], light: ["area", 1], dimmer: ["area", 1] };
 
+// unit -> [base unit, size]: Wh < kWh < MWh, mV < V < kV … (empty units last)
+const PREFIX = { µ: -2, m: -1, "": 0, k: 1, M: 2, G: 3 };
+const unitKey = (u) => {
+  const m = /^([µmkMG]?)(Wh|W|VA|var|A|V|Hz|m³|m3|l|L|B|b)$/.exec(u);
+  return m ? [m[2], PREFIX[m[1]]] : [u || "￿", 0];
+};
 const CHUNK = 300; // rows drawn at once
 const OFFLINE = new Set(["unavailable", "unknown"]);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -287,6 +293,7 @@ class EntityInventoryPanel extends HTMLElement {
       case "id": return [esc(e.id), e.id];
       case "value": { const t = this._valueText(e), n = num(e.state); return n === null ? [esc(t), t] : this._split(t, n); }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
+      case "unit": return [esc(e.unit), e.unit];
       case "area": return [esc(e.area), e.area.toLowerCase()];
       case "device": return [esc(e.device), e.device.toLowerCase()];
       case "platform": return [esc(e.platform), e.platform];
@@ -501,12 +508,19 @@ class EntityInventoryPanel extends HTMLElement {
     if (!cols.includes(col)) { col = "name"; dir = 1; }
     const keyOf = (e) => this._cell(e, col)[1];
     const withKey = list.map((e) => [e, keyOf(e)]);
+    // numbers of different units (Wh / kWh, W / kW) must not be mixed: "Value" sorts by unit first, "Unit" by unit and then by value
+    const byUnit = col === "value" || col === "unit", ud = col === "unit" ? dir : 1, vd = col === "unit" ? 1 : dir;
     withKey.sort((x, y) => {
+      if (byUnit) {
+        const ua = x[0].unit || "", ub = y[0].unit || "";
+        if (ua !== ub) { const a1 = unitKey(ua), b1 = unitKey(ub); return (a1[0].localeCompare(b1[0]) || a1[1] - b1[1] || ua.localeCompare(ub)) * ud; }
+        if (col === "unit") { const na = num(x[0].state), nb = num(y[0].state); if (na !== nb && na !== null && nb !== null) return (na - nb) * vd; return x[0].id.localeCompare(y[0].id); }
+      }
       const a = x[1], b = y[1];
       const ea = a === "" || a === null, eb = b === "" || b === null;
       if (ea !== eb) return ea ? 1 : -1; // empty values always last
-      if (typeof a === "number" && typeof b === "number") return (a - b) * dir || x[0].id.localeCompare(y[0].id);
-      return String(a).localeCompare(String(b), undefined, { numeric: true }) * dir || x[0].id.localeCompare(y[0].id);
+      if (typeof a === "number" && typeof b === "number") return (a - b) * vd || x[0].id.localeCompare(y[0].id);
+      return String(a).localeCompare(String(b), undefined, { numeric: true }) * vd || x[0].id.localeCompare(y[0].id);
     });
     return withKey.map((x) => x[0]);
   }
