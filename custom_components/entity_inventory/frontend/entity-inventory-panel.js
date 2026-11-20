@@ -109,7 +109,7 @@ const TABCOLS = {
   users: ["led", "name", "username", "person", "role", "provider", "local", "system", "userid"],
   presence: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
   auto: ["led", "name", "id", "state", "platform", "changed"],
-  helper: ["led", "name", "id", "value", "platform", "changed"],
+  helper: ["led", "name", "id", "value", "unit", "platform", "changed"],
   sensor: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
   unavailable: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
 };
@@ -291,7 +291,11 @@ class EntityInventoryPanel extends HTMLElement {
       case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
       case "name": return [esc(e.name), e.name.toLowerCase()];
       case "id": return [esc(e.id), e.id];
-      case "value": { const t = this._valueText(e), n = num(e.state); return n === null ? [esc(t), t] : this._split(t, n); }
+      case "value": { // the number only; the unit has its own column
+        let t = this._valueText(e); const n = num(e.state);
+        if (e.unit && t.endsWith(e.unit)) t = t.slice(0, t.length - e.unit.length).trim();
+        return n === null ? [esc(t), t] : this._split(t, n);
+      }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
       case "unit": return [esc(e.unit), e.unit];
       case "area": return [esc(e.area), e.area.toLowerCase()];
@@ -508,8 +512,8 @@ class EntityInventoryPanel extends HTMLElement {
     if (!cols.includes(col)) { col = "name"; dir = 1; }
     const keyOf = (e) => this._cell(e, col)[1];
     const withKey = list.map((e) => [e, keyOf(e)]);
-    // numbers of different units (Wh / kWh, W / kW) must not be mixed: "Value" sorts by unit first, "Unit" by unit and then by value
-    const byUnit = col === "value" || col === "unit", ud = col === "unit" ? dir : 1, vd = col === "unit" ? 1 : dir;
+    // "Value" sorts by the number alone, "Unit" by the unit (Wh < kWh < MWh) and then by the number
+    const byUnit = col === "unit", ud = dir, vd = col === "unit" ? 1 : dir;
     withKey.sort((x, y) => {
       if (byUnit) {
         const ua = x[0].unit || "", ub = y[0].unit || "";
