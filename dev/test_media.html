@@ -11,7 +11,7 @@ const L10N = {
     search: "Search (name, entity ID, area, device, integration …)", count: "Entities shown / in this tab",
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
-    copied: "Copied", hideOff: "Hide unavailable / unknown entities (highlighted = hidden)", none: "No entities in this tab.",
+    copied: "Copied", wideTip: "Wider row spacing (highlighted = on)", hideOff: "Hide unavailable / unknown entities (highlighted = hidden)", none: "No entities in this tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     labelTitle: "Label", labelName: "Name", labelIcon: "Icon (e.g. mdi:tag)", labelColor: "Colour", labelDesc: "Description", labelEntities: "Entities with this label", labelManage: "Label settings", labelCount: "{n} entities in this tab / {m} in total", labelFail: "Saving failed", labelNone: "none", c_labels: "Labels", allLabels: "All labels", noLabel: "Without label", c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
@@ -45,7 +45,7 @@ const L10N = {
     search: "Suche (Name, Entity-ID, Bereich, Gerät, Integration …)", count: "Angezeigte Entitäten / in diesem Tab",
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
-    copied: "Kopiert", hideOff: "Nicht verfügbare / unbekannte Entitäten ausblenden (farbig = ausgeblendet)", none: "Keine Entitäten in diesem Tab.",
+    copied: "Kopiert", wideTip: "Weiterer Zeilenabstand (farbig = aktiv)", hideOff: "Nicht verfügbare / unbekannte Entitäten ausblenden (farbig = ausgeblendet)", none: "Keine Entitäten in diesem Tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     labelTitle: "Label", labelName: "Name", labelIcon: "Symbol (z. B. mdi:tag)", labelColor: "Farbe", labelDesc: "Beschreibung", labelEntities: "Entitäten mit diesem Label", labelManage: "Label-Einstellungen", labelCount: "{n} Entitäten in diesem Tab / {m} insgesamt", labelFail: "Speichern fehlgeschlagen", labelNone: "keine", c_labels: "Labels", allLabels: "Alle Labels", noLabel: "Ohne Label", c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
@@ -476,6 +476,7 @@ class EntityInventoryPanel extends HTMLElement {
       table{width:auto;border-collapse:collapse;font-size:12px}
       th{position:sticky;top:0;z-index:1;background:var(--card-background-color,#fff);text-align:left;padding:3px 4px;border-bottom:2px solid var(--divider-color,#888);cursor:pointer;user-select:none;white-space:nowrap}
       th:hover{color:var(--primary-color)}
+      .wrap.wide td{padding-top:7px;padding-bottom:7px}
       td{padding:2px 4px;line-height:1.3;border-bottom:1px solid var(--divider-color,#444);white-space:nowrap;max-width:420px;overflow:hidden;text-overflow:ellipsis}
       tr:hover td{background:rgba(127,127,127,.08)}
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
@@ -536,7 +537,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._active = "all";
     try { this._active = localStorage.getItem("eiTab") || "all"; } catch (e) { /* ignore */ }
     this._sort = {}; this._q = ""; this._area = ""; this._int = ""; this._paused = false;
-    try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; this._onlyNotes = localStorage.getItem("ei__onlyNotes") === "1"; } catch (e) { /* ignore */ }
+    try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; this._onlyNotes = localStorage.getItem("ei__onlyNotes") === "1"; this._wide = localStorage.getItem("ei__wide") === "1"; } catch (e) { /* ignore */ }
     this._meta = { notes: {}, photos: {}, docs: {} };
     this._buildCard();
     this._initMobile();
@@ -601,6 +602,8 @@ class EntityInventoryPanel extends HTMLElement {
     const warn = "M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z";
     const hb = toggle(eye, L.hidden, "_showHidden");
     const ub = toggle(warn, L.hideOff, "_hideOff");
+    const wb = toggle("", L.wideTip, "_wide"); // the symbol of Device Inventory: four lines
+    wb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 5h16M4 9.5h16M4 14h16M4 18.5h16"/></svg>';
     const fb = toggle("M3 5h18l-7 8v6l-4 2v-8z", L.onlyNotes, "_onlyNotes"); // the funnel symbol of Device Inventory
     fb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>';
     const AL = { dec: "M11 3h2v18h-2zM3 6h7v2H3zM14 6h7v2h-7zM5 11h5v2H5zM14 11h5v2h-5zM3 16h7v2H3zM14 16h5v2h-5z", left: "M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z", right: "M3 3h18v2H3V3zm6 4h12v2H9V7zM3 11h18v2H3v-2zm6 4h12v2H9v-2zM3 19h18v2H3v-2z" };
@@ -614,7 +617,7 @@ class EntityInventoryPanel extends HTMLElement {
     const paintAl = () => {
       alB.querySelector("path").setAttribute("d", AL[this._align]);
       alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
-      if (this._wrap) this._wrap.className = "wrap al-" + this._align;
+      if (this._wrap) this._wrap.className = "wrap al-" + this._align + (this._wide ? " wide" : "") + (this._edit ? " edit" : "");
     };
     // printer + paper format form one joined button group
     const grp = document.createElement("span"); grp.style.cssText = "display:inline-flex";
@@ -622,7 +625,7 @@ class EntityInventoryPanel extends HTMLElement {
     grp.append(pb, ob);
     this._edit = false; this._tgt = "view";
     this._editBox = document.createElement("span"); this._editBox.style.cssText = "display:inline-flex;gap:6px;align-items:center;margin-left:auto";
-    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, this._selLab, hb, alB, ub, fb, this._editBox);
+    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, this._selLab, hb, alB, wb, ub, fb, this._editBox);
     this._paintEdit();
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
@@ -870,7 +873,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._cnt.textContent = `Σ ${list.length}${list.length !== inTab.length ? "/" + inTab.length : ""}`;
     const tgt = this._edit ? this._tgt : "view", cfg = this._layout(tgt), cols = this._cols(tgt, this._edit);
     this._offSet = this._edit ? cfg.off : new Set();
-    this._wrap.className = "wrap al-" + this._align + (this._edit ? " edit" : "");
+    this._wrap.className = "wrap al-" + this._align + (this._edit ? " edit" : "") + (this._wide ? " wide" : "");
     if (this._edit) {
       const rgb = tgt === "print" ? "251,140,0" : "30,136,229";
       const icon = tgt === "print"
