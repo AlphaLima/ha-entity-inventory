@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Entity Inventory Test</title>
+<style>body{margin:0;font-family:Roboto,Arial,sans-serif;--primary-background-color:#fafafa;--primary-text-color:#212121;--card-background-color:#fff;--divider-color:#ddd;--primary-color:#03a9f4;--secondary-background-color:#e5e5e5;--error-color:#db4437}</style></head>
+<body style="height:100vh"><entity-inventory-panel id="p"></entity-inventory-panel>
+<script src="../custom_components/entity_inventory/frontend/entity-inventory-panel.js"></script>
+<script>
+const now=Date.now(), iso=(m)=>new Date(now-m*60000).toISOString();
+const S={}, E={}, D={}, A={wz:{name:"Wohnzimmer"},bad:{name:"Bad"},og:{name:"OG"}};
+let n=0;
+const add=(id,state,attrs,reg,dev,age)=>{S[id]={state,attributes:attrs,last_changed:iso(age??n%90),last_updated:iso(age??n%90)};E[id]=Object.assign({entity_id:id},reg||{});n++;};
+D.d1={name:"Shelly 2.5",manufacturer:"Shelly",model:"2.5",area_id:"wz"};D.d2={name:"Raffstore Süd",area_id:"og"};D.d3={name:"Weishaupt WWP",area_id:null};
+for(let i=0;i<30;i++){add("sensor.temp_"+i,(15+i*.37).toFixed(1),{friendly_name:"Temperatur "+i,device_class:"temperature",unit_of_measurement:"°C",state_class:"measurement"},{platform:"homematic",device_id:"d1",area_id:["wz","bad","og"][i%3]});}
+add("sensor.temp_x","unavailable",{friendly_name:"Temp tot",device_class:"temperature",unit_of_measurement:"°C"},{platform:"shelly",device_id:"d1"});
+for(let i=0;i<12;i++){add("sensor.leistung_"+i,(i*113.7).toFixed(0),{friendly_name:"Leistung "+i,device_class:"power",unit_of_measurement:"W"},{platform:"shelly",device_id:"d1",area_id:"wz"});}
+for(let i=0;i<8;i++){add("sensor.energie_"+i,(i*1234.5).toFixed(2),{friendly_name:"Energie "+i,device_class:"energy",unit_of_measurement:"kWh",state_class:"total_increasing"},{platform:"shelly",device_id:"d1"});}
+add("sensor.wasser","12.3",{friendly_name:"Wasserverbrauch",device_class:"water",unit_of_measurement:"m³"},{platform:"template"});
+add("sensor.akku","18",{friendly_name:"Akku Sensor",device_class:"battery",unit_of_measurement:"%"},{platform:"zha",device_id:"d1"});
+add("sensor.akku2","87",{friendly_name:"Akku Tür",device_class:"battery",unit_of_measurement:"%"},{platform:"zha"});
+add("sensor.rest","hallo",{friendly_name:"Text Sensor"},{platform:"mqtt"});
+for(let i=0;i<5;i++){add("cover.raffstore_"+i,["open","closed","opening"][i%3],{friendly_name:"Raffstore "+i,current_position:i*25,current_tilt_position:i*20,supported_features:255,device_class:"shutter"},{platform:"homematicip_local",device_id:"d2"});}
+add("cover.garage","closed",{friendly_name:"Garagentor",current_position:0,supported_features:11},{platform:"template"});
+for(let i=0;i<6;i++){add("light.licht_"+i,i%2?"on":"off",{friendly_name:"Licht "+i,brightness:i%2?(i*40):null,supported_color_modes:i%3?["brightness"]:["onoff"]},{platform:"shelly",device_id:"d1",area_id:"wz"});}
+add("switch.steckdose","on",{friendly_name:"Steckdose Büro"},{platform:"hue"});
+add("climate.hz1","heat",{friendly_name:"Heizung Bad",current_temperature:21.3,temperature:22,hvac_action:"heating"},{platform:"homematicip_local",area_id:"bad"});
+add("climate.hz2","off",{friendly_name:"Heizung WZ",current_temperature:19.8,temperature:17,hvac_action:"idle"},{platform:"homematicip_local",area_id:"wz"});
+add("binary_sensor.fenster","on",{friendly_name:"Fenster Bad",device_class:"window"},{platform:"homematic",area_id:"bad"});
+add("person.u","home",{friendly_name:"Uwe"},{platform:"person"});
+add("automation.a1","on",{friendly_name:"Garagenlicht"},{platform:"automation"});
+add("input_boolean.ib","off",{friendly_name:"Gast Modus"},{platform:"input_boolean"});
+add("media_player.tv","playing",{friendly_name:"TV"},{platform:"philips_js"});
+add("sensor.verstecktes","5",{friendly_name:"Versteckt"},{platform:"x",hidden:true});
+const mk=()=>({language:"de",states:S,entities:E,devices:D,areas:A,config:{version:"2026.11"}});
+const p=document.getElementById("p"); p.hass=mk();
+</script></body></html>
