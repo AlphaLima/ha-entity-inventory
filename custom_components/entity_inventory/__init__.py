@@ -15,9 +15,13 @@ from typing import Any
 from urllib.parse import quote
 
 from aiohttp import web
+from sqlalchemy import func, select
 import voluptuous as vol
 
 from homeassistant.components import frontend, panel_custom, websocket_api
+from homeassistant.components.recorder import get_instance
+from homeassistant.components.recorder.db_schema import States, StatesMeta
+from homeassistant.components.recorder.util import session_scope
 from homeassistant.components.http import HomeAssistantView
 from homeassistant.components.http.auth import async_sign_path
 from homeassistant.config_entries import ConfigEntry
@@ -57,6 +61,7 @@ class Manager:
         self.store: Store = Store(hass, STORAGE_VERSION, DOMAIN)
         self.data: dict[str, Any] = {"notes": {}, "photos": {}, "docs": {}, "retention": {}, "settings": {}}
         self.root = Path(hass.config.path(DOMAIN))
+        self.age_cache: dict[str, Any] | None = None
 
     async def async_load(self) -> None:
         loaded = await self.store.async_load()
@@ -128,6 +133,17 @@ class Manager:
                 moved = True
         if moved:
             self.save()
+
+
+def _oldest_states(hass: HomeAssistant) -> dict[str, float]:
+    """entity_id -> time (unix seconds) of the oldest state the recorder still has (one aggregate query)."""
+    with session_scope(hass=hass, read_only=True) as session:
+        rows = session.execute(
+            select(StatesMeta.entity_id, func.min(States.last_updated_ts))
+            .join(States, States.metadata_id == StatesMeta.metadata_id)
+            .group_by(StatesMeta.entity_id)
+        ).all()
+    return {entity_id: float(ts) for entity_id, ts in rows if entity_id and ts}
 
 
 async def async_run_retention(hass: HomeAssistant, manager: Manager) -> dict[str, Any]:
@@ -222,7 +238,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.http.register_view(DocUploadView)
     hass.http.register_view(PhotoServeView)
     hass.http.register_view(DocServeView)
-    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention):
+    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention, ws_recorder_age):
         websocket_api.async_register_command(hass, command)
 
     @callback
@@ -371,6 +387,25 @@ def ws_retention_enabled(hass: HomeAssistant, connection, msg: dict[str, Any]) -
     manager.data["settings"]["retention_enabled"] = msg["enabled"]
     manager.save()
     connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/recorder_age"})
+@websocket_api.require_admin
+@websocket_api.async_response
+async def ws_recorder_age(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """How far back the recorder holds the history of every entity (cached for five minutes)."""
+    manager: Manager = hass.data[DOMAIN]
+    now = dt_util.utcnow().timestamp()
+    cache = manager.age_cache
+    if cache is None or now - cache["at"] > 300:
+        try:
+            oldest = await get_instance(hass).async_add_executor_job(_oldest_states, hass)
+        except Exception as err:  # noqa: BLE001 - recorder missing or schema differs: tell the panel instead of failing
+            _LOGGER.warning("Recorder age query failed: %s", err)
+            connection.send_error(msg["id"], "recorder_error", str(err))
+            return
+        cache = manager.age_cache = {"at": now, "oldest": oldest}
+    connection.send_result(msg["id"], {"now": now, "oldest": cache["oldest"]})
 
 
 @websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/run_retention"})

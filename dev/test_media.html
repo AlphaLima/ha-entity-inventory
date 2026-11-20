@@ -13,7 +13,8 @@ const L10N = {
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
     retSince: "Stored in the recorder since: {t} ({n} days)", retSinceNone: "No history stored in the recorder.", retSinceFail: "Age of the history could not be read.", retSinceBusy: "Reading the age of the history …",
-    c_retention: "Recorder", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click and type the number of days (empty = no rule), Shift+click opens the dialog",
+    retRule: "rule: {n} d",
+    c_retention: "Stored for", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click and type the number of days (empty = no rule), Shift+click opens the dialog",
     retIntro: "History of this entity (the recorder database) older than the chosen number of days is deleted every night. A rule can only shorten the global retention of the recorder (purge_keep_days), it cannot keep data longer.",
     retNone: "No rule (recorder default)", retDays: "{n} days", retCustom: "Other number of days", retJob: "Run the nightly retention job (03:20) for all entities with a rule", retRules: "{n} entities with a rule",
     retRunNow: "Run now", retRunAsk: "Delete the history older than the rules of all entities that have a retention rule? This cannot be undone.", retLast: "Last run: {t}", retDone: "Done: {n} entities processed.", retFail: "The recorder reported an error: {e}", retNoRec: "The recorder is not available.", retAdmin: "Only administrators can change the recorder retention.", retNever: "never",
@@ -53,7 +54,8 @@ const L10N = {
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
     retSince: "Im Recorder gespeichert seit: {t} ({n} Tage)", retSinceNone: "Im Recorder ist kein Verlauf gespeichert.", retSinceFail: "Das Alter des Verlaufs konnte nicht gelesen werden.", retSinceBusy: "Alter des Verlaufs wird gelesen …",
-    c_retention: "Recorder", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: anklicken und Anzahl Tage eintippen (leer = keine Regel), Umschalt+Klick öffnet den Dialog",
+    retRule: "Regel: {n} T",
+    c_retention: "Gespeichert seit", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: anklicken und Anzahl Tage eintippen (leer = keine Regel), Umschalt+Klick öffnet den Dialog",
     retIntro: "Der Verlauf dieser Entität (Recorder-Datenbank), der älter ist als die gewählte Anzahl Tage, wird jede Nacht gelöscht. Eine Regel kann die globale Aufbewahrung des Recorders (purge_keep_days) nur verkürzen, nicht verlängern.",
     retNone: "Keine Regel (Recorder-Standard)", retDays: "{n} Tage", retCustom: "Andere Anzahl Tage", retJob: "Nächtlichen Aufbewahrungs-Job (03:20) für alle Entitäten mit Regel ausführen", retRules: "{n} Entitäten mit Regel",
     retRunNow: "Jetzt ausführen", retRunAsk: "Den Verlauf, der älter ist als die Regeln, für alle Entitäten mit Aufbewahrungsregel jetzt löschen? Das lässt sich nicht rückgängig machen.", retLast: "Letzter Lauf: {t}", retDone: "Fertig: {n} Entitäten bearbeitet.", retFail: "Der Recorder meldet einen Fehler: {e}", retNoRec: "Der Recorder ist nicht verfügbar.", retAdmin: "Nur Administratoren können die Recorder-Aufbewahrung ändern.", retNever: "nie",
@@ -1961,6 +1963,18 @@ class EntityInventoryPanel extends HTMLElement {
     } catch (e) { /* server part not installed: the columns stay empty */ }
   }
 
+  // how far back the recorder holds each entity (one query for all entities, cached on the server for five minutes)
+  async _loadRecAge(force) {
+    if (this._recBusy || (!force && this._recAge && Date.now() - this._recAge.t < 300000)) return;
+    this._recBusy = true;
+    try {
+      const r = await this._hass.callWS({ type: "entity_inventory/recorder_age" });
+      this._recAge = { t: Date.now(), now: r.now, oldest: r.oldest || {} };
+    } catch (e) { this._recAge = { t: Date.now(), err: true, oldest: {} }; }
+    this._recBusy = false;
+    if (this._rows) this._render();
+  }
+
   get _admin() { return !!(this._hass.user && this._hass.user.is_admin); }
 
   // names and colours of the labels (the entities only carry the label ids)
@@ -2136,7 +2150,19 @@ class EntityInventoryPanel extends HTMLElement {
       case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
       case "docs": { const n = e.user ? 0 : ((this._meta.docs[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="docs">${svgIcon("doc")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
       case "note": { const t = e.user ? "" : ((this._meta.notes[e.id] || {}).t || ""); return [e.user ? "" : `<span class="ic${t ? "" : " ic0"}" data-act="note">${svgIcon(t ? "noteFull" : "note")}</span>${t ? ` <span data-act="note" title="${esc(t)}">${esc(t.replace(/\s+/g, " "))}</span>` : ""}`, t.toLowerCase()]; }
-      case "retention": { const d = (this._meta.retention || {})[e.id]; return [e.user ? "" : `<span data-act="retention" style="cursor:pointer" title="${esc(L.retTip)}">${d ? esc(L.retDays.replace("{n}", d)) : "–"}</span>`, d || 0]; }
+      case "retention": {
+        if (e.user) return ["", -1];
+        const rule = (this._meta.retention || {})[e.id], ra = this._recAge;
+        let age = -1, txt = "…", tip = "";
+        if (ra && ra.err) txt = "?";
+        else if (ra && ra.oldest) {
+          const ts = ra.oldest[e.id];
+          if (ts) { age = Math.max(0, Math.floor((ra.now - ts) / 86400)); txt = L.retDays.replace("{n}", age); tip = L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", age); }
+          else txt = "–";
+        }
+        const r = rule ? ` <small style="opacity:.7">(${esc(L.retRule.replace("{n}", rule))})</small>` : "";
+        return [`<span data-act="retention" style="cursor:pointer" title="${esc((tip ? tip + "\n" : "") + L.retTip)}">${esc(txt)}${r}</span>`, age];
+      }
       case "labels": { const n = (e.labels || []).map((id) => this._labelName(id)).join(", "); return [e.user ? "" : this._labelChips(e.labels || []), n.toLowerCase()]; }
       case "access": { const a = e.user ? "" : accessOf(e.domain); return [a ? `<span title="${esc(L.accessTip[a])}">${a}</span>` : "", a]; }
       case "unit": return [esc(e.unit), e.unit];
@@ -2627,6 +2653,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
     });
     this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
+    if (cols.includes("retention") && this._admin) this._loadRecAge();
     this._wrap.innerHTML = `<style>${wcss}</style><table><thead><tr>${this._edit ? '<th data-col="#" style="position:relative"># <span class="grip" data-cfg="grip" title="↔"></span></th>' : "<th>#</th>"}${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
     this._fillIcons();
     if (prevTop > 0) { while (this._shown < list.length && this._wrap.scrollHeight < prevTop + this._wrap.clientHeight + 400) this._more(); } // keep the scroll position after a refresh
@@ -2843,11 +2870,11 @@ class EntityInventoryPanel extends HTMLElement {
     // how far back the history of this entity reaches: the oldest state the recorder still has
     const since = note(L.retSinceBusy, "font-size:13px;font-weight:600;margin:8px 0");
     (async () => {
-      try {
-        const now = Date.now(), res = await this._hass.callWS({ type: "history/history_during_period", start_time: new Date(now - 1100 * 864e5).toISOString(), end_time: new Date(now).toISOString(), entity_ids: [e.id], minimal_response: true, no_attributes: true, significant_changes_only: false });
-        const first = ((res || {})[e.id] || [])[0], ts = first && (first.lu || first.lc);
-        since.textContent = ts ? L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", Math.max(0, Math.round((now / 1000 - ts) / 86400))) : L.retSinceNone;
-      } catch (x) { since.textContent = L.retSinceFail; }
+      await this._loadRecAge();
+      const ra = this._recAge;
+      if (!ra || ra.err) { since.textContent = L.retSinceFail; return; }
+      const ts = ra.oldest[e.id];
+      since.textContent = ts ? L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", Math.max(0, Math.floor((ra.now - ts) / 86400))) : L.retSinceNone;
     })();
     let sel = cur;
     const PRESETS = [0, 1, 3, 7, 14, 30, 90, 180, 365];
