@@ -9,6 +9,7 @@ const L10N = {
     search: "Search (name, entity ID, area, device, integration …)", count: "Entities shown / in this tab",
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
+    retSince: "Stored in the recorder since: {t} ({n} days)", retSinceNone: "No history stored in the recorder.", retSinceFail: "Age of the history could not be read.", retSinceBusy: "Reading the age of the history …",
     c_retention: "Recorder", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity (click to change)",
     retIntro: "History of this entity (the recorder database) older than the chosen number of days is deleted every night. A rule can only shorten the global retention of the recorder (purge_keep_days), it cannot keep data longer.",
     retNone: "No rule (recorder default)", retDays: "{n} days", retCustom: "Other number of days", retJob: "Run the nightly retention job (03:20) for all entities with a rule", retRules: "{n} entities with a rule",
@@ -48,6 +49,7 @@ const L10N = {
     search: "Suche (Name, Entity-ID, Bereich, Gerät, Integration …)", count: "Angezeigte Entitäten / in diesem Tab",
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
+    retSince: "Im Recorder gespeichert seit: {t} ({n} Tage)", retSinceNone: "Im Recorder ist kein Verlauf gespeichert.", retSinceFail: "Das Alter des Verlaufs konnte nicht gelesen werden.", retSinceBusy: "Alter des Verlaufs wird gelesen …",
     c_retention: "Recorder", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität (Klick: ändern)",
     retIntro: "Der Verlauf dieser Entität (Recorder-Datenbank), der älter ist als die gewählte Anzahl Tage, wird jede Nacht gelöscht. Eine Regel kann die globale Aufbewahrung des Recorders (purge_keep_days) nur verkürzen, nicht verlängern.",
     retNone: "Keine Regel (Recorder-Standard)", retDays: "{n} Tage", retCustom: "Andere Anzahl Tage", retJob: "Nächtlichen Aufbewahrungs-Job (03:20) für alle Entitäten mit Regel ausführen", retRules: "{n} Entitäten mit Regel",
@@ -2815,6 +2817,15 @@ class EntityInventoryPanel extends HTMLElement {
     const info = m.retention_info || {}, cur = (m.retention || {})[e.id] || 0;
     const note = (txt, css) => { const d = document.createElement("div"); d.style.cssText = css || "font-size:12px;opacity:.7;margin:6px 0"; d.textContent = txt; body.appendChild(d); return d; };
     note(L.retIntro);
+    // how far back the history of this entity reaches: the oldest state the recorder still has
+    const since = note(L.retSinceBusy, "font-size:13px;font-weight:600;margin:8px 0");
+    (async () => {
+      try {
+        const now = Date.now(), res = await this._hass.callWS({ type: "history/history_during_period", start_time: new Date(now - 1100 * 864e5).toISOString(), end_time: new Date(now).toISOString(), entity_ids: [e.id], minimal_response: true, no_attributes: true, significant_changes_only: false });
+        const first = ((res || {})[e.id] || [])[0], ts = first && (first.lu || first.lc);
+        since.textContent = ts ? L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", Math.max(0, Math.round((now / 1000 - ts) / 86400))) : L.retSinceNone;
+      } catch (x) { since.textContent = L.retSinceFail; }
+    })();
     let sel = cur;
     const PRESETS = [0, 1, 3, 7, 14, 30, 90, 180, 365];
     const box = document.createElement("div"); box.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;margin:8px 0";
