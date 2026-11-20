@@ -878,6 +878,15 @@ class EntityInventoryPanel extends HTMLElement {
 
   // ---------- hover preview (photos, document names, whole comment)
   _hover(ev) {
+    { // cut off text (ellipsis): the full text as tooltip
+      const t = ev.target, td = t.closest && t.closest("td[data-col]");
+      if (td && !t.closest("[title]:not(td):not(.idt)") && !td.querySelector("input")) {
+        const el = t.closest(".idt") || td;
+        if (el.scrollWidth > el.clientWidth + 1) { if (!el.title) el.title = el.textContent.trim(); }
+        else if (el.title && el.dataset.tt) { el.title = ""; }
+        if (el.title && !el.dataset.tt && el.title === el.textContent.trim()) el.dataset.tt = "1";
+      }
+    }
     const a = ev.target.closest && ev.target.closest("[data-act]"), row = a && a.closest("tr[data-id]");
     if (!a || !row || a === this._popFor) return;
     const id = row.dataset.id, m = this._meta;
