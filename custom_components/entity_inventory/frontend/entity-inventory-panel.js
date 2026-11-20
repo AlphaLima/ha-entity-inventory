@@ -491,10 +491,10 @@ class EntityInventoryPanel extends HTMLElement {
       .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 4px}.dim{opacity:.65;font-size:12px}
       .ib{display:inline-flex;align-items:center;padding:4px 9px}
       .none{padding:20px;opacity:.6}
-      th:has(.cfgbox){overflow:visible}th .cfgl{display:block;overflow:hidden;white-space:nowrap;text-overflow:clip}th .cfgbox{display:none;position:absolute;left:0;top:0;z-index:30;min-width:116px;box-sizing:border-box;padding:3px;background:var(--card-background-color,#fff);border:1px solid var(--divider-color,#888);border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.35)}th:hover .cfgbox,th:focus-within .cfgbox{display:block}
+      th:has(.cfgbox){overflow:visible}th .cfgl{display:block;overflow:hidden;white-space:nowrap;text-overflow:clip}th .cfgbox{display:none;position:absolute;left:0;top:100%;z-index:30;min-width:116px;box-sizing:border-box;padding:3px;background:var(--card-background-color,#fff);border:1px solid var(--divider-color,#888);border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.35)}th:hover .cfgbox,th:focus-within .cfgbox{display:block}th .cfgl{cursor:grab}th.dropt{box-shadow:inset 3px 0 0 var(--primary-color,#03a9f4)}
       th .cfgc{display:flex;gap:2px;align-items:center;margin-bottom:2px}th .cfgc button{padding:0 4px;font-size:11px;line-height:16px;border-radius:4px}th .cfgc input{margin:0}
       th input[type=text]{width:100%;min-width:48px;box-sizing:border-box;font:inherit;font-weight:700;padding:1px 3px;border:1px dashed var(--divider-color,#888);border-radius:4px;background:transparent;color:inherit}
-      th .grip{position:absolute;right:0;top:0;bottom:0;width:7px;cursor:col-resize;background:rgba(127,127,127,.25)}
+      th .grip{z-index:40;position:absolute;right:0;top:0;bottom:0;width:7px;cursor:col-resize;background:rgba(127,127,127,.25)}
       td[data-off]{opacity:.35}
       .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
       .eicon{display:inline-flex;align-items:center;min-width:20px;height:20px;cursor:pointer;opacity:.85}.eicon:hover{opacity:1;color:var(--primary-color)}
@@ -626,6 +626,30 @@ class EntityInventoryPanel extends HTMLElement {
     this._wrap.onclick = (ev) => this._click(ev);
     this._wrap.addEventListener("change", (ev) => this._cfgChange(ev));
     this._wrap.addEventListener("mousedown", (ev) => this._cfgGrip(ev));
+    // column editor: change the order by dragging a heading onto another one (the width is set with the grip at the right edge)
+    let dragCol = null;
+    this._wrap.addEventListener("dragstart", (ev) => {
+      const th = this._edit && ev.target.closest && ev.target.closest("th[data-col]");
+      if (!th || ev.target.closest("input")) { ev.preventDefault(); return; }
+      dragCol = th.dataset.col; ev.dataTransfer.effectAllowed = "move"; try { ev.dataTransfer.setData("text/plain", dragCol); } catch (e) { /* ignore */ }
+    });
+    this._wrap.addEventListener("dragover", (ev) => {
+      const th = dragCol && ev.target.closest && ev.target.closest("th[data-col]");
+      if (!th) return;
+      ev.preventDefault(); this._wrap.querySelectorAll("th.dropt").forEach((x) => { if (x !== th) x.classList.remove("dropt"); }); th.classList.add("dropt");
+    });
+    this._wrap.addEventListener("dragend", () => { dragCol = null; this._wrap.querySelectorAll("th.dropt").forEach((x) => x.classList.remove("dropt")); });
+    this._wrap.addEventListener("drop", (ev) => {
+      const th = dragCol && ev.target.closest && ev.target.closest("th[data-col]");
+      if (!th) return;
+      ev.preventDefault();
+      const c = dragCol, t = th.dataset.col, cfg = this._layout(this._tgt); dragCol = null;
+      if (c === t) { th.classList.remove("dropt"); return; }
+      const i = cfg.order.indexOf(c), j = cfg.order.indexOf(t);
+      if (i < 0 || j < 0) return;
+      cfg.order.splice(i, 1); cfg.order.splice(cfg.order.indexOf(t) + (i < j ? 1 : 0), 0, c);
+      this._saveLayout(this._tgt); this._render();
+    });
     this._wrap.addEventListener("mouseover", (ev) => this._hover(ev));
     this._wrap.addEventListener("mouseout", (ev) => { if (!ev.relatedTarget || !ev.relatedTarget.closest || !ev.relatedTarget.closest("[data-act]")) this._hidePop(); });
     this._wrap.addEventListener("scroll", () => { if (this._wrap.scrollTop + this._wrap.clientHeight > this._wrap.scrollHeight - 500) this._more(); }, { passive: true });
@@ -860,7 +884,7 @@ class EntityInventoryPanel extends HTMLElement {
     const th = cols.map((c) => {
       const nm = cfg.n[c] || L["c_" + c] || c;
       if (this._edit) { // controls right in the heading: show / print, move left / right, own name, drag the right edge to resize
-        return `<th data-col="${c}" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><span class="cfgl">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}</span><div class="cfgbox"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"></div><span class="grip" data-cfg="grip" title="↔"></span></th>`;
+        return `<th data-col="${c}" draggable="true" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><span class="cfgl">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}</span><div class="cfgbox"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"></div><span class="grip" data-cfg="grip" title="↔"></span></th>`;
       }
       return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
