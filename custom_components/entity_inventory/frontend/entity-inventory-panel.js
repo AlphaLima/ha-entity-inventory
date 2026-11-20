@@ -10,7 +10,7 @@ const L10N = {
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
     copied: "Copied", hideOff: "Hide unavailable / unknown entities (highlighted = hidden)", none: "No entities in this tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
-    c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
+    c_labels: "Labels", allLabels: "All labels", noLabel: "Without label", c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
     c_state: "State", onlyNotes: "Only entries with a comment and/or photo (highlighted = active)", cfgBtn: "Edit columns (display and printer)", tgtView: "Display", tgtPrint: "Printer", autoTip: "Fit the column widths to the widest content", resetTip: "Reset the layout", resetAsk: "Reset the column layout to the default?", doneTip: "Done", renameTip: "Column name (empty = default)", stand: "As of", entities: "entities", printFail: "Printing failed", portrait: "Print: portrait (click: landscape)", landscape: "Print: landscape (click: portrait)", showBadges: "Show the red numbers on the tabs (unavailable entities)", hideBadges: "Hide the red numbers on the tabs", copyTip: "Copy the entity ID", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
     photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
@@ -21,7 +21,7 @@ const L10N = {
       all: "All entities", illuminance: "Brightness", temperature: "Temperature", humidity: "Humidity", power: "Power", energy: "Energy",
       consumption: "Consumption", voltage: "Voltage", frequency: "Frequency", current: "Current", battery: "Batteries",
       cover: "Covers", tilt: "Slats", light: "Lights", dimmer: "Dimmers", switch: "Switches", climate: "Thermostats",
-      media: "Media", person: "Persons", users: "User accounts", binary: "Binary sensors", presence: "Trackers", auto: "Automations / scripts", helper: "Helpers",
+      media: "Media", person: "Persons", users: "User accounts", binary: "Binary sensors", presence: "Trackers", scene: "Scenes", labels: "Labels", auto: "Automations / scripts", helper: "Helpers",
       sensor: "Other sensors", unavailable: "Unavailable",
     },
     d: {
@@ -32,7 +32,7 @@ const L10N = {
       light: "All lights", dimmer: "Lights that can be dimmed", switch: "Switches, sockets and on/off helpers",
       climate: "Thermostats and heat pumps: current, target, mode", media: "TVs, speakers and other players",
       binary: "Motion, contact, window, smoke … sensors", person: "Persons with their trackers and linked login", users: "Login accounts of Home Assistant (needs admin rights)", presence: "Device trackers",
-      auto: "Automations, scripts and scenes", helper: "input_*, counters, timers, schedules", sensor: "Sensors that fit no measurement tab",
+      scene: "Scenes with their last activation", labels: "Every entity that has at least one label", auto: "Automations and scripts", helper: "input_*, counters, timers, schedules", sensor: "Sensors that fit no measurement tab",
       unavailable: "Entities that are unavailable or unknown right now",
     },
   },
@@ -44,7 +44,7 @@ const L10N = {
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
     copied: "Kopiert", hideOff: "Nicht verfügbare / unbekannte Entitäten ausblenden (farbig = ausgeblendet)", none: "Keine Entitäten in diesem Tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
-    c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
+    c_labels: "Labels", allLabels: "Alle Labels", noLabel: "Ohne Label", c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
     c_state: "Zustand", onlyNotes: "Nur Einträge mit Kommentar und/oder Bild (farbig = aktiv)", cfgBtn: "Spalten bearbeiten (Anzeige und Drucker)", tgtView: "Anzeige", tgtPrint: "Drucker", autoTip: "Spaltenbreiten an den längsten Inhalt anpassen", resetTip: "Layout zurücksetzen", resetAsk: "Spaltenlayout auf Standard zurücksetzen?", doneTip: "Fertig", renameTip: "Spaltenname (leer = Standard)", stand: "Stand", entities: "Entitäten", printFail: "Drucken fehlgeschlagen", portrait: "Drucken: Hochformat (Klick: Querformat)", landscape: "Drucken: Querformat (Klick: Hochformat)", showBadges: "Rote Zahlen an den Tabs anzeigen (nicht verfügbare Entitäten)", hideBadges: "Rote Zahlen an den Tabs ausblenden", copyTip: "Entity-ID kopieren", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
     photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
@@ -55,7 +55,7 @@ const L10N = {
       all: "Alle Entitäten", illuminance: "Helligkeit", temperature: "Temperatur", humidity: "Feuchte", power: "Leistung", energy: "Energie",
       consumption: "Verbrauch", voltage: "Spannung", frequency: "Frequenz", current: "Strom", battery: "Batterien",
       cover: "Cover", tilt: "Lamellen", light: "Lichter", dimmer: "Dimmer", switch: "Schalter", climate: "Thermostate",
-      media: "Medien", person: "Personen", users: "Benutzerkonten", binary: "Binärsensoren", presence: "Tracker", auto: "Automationen / Skripte", helper: "Helfer",
+      media: "Medien", person: "Personen", users: "Benutzerkonten", binary: "Binärsensoren", presence: "Tracker", scene: "Szenen", labels: "Labels", auto: "Automationen / Skripte", helper: "Helfer",
       sensor: "Sonstige Sensoren", unavailable: "Nicht verfügbar",
     },
     d: {
@@ -66,7 +66,7 @@ const L10N = {
       light: "Alle Lichter", dimmer: "Lichter, die sich dimmen lassen", switch: "Schalter, Steckdosen und Ein/Aus-Helfer",
       climate: "Thermostate und Wärmepumpen: Ist, Soll, Modus", media: "Fernseher, Lautsprecher und andere Player",
       binary: "Bewegung, Kontakt, Fenster, Rauch … Sensoren", person: "Personen mit Trackern und verknüpftem Login", users: "Anmeldekonten von Home Assistant (braucht Admin-Rechte)", presence: "Geräte-Tracker",
-      auto: "Automationen, Skripte und Szenen", helper: "input_*, Zähler, Timer, Zeitpläne", sensor: "Sensoren, die in keinen Mess-Tab passen",
+      scene: "Szenen mit ihrer letzten Aktivierung", labels: "Jede Entität, die mindestens ein Label hat", auto: "Automationen und Skripte", helper: "input_*, Zähler, Timer, Zeitpläne", sensor: "Sensoren, die in keinen Mess-Tab passen",
       unavailable: "Entitäten, die gerade nicht verfügbar oder unbekannt sind",
     },
   },
@@ -78,7 +78,7 @@ const MDI = {
   energy: "mdi:lightning-bolt-circle", consumption: "mdi:meter-electric-outline", voltage: "mdi:flash-triangle-outline", frequency: "mdi:sine-wave", current: "mdi:current-ac", battery: "mdi:battery-60",
   cover: "mdi:window-shutter", tilt: "mdi:blinds-horizontal", light: "mdi:lightbulb", dimmer: "mdi:lightbulb-on-50",
   switch: "mdi:toggle-switch", climate: "mdi:thermostat", media: "mdi:play-box-multiple", person: "mdi:account", users: "mdi:account-key", binary: "mdi:radiobox-marked",
-  presence: "mdi:account-multiple", auto: "mdi:robot", helper: "mdi:tune-variant", sensor: "mdi:eye", unavailable: "mdi:alert-circle-outline",
+  presence: "mdi:account-multiple", scene: "mdi:palette", labels: "mdi:label-multiple", auto: "mdi:robot", helper: "mdi:tune-variant", sensor: "mdi:eye", unavailable: "mdi:alert-circle-outline",
 };
 
 // order and groups of the tabs
@@ -86,7 +86,7 @@ const GROUPS = [
   ["gLight", ["all", "light", "dimmer", "illuminance"]], // fixed order: everything, lamps, dimmers, brightness sensors
   ["gActors", ["cover", "tilt", "switch", "climate", "media"]],
   ["gMeasure", ["temperature", "humidity", "power", "energy", "consumption", "voltage", "frequency", "current", "battery"]],
-  ["gMore", ["person", "users", "binary", "presence", "auto", "helper", "sensor", "unavailable"]],
+  ["gMore", ["person", "users", "binary", "presence", "scene", "auto", "helper", "labels", "sensor", "unavailable"]],
 ];
 const TABS_BY_COUNT = true; // from the second group on, the tabs of a group are ordered by the number of entities (most first)
 
@@ -116,6 +116,8 @@ const TABCOLS = {
   users: ["led", "name", "username", "person", "role", "provider", "local", "system", "userid"],
   presence: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
   auto: ["led", "name", "id", "state", "platform", "changed"],
+  scene: ["led", "name", "id", "state", "labels", "area", "platform", "changed"],
+  labels: ["led", "name", "id", "state", "labels", "area", "device", "platform", "changed"],
   helper: ["led", "name", "id", "value", "unit", "platform", "changed"],
   sensor: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
   unavailable: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
@@ -123,6 +125,7 @@ const TABCOLS = {
 Object.keys(TABCOLS).forEach((k) => {
   if (k === "users") return;
   const cols = [...TABCOLS[k], "photos", "docs", "note"];
+  if (!cols.includes("labels")) cols.push("labels");
   const i = cols.indexOf("id"); if (i >= 0) cols.splice(i + 1, 0, "access"); // r / w / rw right behind the entity ID
   const l = cols.indexOf("led"); if (l >= 0) cols.splice(l + 1, 0, "icon"); // the entity symbol right behind the status LED
   TABCOLS[k] = cols;
@@ -150,7 +153,7 @@ const ICON = {
 };
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
-const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "changed", "photos", "docs", "note"];
+const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "photos", "docs", "note"];
 const DEFAULT_OFF = { view: [], print: ["led", "icon"] };
 const MM = 96 / 25.4; // pixels per millimetre (widths of the printout are stored in mm)
 const NOCLIP = ["value", "cur", "target", "unit", "access", "pos", "tilt", "bright", "state", "mode", "action", "led", "icon", "photos", "changed"]; // short columns: a width from the column editor is only a minimum, the content is never cut off (no "…")
@@ -207,6 +210,7 @@ class EntityInventoryPanel extends HTMLElement {
         areaId: areaId && ar[areaId] ? areaId : "",
         area: areaId && ar[areaId] ? ar[areaId].name : "",
         platform: reg.platform || (domain === "sun" || domain === "zone" ? "core" : ""),
+        labels: Array.isArray(reg.labels) ? reg.labels : [],
         hidden: !!reg.hidden || !!reg.disabled_by || reg.entity_category === "config",
         ts: Date.parse(s.last_changed) || 0,
         tabs: [],
@@ -238,6 +242,24 @@ class EntityInventoryPanel extends HTMLElement {
 
   get _admin() { return !!(this._hass.user && this._hass.user.is_admin); }
 
+  // names and colours of the labels (the entities only carry the label ids)
+  async _loadLabels() {
+    try {
+      const list = await this._hass.callWS({ type: "config/label_registry/list" });
+      this._labels = Object.fromEntries((list || []).map((l) => [l.label_id, { name: l.name, color: l.color }]));
+      if (this._rows) this._render();
+    } catch (e) { /* not an administrator: the label ids are shown */ }
+  }
+
+  _labelName(id) { return ((this._labels || {})[id] || {}).name || id; }
+
+  _labelChips(ids) {
+    return ids.map((id) => {
+      const c = ((this._labels || {})[id] || {}).color, bg = !c ? "#888" : c.startsWith("#") ? c : `var(--${c}-color,#888)`;
+      return `<span class="chip" style="background:${bg}">${esc(this._labelName(id))}</span>`;
+    }).join("");
+  }
+
   async _loadUsers() {
     try { this._users = (await this._hass.callWS({ type: "config/auth/list" })); } catch (e) { this._users = []; } // not an admin: no tab
     this._refresh(true);
@@ -247,6 +269,7 @@ class EntityInventoryPanel extends HTMLElement {
   _classify(e) {
     const t = e.tabs, dc = e.dc, d = e.domain, u = e.unit, nm = (e.name + " " + e.id).toLowerCase();
     if (OFFLINE.has(e.state)) t.push("unavailable");
+    if (e.labels && e.labels.length) t.push("labels");
     if (d === "sensor") {
       let hit = false;
       if (dc === "temperature" || (!dc && /^(°C|°F|K)$/.test(u))) { t.push("temperature"); hit = true; }
@@ -276,7 +299,8 @@ class EntityInventoryPanel extends HTMLElement {
     else if (d === "media_player") t.push("media");
     else if (d === "person") t.push("person");
     else if (d === "device_tracker") t.push("presence");
-    else if (["automation", "script", "scene"].includes(d)) t.push("auto");
+    else if (d === "scene") t.push("scene");
+    else if (["automation", "script"].includes(d)) t.push("auto");
     else if (/^(input_|counter$|timer$|schedule$)/.test(d)) t.push("helper");
   }
 
@@ -302,7 +326,7 @@ class EntityInventoryPanel extends HTMLElement {
 
   // value of a column: [display text, sort key]
   _cell(e, col) {
-    if (col === "changed" || col === "photos" || col === "docs" || col === "note") return this._cell0(e, col); // the relative time changes, everything else only with the state
+    if (col === "changed" || col === "photos" || col === "docs" || col === "note" || col === "labels") return this._cell0(e, col); // the relative time changes, everything else only with the state
     const c = e._c || (e._c = {});
     return c[col] || (c[col] = this._cell0(e, col));
   }
@@ -345,6 +369,7 @@ class EntityInventoryPanel extends HTMLElement {
       case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
       case "docs": { const n = e.user ? 0 : ((this._meta.docs[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="docs">${svgIcon("doc")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
       case "note": { const t = e.user ? "" : ((this._meta.notes[e.id] || {}).t || ""); return [e.user ? "" : `<span class="ic${t ? "" : " ic0"}" data-act="note">${svgIcon(t ? "noteFull" : "note")}</span>${t ? ` <span data-act="note" title="${esc(t)}">${esc(t.replace(/\s+/g, " "))}</span>` : ""}`, t.toLowerCase()]; }
+      case "labels": { const n = (e.labels || []).map((id) => this._labelName(id)).join(", "); return [e.user ? "" : this._labelChips(e.labels || []), n.toLowerCase()]; }
       case "access": { const a = e.user ? "" : accessOf(e.domain); return [a ? `<span title="${esc(L.accessTip[a])}">${a}</span>` : "", a]; }
       case "unit": return [esc(e.unit), e.unit];
       case "area": return [esc(e.area), e.area.toLowerCase()];
@@ -426,6 +451,7 @@ class EntityInventoryPanel extends HTMLElement {
       .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
       .eicon{display:inline-flex;align-items:center;min-width:20px;height:20px;cursor:pointer;opacity:.85}.eicon:hover{opacity:1;color:var(--primary-color)}
       .cp{display:inline-flex;vertical-align:middle;margin-right:5px;cursor:pointer;visibility:hidden;opacity:.7}.cp:hover{opacity:1;color:var(--primary-color)}tr:hover .cp{visibility:visible}@media (hover:none){.cp{visibility:visible;opacity:.35}}
+      .chip{display:inline-block;padding:0 7px;border-radius:10px;font-size:11px;line-height:18px;color:#fff;margin-right:3px}
       td[data-col=note]{max-width:420px}td[data-col=note] span[data-act]{cursor:pointer}`;
     const top = document.createElement("div"); top.className = "top";
     this._menu = document.createElement("ha-menu-button");
@@ -464,6 +490,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._buildCard();
     this._initMobile();
     this._loadMeta(); this._metaTimer = setInterval(() => (this.isConnected ? this._loadMeta() : clearInterval(this._metaTimer)), 300000); // signed URLs last one hour
+    this._labels = {}; this._lab = ""; this._loadLabels(); this._labTimer = setInterval(() => (this.isConnected ? this._loadLabels() : clearInterval(this._labTimer)), 300000);
     this._loadUsers(); this._userTimer = setInterval(() => (this.isConnected ? this._loadUsers() : clearInterval(this._userTimer)), 300000);
   }
 
@@ -509,6 +536,7 @@ class EntityInventoryPanel extends HTMLElement {
     qi.onkeydown = (ev) => { ev.stopPropagation(); if (ev.key === "Escape" && qi.value) { qi.value = ""; qi.oninput(); } };
     this._selArea = document.createElement("select"); this._selArea.onchange = () => { this._area = this._selArea.value; this._render(); };
     this._selInt = document.createElement("select"); this._selInt.onchange = () => { this._int = this._selInt.value; this._render(); };
+    this._selLab = document.createElement("select"); this._selLab.onchange = () => { this._lab = this._selLab.value; this._render(); };
     const toggle = (svg, title, key) => {
       const b = mkBtn(svg, title, () => {
         this[key] = !this[key]; paint();
@@ -543,7 +571,7 @@ class EntityInventoryPanel extends HTMLElement {
     grp.append(pb, ob);
     this._edit = false; this._tgt = "view";
     this._editBox = document.createElement("span"); this._editBox.style.cssText = "display:inline-flex;gap:6px;align-items:center;margin-left:auto";
-    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, alB, ub, fb, this._editBox);
+    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, this._selLab, hb, alB, ub, fb, this._editBox);
     this._paintEdit();
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
@@ -645,7 +673,7 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   _select(k) {
-    this._active = k; this._area = ""; this._int = "";
+    this._active = k; this._area = ""; this._int = ""; this._lab = "";
     try { localStorage.setItem("eiTab", k); } catch (e) { /* ignore */ }
     this._sigT = null; this._drawTabs(); this._render();
     this._wrap.scrollTop = 0;
@@ -660,7 +688,8 @@ class EntityInventoryPanel extends HTMLElement {
       if (k === "all" && e.user) return false;
       if (this._area && e.area !== this._area) return false;
       if (this._int && e.platform !== this._int) return false;
-      if (q && !(`${e.name} ${e.id} ${e.area} ${e.device} ${e.platform} ${e.dc} ${e.state} ${e.maker} ${e.model} ${(this._meta.notes[e.id] || {}).t || ""} ${(this._meta.docs[e.id] || []).map((d) => d.name).join(" ")}`.toLowerCase().includes(q))) return false;
+      if (this._lab && (this._lab === "\u0001none" ? (e.labels || []).length : !(e.labels || []).includes(this._lab))) return false;
+      if (q && !(`${e.name} ${e.id} ${e.area} ${e.device} ${e.platform} ${e.dc} ${e.state} ${e.maker} ${e.model} ${(this._meta.notes[e.id] || {}).t || ""} ${(this._meta.docs[e.id] || []).map((d) => d.name).join(" ")} ${(e.labels || []).map((i) => this._labelName(i)).join(" ")}`.toLowerCase().includes(q))) return false;
       return true;
     });
   }
@@ -742,6 +771,17 @@ class EntityInventoryPanel extends HTMLElement {
     };
     fill(this._selArea, [...new Set(inTab.map((e) => e.area).filter(Boolean))].sort((a, b) => a.localeCompare(b)), L.allAreas, this._area);
     fill(this._selInt, [...new Set(inTab.map((e) => e.platform).filter(Boolean))].sort(), L.allInts, this._int);
+    { // labels that exist in this tab (+ "without label"); the option text is the label name, the value its id
+      const ids = [...new Set(inTab.flatMap((e) => e.labels || []))].sort((a, b) => this._labelName(a).localeCompare(this._labelName(b)));
+      const key = ids.map((i) => i + this._labelName(i)).join("\u0001") + "|" + this._lab + "|" + (inTab.some((e) => !(e.labels || []).length) ? 1 : 0);
+      if (this._selLab._key !== key) {
+        this._selLab._key = key; this._selLab.innerHTML = "";
+        const add = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; this._selLab.appendChild(o); };
+        add("", L.allLabels); ids.forEach((i) => add(i, this._labelName(i))); if (ids.length) add("\u0001none", L.noLabel);
+        this._selLab.value = this._lab;
+      }
+      this._selLab.style.display = ids.length ? "" : "none"; // no labels in this tab: no selector
+    }
 
     const list = this._sorted(this._filtered());
     this._list = list;
@@ -1166,7 +1206,7 @@ class EntityInventoryPanel extends HTMLElement {
     return {
       cols,
       head: cols.map((c) => this._colName(tgt, c)),
-      rows: (this._list || []).map((e) => cols.map((c) => c === "changed" ? new Date(e.ts).toLocaleString() : c === "photos" ? (this._meta.photos[e.id] || []).length || "" : c === "docs" ? (this._meta.docs[e.id] || []).map((d) => d.name).join("; ") : c === "note" ? (this._meta.notes[e.id] || {}).t || "" : strip(this._cell(e, c)[0]))),
+      rows: (this._list || []).map((e) => cols.map((c) => c === "changed" ? new Date(e.ts).toLocaleString() : c === "photos" ? (this._meta.photos[e.id] || []).length || "" : c === "docs" ? (this._meta.docs[e.id] || []).map((d) => d.name).join("; ") : c === "note" ? (this._meta.notes[e.id] || {}).t || "" : c === "labels" ? (e.labels || []).map((i) => this._labelName(i)).join(", ") : strip(this._cell(e, c)[0]))),
     };
   }
 
