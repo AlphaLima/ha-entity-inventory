@@ -1845,6 +1845,17 @@ const ICON = {
   check: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z",
   noteFull: "M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z",
 };
+const DI_ICONS = {
+  printer: '<path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/>',
+  csv: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M12 12v5M9.5 15l2.5 2.5 2.5-2.5"/>',
+  monitor: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  reset: '<path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 4v5h5"/>',
+  check: '<path d="M5 12l5 5 9-11"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  eyeoff: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/>',
+  hiddenEntity: '<rect x="4" y="4" width="16" height="16" rx="3" stroke-dasharray="3.2 3.2"/>', // dashed frame: hidden / disabled entities (the eye is the blur symbol)
+};
+const diIcon = (n, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${DI_ICONS[n]}</svg>`;
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
 const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "photos", "docs", "note"];
@@ -2250,7 +2261,7 @@ class EntityInventoryPanel extends HTMLElement {
     head.append(this._hico, this._htxt);
     const bar = this._bar = document.createElement("div"); bar.className = "bar";
     const mkBtn = (svg, title, fn) => { const b = document.createElement("button"); b.className = "ib"; b.title = title; b.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="${svg}"/></svg>`; b.onclick = fn; return b; };
-    const pb = mkBtn("M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z", L.print, () => this._print());
+    const pb = mkBtn("M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z", L.print, () => this._print()); pb.innerHTML = diIcon("printer");
     // paper format of the printout: portrait / landscape sheet symbol (remembered in this browser)
     try { this._ori = localStorage.getItem("eiOri"); } catch (e) { /* ignore */ }
     if (this._ori !== "portrait") this._ori = "landscape"; // wide tables: landscape is the default
@@ -2265,7 +2276,7 @@ class EntityInventoryPanel extends HTMLElement {
     };
     paintOri();
     ob.onclick = () => { this._ori = this._ori === "portrait" ? "landscape" : "portrait"; try { localStorage.setItem("eiOri", this._ori); } catch (e) { /* ignore */ } paintOri(); };
-    const cb = mkBtn("M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z", L.csv, () => this._csv());
+    const cb = mkBtn("", L.csv, () => this._csv()); cb.innerHTML = diIcon("csv");
     this._pauseB = mkBtn("M6 19h4V5H6v14zm8-14v14h4V5h-4z", L.pause, () => {
       this._paused = !this._paused;
       this._pauseB.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="${this._paused ? "M8 5v14l11-7z" : "M6 19h4V5H6v14zm8-14v14h4V5h-4z"}"/></svg>`;
@@ -2293,12 +2304,13 @@ class EntityInventoryPanel extends HTMLElement {
     };
     const eye = "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z";
     const warn = "M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z";
-    const hb = toggle(eye, L.hidden, "_showHidden");
+    const hb = toggle(eye, L.hidden, "_showHidden"); hb.innerHTML = diIcon("hiddenEntity");
     const ub = toggle(warn, L.hideOff, "_hideOff");
     const wb = toggle("", L.wideTip, "_wide"); // the symbol of Device Inventory: four lines
     wb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 5h16M4 9.5h16M4 14h16M4 18.5h16"/></svg>';
     const bb = toggle("", L.blurTip, "_blur");
-    bb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="4.5" cy="12" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="15.5" cy="12" r="2"/><circle cx="21" cy="12" r="1.2"/></svg>';
+    const paintBlur = () => { bb.innerHTML = diIcon(this._blur ? "eyeoff" : "eye"); }; // the symbol of Device Inventory: eye / crossed-out eye
+    paintBlur(); { const o = bb.onclick; bb.onclick = (ev) => { o(ev); paintBlur(); }; }
     const fb = toggle("M3 5h18l-7 8v6l-4 2v-8z", L.onlyNotes, "_onlyNotes"); // the funnel symbol of Device Inventory
     fb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>';
     const AL = { dec: "M11 3h2v18h-2zM3 6h7v2H3zM14 6h7v2h-7zM5 11h5v2H5zM14 11h5v2h-5zM3 16h7v2H3zM14 16h5v2h-5z", left: "M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z", right: "M3 3h18v2H3V3zm6 4h12v2H9V7zM3 11h18v2H3v-2zm6 4h12v2H9v-2zM3 19h18v2H3v-2z" };
@@ -3012,18 +3024,18 @@ class EntityInventoryPanel extends HTMLElement {
     box.append(mk(st('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/>'), this._edit ? L.doneTip : L.cfgBtn, toggle, this._edit));
     if (this._edit) {
       box.append(
-        mk(fl("M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"), L.tgtView, () => { this._tgt = "view"; this._paintEdit(); this._render(); }, this._tgt === "view"),
-        mk(fl("M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"), L.tgtPrint, () => { this._tgt = "print"; this._paintEdit(); this._render(); }, this._tgt === "print"),
+        mk(diIcon("monitor"), L.tgtView, () => { this._tgt = "view"; this._paintEdit(); this._render(); }, this._tgt === "view"),
+        mk(diIcon("printer"), L.tgtPrint, () => { this._tgt = "print"; this._paintEdit(); this._render(); }, this._tgt === "print"),
       );
       const au = mk("", L.autoTip, () => this._autoWidth()); au.textContent = "Auto"; au.style.fontWeight = "600";
       box.append(
         au,
-        mk(fl("M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"), L.resetTip, () => {
+        mk(diIcon("reset"), L.resetTip, () => {
           if (!confirm(`${this._tgt === "print" ? L.tgtPrint : L.tgtView}: ${L.resetAsk}`)) return;
           try { localStorage.removeItem(this._tgt === "print" ? "eiPrint" : "eiView"); } catch (e) { /* ignore */ }
           delete this._lay[this._tgt]; this._render();
         }),
-        mk(fl("M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"), L.doneTip, toggle), // OK / done: leaves the column editor
+        mk(diIcon("check"), L.doneTip, toggle), // OK / done: leaves the column editor
       );
     }
   }
