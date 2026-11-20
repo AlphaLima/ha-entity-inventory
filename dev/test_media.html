@@ -1392,11 +1392,14 @@ class EntityInventoryPanel extends HTMLElement {
       <tr>${head.map((h, k) => `<th${wst(cols[k])}>${esc(h)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></body></html>`;
     // printed from a hidden frame (no pop-up window); waits until the photos are loaded
     const f = document.createElement("iframe");
-    f.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0";
+    const avail = Math.round(((this._ori === "portrait" ? 210 : 297) - 16) * 96 / 25.4); // printable width in px (A4 minus the 8 mm margins)
+    f.style.cssText = `position:fixed;right:0;bottom:0;width:${avail}px;height:0;border:0`;
     document.body.appendChild(f);
     const doc = f.contentDocument; doc.open(); doc.write(html); doc.close();
     let done = false;
-    const go = () => { if (done) return; done = true; try { f.contentWindow.focus(); f.contentWindow.print(); } catch (e) { alert(`${L.printFail}: ${e}`); } setTimeout(() => f.remove(), 60000); };
+    const go = () => { if (done) return; done = true; try { // a table wider than the page is scaled down to fit, so no column is cut off
+        const w = doc.documentElement.scrollWidth; if (w > avail + 2) doc.body.style.zoom = String(avail / w);
+         f.contentWindow.focus(); f.contentWindow.print(); } catch (e) { alert(`${L.printFail}: ${e}`); } setTimeout(() => f.remove(), 60000); };
     const imgs = [...doc.images]; let left = imgs.length;
     if (!left) { go(); return; }
     imgs.forEach((im) => { const fin = () => { if (--left <= 0) go(); }; if (im.complete) fin(); else im.onload = im.onerror = fin; });
