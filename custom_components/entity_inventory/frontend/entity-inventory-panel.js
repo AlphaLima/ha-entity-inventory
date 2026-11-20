@@ -12,24 +12,24 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
-    c_state: "State", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
-    on: "on", off: "off",
+    c_state: "State", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
+    on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
     ago: { s: "just now", m: "{n} min ago", h: "{n} h ago", d: "{n} d ago" },
     t: {
       all: "All entities", temperature: "Temperature", humidity: "Humidity", power: "Power", energy: "Energy",
-      consumption: "Consumption", electric: "Voltage / current", battery: "Batteries",
+      consumption: "Consumption", voltage: "Voltage", frequency: "Frequency", current: "Current", battery: "Batteries",
       cover: "Covers", tilt: "Slats", light: "Lights", dimmer: "Dimmers", switch: "Switches", climate: "Thermostats",
-      media: "Media", binary: "Binary sensors", presence: "Presence", auto: "Automations / scripts", helper: "Helpers",
+      media: "Media", person: "Persons", users: "User accounts", binary: "Binary sensors", presence: "Trackers", auto: "Automations / scripts", helper: "Helpers",
       sensor: "Other sensors", unavailable: "Unavailable",
     },
     d: {
       all: "Every entity Home Assistant knows", temperature: "Sensors that measure a temperature", humidity: "Humidity sensors",
       power: "Momentary power (W, kW)", energy: "Energy counters (Wh, kWh)", consumption: "Gas, water, volume and everything named consumption",
-      electric: "Voltage, current, frequency, power factor", battery: "Battery levels, the weakest first",
+      voltage: "Voltage sensors (V, mV, kV)", frequency: "Frequency sensors (Hz)", current: "Current and power factor (A, mA)", battery: "Battery levels, the weakest first",
       cover: "Blinds, shutters, garage doors: position", tilt: "Covers with adjustable slats: slat angle",
       light: "All lights", dimmer: "Lights that can be dimmed", switch: "Switches, sockets and on/off helpers",
       climate: "Thermostats and heat pumps: current, target, mode", media: "TVs, speakers and other players",
-      binary: "Motion, contact, window, smoke … sensors", presence: "Persons and device trackers",
+      binary: "Motion, contact, window, smoke … sensors", person: "Persons with their trackers and linked login", users: "Login accounts of Home Assistant (needs admin rights)", presence: "Device trackers",
       auto: "Automations, scripts and scenes", helper: "input_*, counters, timers, schedules", sensor: "Sensors that fit no measurement tab",
       unavailable: "Entities that are unavailable or unknown right now",
     },
@@ -44,24 +44,24 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
-    c_state: "Zustand", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
-    on: "an", off: "aus",
+    c_state: "Zustand", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
+    on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
     ago: { s: "gerade eben", m: "vor {n} Min", h: "vor {n} Std", d: "vor {n} T" },
     t: {
       all: "Alle Entitäten", temperature: "Temperatur", humidity: "Feuchte", power: "Leistung", energy: "Energie",
-      consumption: "Verbrauch", electric: "Spannung / Strom", battery: "Batterien",
+      consumption: "Verbrauch", voltage: "Spannung", frequency: "Frequenz", current: "Strom", battery: "Batterien",
       cover: "Cover", tilt: "Lamellen", light: "Lichter", dimmer: "Dimmer", switch: "Schalter", climate: "Thermostate",
-      media: "Medien", binary: "Binärsensoren", presence: "Anwesenheit", auto: "Automationen / Skripte", helper: "Helfer",
+      media: "Medien", person: "Personen", users: "Benutzerkonten", binary: "Binärsensoren", presence: "Tracker", auto: "Automationen / Skripte", helper: "Helfer",
       sensor: "Sonstige Sensoren", unavailable: "Nicht verfügbar",
     },
     d: {
       all: "Jede Entität, die Home Assistant kennt", temperature: "Sensoren, die eine Temperatur messen", humidity: "Feuchtesensoren",
       power: "Momentanleistung (W, kW)", energy: "Energiezähler (Wh, kWh)", consumption: "Gas, Wasser, Volumen und alles, was Verbrauch heißt",
-      electric: "Spannung, Strom, Frequenz, Leistungsfaktor", battery: "Batteriestände, die schwächsten zuerst",
+      voltage: "Spannungssensoren (V, mV, kV)", frequency: "Frequenzsensoren (Hz)", current: "Strom und Leistungsfaktor (A, mA)", battery: "Batteriestände, die schwächsten zuerst",
       cover: "Raffstores, Rollläden, Garagentore: Position", tilt: "Cover mit verstellbaren Lamellen: Lamellenwinkel",
       light: "Alle Lichter", dimmer: "Lichter, die sich dimmen lassen", switch: "Schalter, Steckdosen und Ein/Aus-Helfer",
       climate: "Thermostate und Wärmepumpen: Ist, Soll, Modus", media: "Fernseher, Lautsprecher und andere Player",
-      binary: "Bewegung, Kontakt, Fenster, Rauch … Sensoren", presence: "Personen und Geräte-Tracker",
+      binary: "Bewegung, Kontakt, Fenster, Rauch … Sensoren", person: "Personen mit Trackern und verknüpftem Login", users: "Anmeldekonten von Home Assistant (braucht Admin-Rechte)", presence: "Geräte-Tracker",
       auto: "Automationen, Skripte und Szenen", helper: "input_*, Zähler, Timer, Zeitpläne", sensor: "Sensoren, die in keinen Mess-Tab passen",
       unavailable: "Entitäten, die gerade nicht verfügbar oder unbekannt sind",
     },
@@ -71,17 +71,17 @@ const L10N = {
 // tab symbols (Material Design Icons, shown with ha-icon)
 const MDI = {
   all: "mdi:format-list-bulleted-type", temperature: "mdi:thermometer", humidity: "mdi:water-percent", power: "mdi:flash",
-  energy: "mdi:lightning-bolt-circle", consumption: "mdi:meter-electric-outline", electric: "mdi:sine-wave", battery: "mdi:battery-60",
+  energy: "mdi:lightning-bolt-circle", consumption: "mdi:meter-electric-outline", voltage: "mdi:flash-triangle-outline", frequency: "mdi:sine-wave", current: "mdi:current-ac", battery: "mdi:battery-60",
   cover: "mdi:window-shutter", tilt: "mdi:blinds-horizontal", light: "mdi:lightbulb", dimmer: "mdi:lightbulb-on-50",
-  switch: "mdi:toggle-switch", climate: "mdi:thermostat", media: "mdi:play-box-multiple", binary: "mdi:radiobox-marked",
+  switch: "mdi:toggle-switch", climate: "mdi:thermostat", media: "mdi:play-box-multiple", person: "mdi:account", users: "mdi:account-key", binary: "mdi:radiobox-marked",
   presence: "mdi:account-multiple", auto: "mdi:robot", helper: "mdi:tune-variant", sensor: "mdi:eye", unavailable: "mdi:alert-circle-outline",
 };
 
 // order and groups of the tabs
 const GROUPS = [
-  ["gMeasure", ["all", "temperature", "humidity", "power", "energy", "consumption", "electric", "battery"]],
+  ["gMeasure", ["all", "temperature", "humidity", "power", "energy", "consumption", "voltage", "frequency", "current", "battery"]],
   ["gActors", ["cover", "tilt", "light", "dimmer", "switch", "climate", "media"]],
-  ["gMore", ["binary", "presence", "auto", "helper", "sensor", "unavailable"]],
+  ["gMore", ["person", "users", "binary", "presence", "auto", "helper", "sensor", "unavailable"]],
 ];
 
 // columns shown per tab (the first one is the sort default unless "sort" is given)
@@ -93,7 +93,9 @@ const TABCOLS = {
   power: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
   energy: ["led", "name", "id", "value", "sc", "area", "device", "platform", "changed"],
   consumption: ["led", "name", "id", "value", "class", "sc", "area", "device", "platform", "changed"],
-  electric: ["led", "name", "id", "value", "class", "area", "device", "platform", "changed"],
+  voltage: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
+  frequency: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
+  current: ["led", "name", "id", "value", "class", "area", "device", "platform", "changed"],
   battery: ["led", "name", "id", "value", "area", "device", "platform", "changed"],
   cover: ["led", "name", "id", "state", "pos", "tilt", "area", "device", "platform", "changed"],
   tilt: ["led", "name", "id", "state", "pos", "tilt", "area", "device", "platform", "changed"],
@@ -103,6 +105,8 @@ const TABCOLS = {
   climate: ["led", "name", "id", "mode", "cur", "target", "action", "area", "device", "platform", "changed"],
   media: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
   binary: ["led", "name", "id", "state", "class", "area", "device", "platform", "changed"],
+  person: ["led", "name", "id", "state", "trackers", "source", "area", "changed"],
+  users: ["led", "name", "username", "person", "role", "provider", "local", "system", "userid"],
   presence: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
   auto: ["led", "name", "id", "state", "platform", "changed"],
   helper: ["led", "name", "id", "value", "platform", "changed"],
@@ -161,7 +165,23 @@ class EntityInventoryPanel extends HTMLElement {
         tabs: [],
       });
     }
+    const persons = rows.filter((e) => e.domain === "person");
+    (this._users || []).forEach((u) => {
+      const pe = persons.find((e) => e.a.user_id === u.id);
+      const role = u.is_owner ? (L10N[(h.language || "en").slice(0, 2)] || L10N.en).roleOwner : (u.group_ids || []).includes("system-admin") ? "Admin" : (u.group_ids || []).includes("system-read-only") ? (L10N[(h.language || "en").slice(0, 2)] || L10N.en).roleRead : "User";
+      rows.push({
+        id: "user:" + u.id, user: true, domain: "user", s: { last_updated: "1970-01-01T00:00:00Z", last_changed: "1970-01-01T00:00:00Z" }, a: {}, state: u.is_active ? "active" : "inactive",
+        dc: "", unit: "", sc: "", name: u.name || u.username || u.id, username: u.username || "", person: pe ? pe.name : "", role,
+        provider: [...new Set((u.credentials || []).map((c) => c.auth_provider_type))].join(", "), localOnly: !!u.local_only, systemAcc: !!u.system_generated,
+        userId: u.id, device: "", deviceId: "", area: "", areaId: "", platform: "", maker: "", model: "", hidden: false, ts: 0, tabs: ["users"], active: !!u.is_active,
+      });
+    });
     return rows;
+  }
+
+  async _loadUsers() {
+    try { this._users = (await this._hass.callWS({ type: "config/auth/list" })); } catch (e) { this._users = []; } // not an admin: no tab
+    this._refresh(true);
   }
 
   // which tabs does an entity belong to
@@ -175,7 +195,9 @@ class EntityInventoryPanel extends HTMLElement {
       if (["power", "apparent_power", "reactive_power"].includes(dc) || (!dc && /^(W|kW|mW|MW)$/.test(u))) { t.push("power"); hit = true; }
       if (dc === "energy" || (!dc && /^(Wh|kWh|MWh)$/.test(u))) { t.push("energy"); hit = true; }
       if (["gas", "water", "volume", "volume_flow_rate", "volume_storage"].includes(dc) || /verbrauch|consumption|durchfluss/.test(nm)) { t.push("consumption"); hit = true; }
-      if (["voltage", "current", "frequency", "power_factor"].includes(dc)) { t.push("electric"); hit = true; }
+      if (dc === "voltage" || (!dc && /^(V|mV|kV)$/.test(u))) { t.push("voltage"); hit = true; }
+      if (dc === "frequency" || (!dc && /^(Hz|kHz)$/.test(u))) { t.push("frequency"); hit = true; }
+      if (["current", "power_factor"].includes(dc) || (!dc && /^(A|mA)$/.test(u))) { t.push("current"); hit = true; }
       if (dc === "battery") { t.push("battery"); hit = true; }
       if (!hit) t.push("sensor");
     } else if (d === "binary_sensor") {
@@ -192,7 +214,8 @@ class EntityInventoryPanel extends HTMLElement {
     } else if (d === "switch" || d === "input_boolean") t.push("switch");
     else if (d === "climate" || d === "water_heater") t.push("climate");
     else if (d === "media_player") t.push("media");
-    else if (d === "person" || d === "device_tracker") t.push("presence");
+    else if (d === "person") t.push("person");
+    else if (d === "device_tracker") t.push("presence");
     else if (["automation", "script", "scene"].includes(d)) t.push("auto");
     else if (/^(input_|counter$|timer$|schedule$)/.test(d)) t.push("helper");
   }
@@ -216,7 +239,7 @@ class EntityInventoryPanel extends HTMLElement {
   _cell(e, col) {
     const L = this._L;
     switch (col) {
-      case "led": { const ok = !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
+      case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
       case "name": return [esc(e.name), e.name.toLowerCase()];
       case "id": return [esc(e.id), e.id];
       case "value": { const t = this._valueText(e); return [esc(t), num(e.state) ?? t]; }
@@ -229,6 +252,15 @@ class EntityInventoryPanel extends HTMLElement {
       case "maker": return [esc(e.maker), e.maker];
       case "model": return [esc(e.model), e.model];
       case "changed": return [`<span title="${esc(new Date(e.ts).toLocaleString())}">${esc(this._ago(e.ts))}</span>`, e.ts];
+      case "trackers": { const v = (e.a.device_trackers || []).join(", "); return [esc(v), v]; }
+      case "source": { const v = e.a.source || ""; return [esc(v), v]; }
+      case "username": return [esc(e.username), e.username.toLowerCase()];
+      case "person": return [esc(e.person), e.person.toLowerCase()];
+      case "role": return [esc(e.role), e.role];
+      case "provider": return [esc(e.provider), e.provider];
+      case "local": return [e.localOnly ? L.yes : L.no, e.localOnly ? 1 : 0];
+      case "system": return [e.systemAcc ? L.yes : L.no, e.systemAcc ? 1 : 0];
+      case "userid": return [esc(e.userId), e.userId];
       case "pos": { const v = e.a.current_position; return [v == null ? "" : v + " %", v ?? -1]; }
       case "tilt": { const v = e.a.current_tilt_position; return [v == null ? "" : v + " %", v ?? -1]; }
       case "bright": { const v = e.a.brightness; if (v == null) return [e.state === "on" ? "" : "", -1]; const p = Math.round(v / 2.55); return [p + " %", p]; }
@@ -291,6 +323,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._sort = {}; this._q = ""; this._area = ""; this._int = ""; this._paused = false;
     try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; } catch (e) { /* ignore */ }
     this._buildCard();
+    this._loadUsers(); this._userTimer = setInterval(() => (this.isConnected ? this._loadUsers() : clearInterval(this._userTimer)), 300000);
   }
 
   _buildCard() {
@@ -353,6 +386,7 @@ class EntityInventoryPanel extends HTMLElement {
     const now = Date.now();
     this._counts = { all: { n: 0, off: 0 } };
     rows.forEach((e) => {
+      if (e.user) { const c = (this._counts.users = this._counts.users || { n: 0, off: 0 }); c.n++; return; }
       if (e.hidden && !this._showHidden) return;
       const off = OFFLINE.has(e.state);
       this._counts.all.n++; if (off) this._counts.all.off++;
@@ -401,6 +435,7 @@ class EntityInventoryPanel extends HTMLElement {
     return (this._rows || []).filter((e) => {
       if (!this._vis(e)) return false;
       if (k !== "all" && !e.tabs.includes(k)) return false;
+      if (k === "all" && e.user) return false;
       if (this._area && e.area !== this._area) return false;
       if (this._int && e.platform !== this._int) return false;
       if (q && !(`${e.name} ${e.id} ${e.area} ${e.device} ${e.platform} ${e.dc} ${e.state} ${e.maker} ${e.model}`.toLowerCase().includes(q))) return false;
@@ -436,7 +471,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._hico.setAttribute("icon", MDI[k] || "mdi:eye");
     this._htxt.textContent = this._label(k);
     // area / integration selectors follow the tab (all values that exist in it)
-    const inTab = (this._rows || []).filter((e) => this._vis(e) && (k === "all" || e.tabs.includes(k)));
+    const inTab = (this._rows || []).filter((e) => this._vis(e) && (k === "all" ? !e.user : e.tabs.includes(k)));
     const fill = (sel, vals, all, cur) => {
       const key = vals.join("\u0001") + "|" + cur;
       if (sel._key === key) return; sel._key = key;
@@ -474,6 +509,7 @@ class EntityInventoryPanel extends HTMLElement {
     const td = ev.target.closest("td[data-col]"), tr = ev.target.closest("tr[data-id]");
     if (!td || !tr) return;
     const id = tr.dataset.id;
+    if (id.startsWith("user:")) { if (td.dataset.col === "name" || td.dataset.col === "person") { history.pushState(null, "", "/config/person"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); } return; }
     if (td.dataset.col === "id") {
       try { navigator.clipboard.writeText(id); } catch (e) { /* ignore */ }
       const old = td.textContent; td.textContent = this._L.copied; setTimeout(() => { td.textContent = old; }, 700);
