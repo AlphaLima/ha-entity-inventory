@@ -2642,12 +2642,14 @@ class EntityInventoryPanel extends HTMLElement {
     }).join("");
     const wcss = ["#", ...cols].filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return `td[data-col="${c}"],th[data-col="${c}"]{width:${w}px;max-width:${w}px;min-width:${w}px;overflow:hidden;text-overflow:${c === "#" || NOCLIP.includes(c) ? "clip" : "ellipsis"}}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
+    this._maxDec = {};
     ["value", "cur", "target"].forEach((c) => { // widths of the decimals and of the unit = longest in the column, so separators and units line up
       this._wrap.style.removeProperty("--wf-" + c); this._wrap.style.removeProperty("--wu-" + c);
       if (cols.includes(c)) {
         let f = 0, u = 0;
         for (const e of list) { const x = this._cell(e, c); if (x[2] > f) f = x[2]; if (x[3] > u) u = x[3]; }
         this._wrap.style.setProperty("--wf-" + c, f + "ch"); this._wrap.style.setProperty("--wu-" + c, u + "ch");
+        this._maxDec[c] = f; // number of characters of the longest decimal part (with the separator)
       }
     });
     this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
@@ -3009,11 +3011,18 @@ class EntityInventoryPanel extends HTMLElement {
     });
   }
 
+  // every number of a column gets the same number of decimals: the missing zeros are added on the right (display only; 236,0 -> 236,00 next to 1,20)
+  _padDecimals(html, col) {
+    const f = this._maxDec && this._maxDec[col];
+    if (!f || f < 2) return html;
+    return html.replace(/<span class="vf">([^<]*)<\/span>/, (m, d) => d.length >= f ? m : `<span class="vf">${(d || this._dec) + "0".repeat(f - (d || this._dec).length)}</span>`);
+  }
+
   _rowsHtml(from, to) {
     const cols = this._cols_, out = [];
     for (let i = from; i < to; i++) {
       const e = this._list[i];
-      out.push(`<tr data-id="${esc(e.id)}"><td class="dim" data-col="#">${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
+      out.push(`<tr data-id="${esc(e.id)}"><td class="dim" data-col="#">${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._padDecimals(this._cell(e, c)[0], c)}</td>`).join("")}</tr>`);
     }
     return out.join("");
   }
