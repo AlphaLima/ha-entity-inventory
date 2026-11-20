@@ -10,8 +10,8 @@ const L10N = {
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
     retSince: "Stored in the recorder since: {t} ({n} days)", retSinceNone: "No history stored in the recorder.", retSinceFail: "Age of the history could not be read.", retSinceBusy: "Reading the age of the history …",
-    retRule: "rule: {n} d",
-    c_retention: "Stored for", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click and type the number of days (empty = no rule), Shift+click opens the dialog",
+    retShort: "{n} d", retRule: "rule: {n} d", retErr: "The recorder query failed: {e}",
+    c_retention: "Stored for (days, recorder)", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click and type the number of days (empty = no rule), Shift+click opens the dialog",
     retIntro: "History of this entity (the recorder database) older than the chosen number of days is deleted every night. A rule can only shorten the global retention of the recorder (purge_keep_days), it cannot keep data longer.",
     retNone: "No rule (recorder default)", retDays: "{n} days", retCustom: "Other number of days", retJob: "Run the nightly retention job (03:20) for all entities with a rule", retRules: "{n} entities with a rule",
     retRunNow: "Run now", retRunAsk: "Delete the history older than the rules of all entities that have a retention rule? This cannot be undone.", retLast: "Last run: {t}", retDone: "Done: {n} entities processed.", retFail: "The recorder reported an error: {e}", retNoRec: "The recorder is not available.", retAdmin: "Only administrators can change the recorder retention.", retNever: "never",
@@ -51,8 +51,8 @@ const L10N = {
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
     retSince: "Im Recorder gespeichert seit: {t} ({n} Tage)", retSinceNone: "Im Recorder ist kein Verlauf gespeichert.", retSinceFail: "Das Alter des Verlaufs konnte nicht gelesen werden.", retSinceBusy: "Alter des Verlaufs wird gelesen …",
-    retRule: "Regel: {n} T",
-    c_retention: "Gespeichert seit", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: anklicken und Anzahl Tage eintippen (leer = keine Regel), Umschalt+Klick öffnet den Dialog",
+    retShort: "{n} T", retRule: "Regel: {n} T", retErr: "Recorder-Abfrage fehlgeschlagen: {e}",
+    c_retention: "Gespeichert seit (Tage, Recorder)", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: anklicken und Anzahl Tage eintippen (leer = keine Regel), Umschalt+Klick öffnet den Dialog",
     retIntro: "Der Verlauf dieser Entität (Recorder-Datenbank), der älter ist als die gewählte Anzahl Tage, wird jede Nacht gelöscht. Eine Regel kann die globale Aufbewahrung des Recorders (purge_keep_days) nur verkürzen, nicht verlängern.",
     retNone: "Keine Regel (Recorder-Standard)", retDays: "{n} Tage", retCustom: "Andere Anzahl Tage", retJob: "Nächtlichen Aufbewahrungs-Job (03:20) für alle Entitäten mit Regel ausführen", retRules: "{n} Entitäten mit Regel",
     retRunNow: "Jetzt ausführen", retRunAsk: "Den Verlauf, der älter ist als die Regeln, für alle Entitäten mit Aufbewahrungsregel jetzt löschen? Das lässt sich nicht rückgängig machen.", retLast: "Letzter Lauf: {t}", retDone: "Fertig: {n} Entitäten bearbeitet.", retFail: "Der Recorder meldet einen Fehler: {e}", retNoRec: "Der Recorder ist nicht verfügbar.", retAdmin: "Nur Administratoren können die Recorder-Aufbewahrung ändern.", retNever: "nie",
@@ -1868,6 +1868,7 @@ const DI_ICONS = {
   eyeoff: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M4 4l16 16"/>',
   hiddenEntity: '<rect x="4" y="4" width="16" height="16" rx="3" stroke-dasharray="3.2 3.2"/>', // dashed frame: hidden / disabled entities (the eye is the blur symbol)
 };
+const RET_SYMBOL = '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>';
 const diIcon = (n, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${DI_ICONS[n]}</svg>`;
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
@@ -1967,7 +1968,7 @@ class EntityInventoryPanel extends HTMLElement {
     try {
       const r = await this._hass.callWS({ type: "entity_inventory/recorder_age" });
       this._recAge = { t: Date.now(), now: r.now, oldest: r.oldest || {} };
-    } catch (e) { this._recAge = { t: Date.now(), err: true, oldest: {} }; }
+    } catch (e) { this._recAge = { t: Date.now(), err: (e && (e.message || e.code)) || "?", oldest: {} }; }
     this._recBusy = false;
     if (this._rows) this._render();
   }
@@ -2151,13 +2152,13 @@ class EntityInventoryPanel extends HTMLElement {
         if (e.user) return ["", -1];
         const rule = (this._meta.retention || {})[e.id], ra = this._recAge;
         let age = -1, txt = "…", tip = "";
-        if (ra && ra.err) txt = "?";
+        if (ra && ra.err) { txt = "?"; tip = L.retErr.replace("{e}", String(ra.err)); }
         else if (ra && ra.oldest) {
           const ts = ra.oldest[e.id];
-          if (ts) { age = Math.max(0, Math.floor((ra.now - ts) / 86400)); txt = L.retDays.replace("{n}", age); tip = L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", age); }
+          if (ts) { age = Math.max(0, Math.floor((ra.now - ts) / 86400)); txt = L.retShort.replace("{n}", age); tip = L.retSince.replace("{t}", new Date(ts * 1000).toLocaleString()).replace("{n}", age); }
           else txt = "–";
         }
-        const r = rule ? ` <small style="opacity:.7">(${esc(L.retRule.replace("{n}", rule))})</small>` : "";
+        const r = rule ? ` <small style="opacity:.7" title="${esc(L.retRule.replace("{n}", rule))}">(${rule})</small>` : "";
         return [`<span data-act="retention" style="cursor:pointer" title="${esc((tip ? tip + "\n" : "") + L.retTip)}">${esc(txt)}${r}</span>`, age];
       }
       case "labels": { const n = (e.labels || []).map((id) => this._labelName(id)).join(", "); return [e.user ? "" : this._labelChips(e.labels || []), n.toLowerCase()]; }
@@ -2635,9 +2636,9 @@ class EntityInventoryPanel extends HTMLElement {
     const th = cols.map((c) => {
       const nm = cfg.n[c] || L["c_" + c] || c;
       if (this._edit) { // controls right in the heading: show / print, move left / right, own name, drag the right edge to resize
-        return `<th data-col="${c}" draggable="true" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><span class="cfgl">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}</span><div class="cfgbox"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"></div><span class="grip" data-cfg="grip" title="↔"></span></th>`;
+        return `<th data-col="${c}" draggable="true" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><span class="cfgl">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : c === "retention" && !cfg.n[c] ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${RET_SYMBOL}</svg>` : esc(nm)}</span><div class="cfgbox"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"></div><span class="grip" data-cfg="grip" title="↔"></span></th>`;
       }
-      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
+      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : c === "retention" && !cfg.n[c] ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${RET_SYMBOL}</svg>` : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
     const wcss = ["#", ...cols].filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return `td[data-col="${c}"],th[data-col="${c}"]{width:${w}px;max-width:${w}px;min-width:${w}px;overflow:hidden;text-overflow:${c === "#" || NOCLIP.includes(c) ? "clip" : "ellipsis"}}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
@@ -3117,7 +3118,7 @@ class EntityInventoryPanel extends HTMLElement {
     tb.querySelectorAll("tbody tr").forEach((r) => [...r.children].forEach((td) => { const c = td.dataset.col; if (!c) return; const x = natural(td); if (!(w[c] >= x)) w[c] = x; }));
     // the heading counts with its text only (the editor controls fit into 76 px anyway when the column is that wide)
     const probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:inherit;font-weight:600"; tb.appendChild(probe);
-    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "#" ? "#" : c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
+    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "#" ? "#" : c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : c === "retention" && !this._layout(tgt).n.retention ? "mmmmm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
     probe.remove();
     Object.keys(w).forEach((c) => { cfg.w[c] = tgt === "print" ? Math.round(w[c] / MM) : w[c]; });
     this._saveLayout(tgt); this._render();
