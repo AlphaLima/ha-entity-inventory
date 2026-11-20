@@ -401,7 +401,7 @@ class EntityInventoryPanel extends HTMLElement {
     const L = this._L;
     switch (col) {
       case "icon": return [e.user ? "" : `<span class="eicon" data-act="icon" title="${esc(L.iconTip)}"></span>`, e.a.icon || ""];
-      case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
+      case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [ok ? "🟢" : "🔴", ok ? 1 : 0]; // the same symbols as Device Inventory }
       case "name": return [e.user ? esc(e.name) : `<span class="cp" data-act="copy" data-copy="name" title="${esc(L.copyNameTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.name)}</span>`, e.name.toLowerCase()];
       case "id": return [`<span class="cp" data-act="copy" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.id)}</span>`, e.id];
       case "value": { // the number only; the unit has its own column
