@@ -12,7 +12,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     labelTitle: "Label", labelName: "Name", labelIcon: "Icon (e.g. mdi:tag)", labelColor: "Colour", labelDesc: "Description", labelEntities: "Entities with this label", labelManage: "Label settings", labelCount: "{n} entities in this tab / {m} in total", labelFail: "Saving failed", labelNone: "none", c_labels: "Labels", allLabels: "All labels", noLabel: "Without label", c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
-    c_state: "State", onlyNotes: "Only entries with a comment and/or photo (highlighted = active)", cfgBtn: "Edit columns (display and printer)", tgtView: "Display", tgtPrint: "Printer", autoTip: "Fit the column widths to the widest content", resetTip: "Reset the layout", resetAsk: "Reset the column layout to the default?", doneTip: "Done", renameTip: "Column name (empty = default)", stand: "As of", entities: "entities", printFail: "Printing failed", portrait: "Print: portrait (click: landscape)", landscape: "Print: landscape (click: portrait)", showBadges: "Show the red numbers on the tabs (unavailable entities)", hideBadges: "Hide the red numbers on the tabs", copyTip: "Copy the entity ID", copyNameTip: "Copy the name", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
+    c_state: "State", onlyNotes: "Only entries with a comment and/or photo (highlighted = active)", cfgBtn: "Edit columns (display and printer)", tgtView: "Display", tgtPrint: "Printer", autoTip: "Fit the column widths to the widest content", resetTip: "Reset the layout", resetAsk: "Reset the column layout to the default?", doneTip: "Done", renameTip: "Column name (empty = default)", stand: "As of", entities: "entities", printFail: "Printing failed", portrait: "Print: portrait (click: landscape)", landscape: "Print: landscape (click: portrait)", showBadges: "Show the red numbers on the tabs (unavailable entities)", hideBadges: "Hide the red numbers on the tabs", copyTip: "Copy the entity ID", copyNameTip: "Copy the name", copyValueTip: "Copy the value", editConfirmName: "Change the name?\n\n{old}\n→ {new}", editConfirmId: "Change the entity ID?\n\n{old}\n→ {new}\n\nAutomations, scripts and dashboards that use the old ID must be adjusted.", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
     photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
     uploadFail: "Upload failed", noPhotos: "No photos yet.", noDocs: "No documents yet (e.g. electricity contract, gas contract, photo of the meter).", notePh: "Comment (location, fuse, contract number …)", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
     on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
@@ -46,7 +46,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     labelTitle: "Label", labelName: "Name", labelIcon: "Symbol (z. B. mdi:tag)", labelColor: "Farbe", labelDesc: "Beschreibung", labelEntities: "Entitäten mit diesem Label", labelManage: "Label-Einstellungen", labelCount: "{n} Entitäten in diesem Tab / {m} insgesamt", labelFail: "Speichern fehlgeschlagen", labelNone: "keine", c_labels: "Labels", allLabels: "Alle Labels", noLabel: "Ohne Label", c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
-    c_state: "Zustand", onlyNotes: "Nur Einträge mit Kommentar und/oder Bild (farbig = aktiv)", cfgBtn: "Spalten bearbeiten (Anzeige und Drucker)", tgtView: "Anzeige", tgtPrint: "Drucker", autoTip: "Spaltenbreiten an den längsten Inhalt anpassen", resetTip: "Layout zurücksetzen", resetAsk: "Spaltenlayout auf Standard zurücksetzen?", doneTip: "Fertig", renameTip: "Spaltenname (leer = Standard)", stand: "Stand", entities: "Entitäten", printFail: "Drucken fehlgeschlagen", portrait: "Drucken: Hochformat (Klick: Querformat)", landscape: "Drucken: Querformat (Klick: Hochformat)", showBadges: "Rote Zahlen an den Tabs anzeigen (nicht verfügbare Entitäten)", hideBadges: "Rote Zahlen an den Tabs ausblenden", copyTip: "Entity-ID kopieren", copyNameTip: "Namen kopieren", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
+    c_state: "Zustand", onlyNotes: "Nur Einträge mit Kommentar und/oder Bild (farbig = aktiv)", cfgBtn: "Spalten bearbeiten (Anzeige und Drucker)", tgtView: "Anzeige", tgtPrint: "Drucker", autoTip: "Spaltenbreiten an den längsten Inhalt anpassen", resetTip: "Layout zurücksetzen", resetAsk: "Spaltenlayout auf Standard zurücksetzen?", doneTip: "Fertig", renameTip: "Spaltenname (leer = Standard)", stand: "Stand", entities: "Entitäten", printFail: "Drucken fehlgeschlagen", portrait: "Drucken: Hochformat (Klick: Querformat)", landscape: "Drucken: Querformat (Klick: Hochformat)", showBadges: "Rote Zahlen an den Tabs anzeigen (nicht verfügbare Entitäten)", hideBadges: "Rote Zahlen an den Tabs ausblenden", copyTip: "Entity-ID kopieren", copyNameTip: "Namen kopieren", copyValueTip: "Wert kopieren", editConfirmName: "Namen ändern?\n\n{old}\n→ {new}", editConfirmId: "Entity-ID ändern?\n\n{old}\n→ {new}\n\nAutomationen, Skripte und Dashboards, die die alte ID nutzen, müssen angepasst werden.", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
     photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
     uploadFail: "Upload fehlgeschlagen", noPhotos: "Noch keine Fotos.", noDocs: "Noch keine Dokumente (z. B. Stromvertrag, Gasvertrag, Foto des Zählers).", notePh: "Kommentar (Standort, Sicherung, Vertragsnummer …)", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
     on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
@@ -404,7 +404,9 @@ class EntityInventoryPanel extends HTMLElement {
       case "value": { // the number only; the unit has its own column
         let t = this._valueText(e); const n = num(e.state);
         if (e.unit && t.endsWith(e.unit)) t = t.slice(0, t.length - e.unit.length).trim();
-        return n === null ? [esc(t), t] : this._split(t, n);
+        const cp = e.user ? "" : `<span class="cp" data-act="copy" data-copy="value" title="${esc(L.copyValueTip)}">${svgIcon("copy", 14)}</span>`; // absolutely positioned: does not move the number
+        if (n === null) return [cp + esc(t), t];
+        const sp = this._split(t, n); return [cp + sp[0], sp[1]];
       }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
       case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
@@ -473,7 +475,7 @@ class EntityInventoryPanel extends HTMLElement {
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
       td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id],td[data-col=name]{position:relative;overflow:visible}.idt{display:block;overflow:hidden;text-overflow:ellipsis}tr:hover .idt{padding-left:19px}@media (hover:none){.idt{padding-left:19px}}td[data-col=id]:hover{color:var(--primary-color)}
       td{font-variant-numeric:tabular-nums}
-      td[data-col=value],td[data-col=cur],td[data-col=target]{overflow:visible;text-overflow:clip;max-width:none}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
+      td[data-col=value]{position:relative}td[data-col=value],td[data-col=cur],td[data-col=target]{overflow:visible;text-overflow:clip;max-width:none}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
       td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
       td[data-col=cur] .vf{min-width:var(--wf-cur,0)}td[data-col=cur] .vu{min-width:var(--wu-cur,0)}
       td[data-col=target] .vf{min-width:var(--wf-target,0)}td[data-col=target] .vu{min-width:var(--wu-target,0)}
@@ -670,6 +672,7 @@ class EntityInventoryPanel extends HTMLElement {
   // recompute everything; re-render only if something changed (or every 30 s for the "changed" column)
   _refresh(force) {
     if (!this._hass || !this._tabs) return;
+    if (this._inl) return; // a cell is being edited: do not redraw it
     const rows = this._collect(), now = Date.now();
     const changed = this._nChanged > 0 || !this._rows || rows.length !== this._rows.length;
     this._rows = rows;
@@ -1007,6 +1010,43 @@ class EntityInventoryPanel extends HTMLElement {
     setTimeout(() => { const f = focus === "id" ? idInp : inp; f.focus(); f.select(); }, 50);
   }
 
+  // edit name or entity id right in the table cell; leaving the field (Enter / click elsewhere) asks whether the change is really meant, Esc discards
+  async _inlineEdit(td, e, field) {
+    const L = this._L;
+    if (this._inl) return;
+    if (!this._admin) { alert(L.nameAdmin); return; }
+    let reg;
+    try { reg = await this._hass.callWS({ type: "config/entity_registry/get", entity_id: e.id }); } catch (x) { alert(L.nameNoReg); return; }
+    this._inl = true;
+    const old = field === "id" ? e.id : (reg.name || e.name), html = td.innerHTML;
+    const inp = document.createElement("input"); inp.type = "text"; inp.value = old;
+    inp.style.cssText = "width:100%;min-width:140px;box-sizing:border-box;padding:1px 4px;margin:0;border-radius:4px;border:1px solid var(--primary-color);background:var(--card-background-color,transparent);color:var(--primary-text-color);font:inherit" + (field === "id" ? ";font-family:monospace" : "");
+    td.innerHTML = ""; td.style.overflow = "visible"; td.appendChild(inp);
+    let done = false;
+    const finish = (restore) => { done = true; this._inl = false; td.style.overflow = ""; if (restore) td.innerHTML = html; };
+    const commit = async () => {
+      if (done) return;
+      const v = inp.value.trim();
+      if (v === old || (field === "id" && !v)) { finish(true); return; }
+      done = true; // the confirm dialog takes the focus away: do not react to that
+      const dom = e.id.slice(0, e.id.indexOf("."));
+      if (field === "id" && !(v.startsWith(dom + ".") && /^[a-z0-9_]+\.[a-z0-9_]+$/.test(v))) { alert(L.idInvalid.replace("{d}", dom)); finish(true); return; }
+      if (!confirm((field === "id" ? L.editConfirmId : L.editConfirmName).replace("{old}", old).replace("{new}", v))) { finish(true); return; }
+      try {
+        const msg = { type: "config/entity_registry/update", entity_id: e.id };
+        if (field === "id") msg.new_entity_id = v; else msg.name = v;
+        await this._hass.callWS(msg);
+        finish(false);
+        setTimeout(() => { this._refresh(true); this._loadMeta(); }, 1500);
+        td.textContent = v; // until the list is refreshed
+      } catch (x) { alert(`${L.nameFail}: ${(x && x.message) || x}`); finish(true); }
+    };
+    inp.onkeydown = (ev) => { ev.stopPropagation(); if (ev.key === "Enter") commit(); else if (ev.key === "Escape") { done = true; finish(true); } };
+    inp.onblur = () => commit();
+    inp.onclick = (ev) => ev.stopPropagation();
+    inp.focus(); inp.select();
+  }
+
   _photosDialog(e) {
     const L = this._L, { body, close } = this._modal(`${L.photosTitle} – ${e.name}`, e.id);
     const draw = () => {
@@ -1144,7 +1184,7 @@ class EntityInventoryPanel extends HTMLElement {
     if (act && row && !row.dataset.id.startsWith("user:")) {
       const e = (this._rows || []).find((r) => r.id === row.dataset.id);
       if (act.dataset.act === "copy") {
-        try { navigator.clipboard.writeText(act.dataset.copy === "name" ? (e ? e.name : "") : row.dataset.id); } catch (x) { /* ignore */ }
+        try { navigator.clipboard.writeText(act.dataset.copy === "name" ? (e ? e.name : "") : act.dataset.copy === "value" ? (e ? this._valueText(e) : "") : row.dataset.id); } catch (x) { /* ignore */ }
         act.innerHTML = svgIcon("check", 14); act.style.color = "var(--success-color,#43a047)"; act.style.visibility = "visible";
         setTimeout(() => { act.innerHTML = svgIcon("copy", 14); act.style.color = ""; act.style.visibility = ""; }, 800);
         return;
@@ -1159,7 +1199,7 @@ class EntityInventoryPanel extends HTMLElement {
     if (id.startsWith("user:")) { if (td.dataset.col === "name" || td.dataset.col === "person") { history.pushState(null, "", "/config/person"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); } return; }
     if (td.dataset.col === "id") {
       const e = (this._rows || []).find((r) => r.id === id);
-      if (e) this._nameDialog(e, "id");
+      if (e) this._inlineEdit(td, e, "id");
     } else if (["device", "platform", "area"].includes(td.dataset.col)) { // device page / integration page / area page of HA
       const e = (this._rows || []).find((r) => r.id === id), c = td.dataset.col;
       const path = !e ? "" : c === "device" ? (e.deviceId && `/config/devices/device/${e.deviceId}`) : c === "platform" ? (e.platform && e.platform !== "core" && `/config/integrations/integration/${e.platform}`) : (e.areaId && `/config/areas/area/${e.areaId}`);
@@ -1169,7 +1209,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
     } else if (td.dataset.col === "name") {
       const e = (this._rows || []).find((r) => r.id === id);
-      if (e) this._nameDialog(e);
+      if (e) this._inlineEdit(td, e, "name");
     } else if (["value", "state", "pos", "tilt", "bright", "cur", "target", "mode", "action"].includes(td.dataset.col)) { // opens the normal HA dialog with the history
       this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId: id } }));
     }
