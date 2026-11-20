@@ -84,7 +84,7 @@ const MDI = {
 // order and groups of the tabs
 const GROUPS = [
   ["gLight", ["all", "light", "dimmer", "illuminance"]], // fixed order: everything, lamps, dimmers, brightness sensors
-  ["gElectro", ["power", "voltage", "current", "frequency", "energy"]],
+  ["gElectro", ["power", "energy", "voltage", "current", "frequency"]],
   ["gClimate", ["temperature", "humidity", "climate"]],
   ["gCover", ["cover", "tilt"]],
   ["gUsage", ["consumption"]],
@@ -695,7 +695,7 @@ class EntityInventoryPanel extends HTMLElement {
   // tabs of group gi in display order: the first group is fixed, the others by number of entities (ties keep the default order)
   _groupKeys(gi) {
     const ks = GROUPS[gi][1], c = this._counts || {};
-    if (!TABS_BY_COUNT || gi === 0) return ks;
+    if (!TABS_BY_COUNT || gi === 0 || GROUPS[gi][0] === "gElectro") return ks; // fixed order: light group and electrical group (power next to energy)
     return ks.map((k, i) => [k, i]).sort((a, b) => ((c[b[0]] || { n: 0 }).n - (c[a[0]] || { n: 0 }).n) || a[1] - b[1]).map((x) => x[0]);
   }
 
