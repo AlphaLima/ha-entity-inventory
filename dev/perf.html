@@ -1,0 +1,20 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Perf</title></head><body style="height:100vh"><entity-inventory-panel id="p"></entity-inventory-panel>
+<script>/*PANEL*/</script>
+<script>
+const S={},E={},now=Date.now();
+const iso=(m)=>new Date(now-m*60000).toISOString();
+for(let i=0;i<3000;i++){const k=i%7; const id=(k<4?"sensor.s":k==4?"light.l":k==5?"switch.w":"binary_sensor.b")+i;
+ const a=k==0?{device_class:"energy",unit_of_measurement:"kWh",state_class:"total_increasing"}:k==1?{device_class:"temperature",unit_of_measurement:"°C"}:k==2?{device_class:"power",unit_of_measurement:"W"}:k==3?{device_class:"voltage",unit_of_measurement:"V"}:{};
+ a.friendly_name="Entität "+i; S[id]={state:k<4?String((i*7.31)%1000):"on",attributes:a,last_changed:iso(i%500),last_updated:iso(i%500)}; E[id]={entity_id:id,platform:"shelly",area_id:"a"+(i%10)};}
+const A={};for(let i=0;i<10;i++)A["a"+i]={name:"Raum "+i};
+const fmt=(s)=>{const n=parseFloat(s.state);return isFinite(n)?new Intl.NumberFormat("de",{maximumFractionDigits:2}).format(n)+" "+(s.attributes.unit_of_measurement||""):s.state;};
+let hass={language:"de",states:S,entities:E,devices:{},areas:A,callWS:async()=>[],formatEntityState:fmt};
+const p=document.getElementById("p");p.hass=hass;
+window.bench=async()=>{await new Promise(r=>setTimeout(r,1500));const o={};
+ let t=performance.now();p._refresh(true);o.refresh=Math.round(performance.now()-t);
+ p._select("energy");o.rows=p._list.length;
+ t=performance.now();p._sort.energy=["value",1];p._render();o.sort1=Math.round(performance.now()-t);
+ t=performance.now();p._sort.energy=["value",-1];p._render();o.sort2=Math.round(performance.now()-t);
+ p._select("all");t=performance.now();p._sort.all=["value",1];p._render();o.sortAll=Math.round(performance.now()-t);o.allRows=p._list.length;
+ return o;};
+</script></body></html>

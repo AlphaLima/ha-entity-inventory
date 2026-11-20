@@ -115,6 +115,7 @@ const TABCOLS = {
 };
 const SORT_DEFAULT = { battery: ["value", 1], unavailable: ["changed", 1], cover: ["area", 1], tilt: ["area", 1], light: ["area", 1], dimmer: ["area", 1] };
 
+const CHUNK = 300; // rows drawn at once
 const OFFLINE = new Set(["unavailable", "unknown"]);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const num = (v) => { const n = parseFloat(v); return Number.isFinite(n) ? n : null; };
@@ -128,7 +129,7 @@ class EntityInventoryPanel extends HTMLElement {
       this._timer = setInterval(() => (this.isConnected ? this._tick() : clearInterval(this._timer)), 3000);
     }
     if (this._menu) this._menu.hass = hass;
-    if (!this._dirty) { this._dirty = true; setTimeout(() => { this._dirty = false; this._refresh(); }, 400); } // many state changes arrive in bursts
+    if (!this._dirty && !this._paused) { this._dirty = true; setTimeout(() => { this._dirty = false; this._refresh(); }, 1500); } // many state changes arrive in bursts
   }
   set narrow(n) { this._narrow = n; if (this._menu) this._menu.narrow = n; }
   set panel(_p) {}
@@ -146,13 +147,19 @@ class EntityInventoryPanel extends HTMLElement {
   // ------------------------------------------------------------ data
   _collect() {
     const h = this._hass, st = h.states || {}, ent = h.entities || {}, dev = h.devices || {}, ar = h.areas || {};
-    const rows = [];
+    const rows = [], old = this._rc || new Map(), rc = new Map();
+    this._nChanged = 0;
+    if (this._arRef !== ar) { this._arRef = ar; old.clear(); } // areas changed: rebuild everything (rare)
     for (const id in st) {
-      const s = st[id], a = s.attributes || {}, reg = ent[id] || {}, d = dev[reg.device_id] || null;
+      const s = st[id], rr = ent[id], reg = rr || {}, d = dev[reg.device_id] || null;
+      const prev = old.get(id);
+      if (prev && prev.s === s && prev.rr === rr && prev.dObj === d) { rows.push(prev); rc.set(id, prev); continue; } // unchanged: reuse the finished record (value text, cells, tabs)
+      this._nChanged++;
+      const a = s.attributes || {};
       const domain = id.slice(0, id.indexOf("."));
       const areaId = reg.area_id || (d && d.area_id) || null;
-      rows.push({
-        id, domain, s, a, state: s.state, dc: a.device_class || "", unit: a.unit_of_measurement || "", sc: a.state_class || "",
+      const rec = {
+        rr, dObj: d, id, domain, s, a, state: s.state, dc: a.device_class || "", unit: a.unit_of_measurement || "", sc: a.state_class || "",
         name: a.friendly_name || id,
         deviceId: d ? reg.device_id : "",
         device: d ? (d.name_by_user || d.name || "") : "",
@@ -163,8 +170,11 @@ class EntityInventoryPanel extends HTMLElement {
         hidden: !!reg.hidden || !!reg.disabled_by || reg.entity_category === "config",
         ts: Date.parse(s.last_changed) || 0,
         tabs: [],
-      });
+      };
+      this._classify(rec);
+      rows.push(rec); rc.set(id, rec);
     }
+    this._rc = rc;
     const persons = rows.filter((e) => e.domain === "person");
     (this._users || []).forEach((u) => {
       const pe = persons.find((e) => e.a.user_id === u.id);
@@ -221,6 +231,11 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   _valueText(e) {
+    if (e._v !== undefined) return e._v;
+    return (e._v = this._valueText0(e));
+  }
+
+  _valueText0(e) {
     const h = this._hass;
     try { if (typeof h.formatEntityState === "function") return h.formatEntityState(e.s); } catch (x) { /* fallback */ }
     const n = num(e.state);
@@ -237,6 +252,12 @@ class EntityInventoryPanel extends HTMLElement {
 
   // value of a column: [display text, sort key]
   _cell(e, col) {
+    if (col === "changed") return this._cell0(e, col); // the relative time changes, everything else only with the state
+    const c = e._c || (e._c = {});
+    return c[col] || (c[col] = this._cell0(e, col));
+  }
+
+  _cell0(e, col) {
     const L = this._L;
     switch (col) {
       case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
@@ -358,7 +379,7 @@ class EntityInventoryPanel extends HTMLElement {
       const b = mkBtn(svg, title, () => {
         this[key] = !this[key]; paint();
         try { localStorage.setItem("ei_" + key, this[key] ? "1" : "0"); } catch (e) { /* ignore */ }
-        this._render();
+        this._refresh(true);
       });
       const paint = () => { b.style.background = this[key] ? "var(--primary-color,#03a9f4)" : ""; b.style.color = this[key] ? "#fff" : ""; b.style.borderColor = this[key] ? "transparent" : ""; };
       paint(); return b;
@@ -370,6 +391,7 @@ class EntityInventoryPanel extends HTMLElement {
     bar.append(pb, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, ub);
     this._wrap = document.createElement("div"); this._wrap.className = "wrap";
     this._wrap.onclick = (ev) => this._click(ev);
+    this._wrap.addEventListener("scroll", () => { if (this._wrap.scrollTop + this._wrap.clientHeight > this._wrap.scrollHeight - 500) this._more(); }, { passive: true });
     card.append(head, bar, this._wrap);
     this._body.appendChild(card);
   }
@@ -379,11 +401,10 @@ class EntityInventoryPanel extends HTMLElement {
   // recompute everything; re-render only if something changed (or every 30 s for the "changed" column)
   _refresh(force) {
     if (!this._hass || !this._tabs) return;
-    const rows = this._collect();
-    rows.forEach((e) => this._classify(e));
+    const rows = this._collect(), now = Date.now();
+    const changed = this._nChanged > 0 || !this._rows || rows.length !== this._rows.length;
     this._rows = rows;
-    const sig = rows.length + ":" + rows.reduce((a, e) => a + Date.parse(e.s.last_updated), 0) + ":" + rows.filter((e) => OFFLINE.has(e.state)).length + ":" + this._showHidden + this._hideOff;
-    const now = Date.now();
+    if (!force && !changed && now - (this._lastRender || 0) < 30000) return; // nothing new: no work at all
     this._counts = { all: { n: 0, off: 0 } };
     rows.forEach((e) => {
       if (e.user) { const c = (this._counts.users = this._counts.users || { n: 0, off: 0 }); c.n++; return; }
@@ -393,7 +414,7 @@ class EntityInventoryPanel extends HTMLElement {
       e.tabs.forEach((k) => { const c = (this._counts[k] = this._counts[k] || { n: 0, off: 0 }); c.n++; if (off) c.off++; });
     });
     this._drawTabs();
-    if (force || sig !== this._sig || now - (this._lastRender || 0) > 30000) { this._sig = sig; this._render(); }
+    this._render();
   }
 
   _label(k) { return this._L.t[k] || k; }
@@ -490,13 +511,28 @@ class EntityInventoryPanel extends HTMLElement {
     const prevTop = this._wrap.scrollTop, prevLeft = this._wrap.scrollLeft;
     if (!list.length) { this._wrap.innerHTML = `<div class="none">${esc(L.none)}</div>`; return; }
     const th = cols.map((c) => `<th data-col="${c}" title="${esc(L["c_" + c] || c)}">${c === "led" ? "●" : esc(L["c_" + c] || c)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`).join("");
-    const parts = [`<table><thead><tr><th>#</th>${th}</tr></thead><tbody>`];
-    list.forEach((e, i) => {
-      parts.push(`<tr data-id="${esc(e.id)}"><td class="dim">${i + 1}</td>${cols.map((c) => `<td data-col="${c}">${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
-    });
-    parts.push("</tbody></table>");
-    this._wrap.innerHTML = parts.join("");
+    // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
+    this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
+    this._wrap.innerHTML = `<table><thead><tr><th>#</th>${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
+    if (prevTop > 0) { while (this._shown < list.length && this._wrap.scrollHeight < prevTop + this._wrap.clientHeight + 400) this._more(); } // keep the scroll position after a refresh
     this._wrap.scrollTop = prevTop; this._wrap.scrollLeft = prevLeft;
+  }
+
+  _rowsHtml(from, to) {
+    const cols = this._cols_, out = [];
+    for (let i = from; i < to; i++) {
+      const e = this._list[i];
+      out.push(`<tr data-id="${esc(e.id)}"><td class="dim">${i + 1}</td>${cols.map((c) => `<td data-col="${c}">${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
+    }
+    return out.join("");
+  }
+
+  _more() {
+    const tb = this._wrap.querySelector("tbody");
+    if (!tb || !this._list || this._shown >= this._list.length) return;
+    const to = Math.min(this._list.length, this._shown + CHUNK);
+    tb.insertAdjacentHTML("beforeend", this._rowsHtml(this._shown, to));
+    this._shown = to;
   }
 
   _click(ev) {
