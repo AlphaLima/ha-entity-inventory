@@ -3014,7 +3014,7 @@ class EntityInventoryPanel extends HTMLElement {
   // every number of a column gets the same number of decimals: the missing zeros are added on the right (display only; 236,0 -> 236,00 next to 1,20)
   _padDecimals(html, col) {
     const f = this._maxDec && this._maxDec[col];
-    if (!f || f < 2) return html;
+    if (this._align !== "dec" || !f || f < 2) return html; // only with the decimal-separator alignment
     return html.replace(/<span class="vf">([^<]*)<\/span>/, (m, d) => d.length >= f ? m : `<span class="vf">${(d || this._dec) + "0".repeat(f - (d || this._dec).length)}</span>`);
   }
 
