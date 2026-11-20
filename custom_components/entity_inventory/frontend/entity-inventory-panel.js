@@ -4,7 +4,7 @@
 const L10N = {
   en: {
     title: "Entity Inventory", tabsBtn: "Show or hide tabs", tabsShowAll: "Show all", tabsClose: "Close",
-    gLight: "All and light", gMeasure: "Measurements", gActors: "Actuators", gMore: "More",
+    gLight: "All and light", gElectro: "Electrical", gClimate: "Climate", gCover: "Blinds", gUsage: "Consumption", gAuto: "Automation", gMore: "More",
     search: "Search (name, entity ID, area, device, integration …)", count: "Entities shown / in this tab",
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
@@ -38,7 +38,7 @@ const L10N = {
   },
   de: {
     title: "Entitäten-Inventar", tabsBtn: "Tabs ein- oder ausblenden", tabsShowAll: "Alle anzeigen", tabsClose: "Schließen",
-    gLight: "Alle und Licht", gMeasure: "Messwerte", gActors: "Aktoren", gMore: "Weiteres",
+    gLight: "Alle und Licht", gElectro: "Elektro", gClimate: "Klima", gCover: "Rollo", gUsage: "Verbrauch", gAuto: "Automatisierung", gMore: "Weiteres",
     search: "Suche (Name, Entity-ID, Bereich, Gerät, Integration …)", count: "Angezeigte Entitäten / in diesem Tab",
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
@@ -84,9 +84,12 @@ const MDI = {
 // order and groups of the tabs
 const GROUPS = [
   ["gLight", ["all", "light", "dimmer", "illuminance"]], // fixed order: everything, lamps, dimmers, brightness sensors
-  ["gActors", ["cover", "tilt", "switch", "climate", "media"]],
-  ["gMeasure", ["temperature", "humidity", "power", "energy", "consumption", "voltage", "frequency", "current", "battery"]],
-  ["gMore", ["person", "users", "binary", "presence", "scene", "auto", "helper", "labels", "sensor", "unavailable"]],
+  ["gElectro", ["power", "voltage", "frequency", "current", "battery", "switch"]],
+  ["gClimate", ["temperature", "humidity", "climate"]],
+  ["gCover", ["cover", "tilt"]],
+  ["gUsage", ["energy", "consumption"]],
+  ["gAuto", ["auto", "scene", "helper"]],
+  ["gMore", ["media", "person", "users", "binary", "presence", "labels", "sensor", "unavailable"]],
 ];
 const TABS_BY_COUNT = true; // from the second group on, the tabs of a group are ordered by the number of entities (most first)
 
