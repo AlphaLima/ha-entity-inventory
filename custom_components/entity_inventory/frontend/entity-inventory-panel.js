@@ -483,7 +483,7 @@ class EntityInventoryPanel extends HTMLElement {
       alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
       if (this._wrap) this._wrap.className = "wrap al-" + this._align;
     };
-    bar.append(pb, cb, alB, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, ub);
+    bar.append(pb, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, alB, ub);
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
     this._wrap.onclick = (ev) => this._click(ev);
