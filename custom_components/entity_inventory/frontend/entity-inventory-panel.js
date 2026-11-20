@@ -12,7 +12,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
-    c_state: "State", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
+    c_state: "State", copyTip: "Copy the entity ID", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
     photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
     uploadFail: "Upload failed", noPhotos: "No photos yet.", noDocs: "No documents yet (e.g. electricity contract, gas contract, photo of the meter).", notePh: "Comment (location, fuse, contract number …)", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
     on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
@@ -46,7 +46,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
-    c_state: "Zustand", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
+    c_state: "Zustand", copyTip: "Entity-ID kopieren", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
     photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
     uploadFail: "Upload fehlgeschlagen", noPhotos: "Noch keine Fotos.", noDocs: "Noch keine Dokumente (z. B. Stromvertrag, Gasvertrag, Foto des Zählers).", notePh: "Kommentar (Standort, Sicherung, Vertragsnummer …)", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
     on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
@@ -141,6 +141,8 @@ const ICON = {
   image: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z",
   doc: "M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z",
   note: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z",
+  copy: "M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z",
+  check: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z",
   noteFull: "M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z",
 };
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
@@ -324,7 +326,7 @@ class EntityInventoryPanel extends HTMLElement {
       case "icon": return [e.user ? "" : `<span class="eicon" data-act="icon" title="${esc(L.iconTip)}"></span>`, e.a.icon || ""];
       case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
       case "name": return [esc(e.name), e.name.toLowerCase()];
-      case "id": return [esc(e.id), e.id];
+      case "id": return [`<span class="cp" data-act="copy" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span>${esc(e.id)}`, e.id];
       case "value": { // the number only; the unit has its own column
         let t = this._valueText(e); const n = num(e.state);
         if (e.unit && t.endsWith(e.unit)) t = t.slice(0, t.length - e.unit.length).trim();
@@ -392,7 +394,7 @@ class EntityInventoryPanel extends HTMLElement {
       tr:hover td{background:rgba(127,127,127,.08)}
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
-      td[data-col=id]{cursor:copy;opacity:.8}
+      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id]:hover{color:var(--primary-color)}
       td{font-variant-numeric:tabular-nums}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
       td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
       td[data-col=cur] .vf{min-width:var(--wf-cur,0)}td[data-col=cur] .vu{min-width:var(--wu-cur,0)}
@@ -407,6 +409,7 @@ class EntityInventoryPanel extends HTMLElement {
       .none{padding:20px;opacity:.6}
       .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
       .eicon{display:inline-flex;align-items:center;min-width:20px;height:20px;cursor:pointer;opacity:.85}.eicon:hover{opacity:1;color:var(--primary-color)}
+      .cp{display:inline-flex;vertical-align:middle;margin-right:5px;cursor:pointer;visibility:hidden;opacity:.7}.cp:hover{opacity:1;color:var(--primary-color)}tr:hover .cp{visibility:visible}@media (hover:none){.cp{visibility:visible;opacity:.35}}
       td[data-col=note]{max-width:420px}td[data-col=note] span[data-act]{cursor:pointer}`;
     const top = document.createElement("div"); top.className = "top";
     this._menu = document.createElement("ha-menu-button");
@@ -730,7 +733,7 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   // rename: the name of the entity registry (HA puts the device name in front when the entity belongs to a device)
-  async _nameDialog(e) {
+  async _nameDialog(e, focus) {
     const L = this._L;
     if (!this._admin) { alert(L.nameAdmin); return; }
     let reg;
@@ -740,19 +743,30 @@ class EntityInventoryPanel extends HTMLElement {
     const inp = document.createElement("input"); inp.type = "text"; inp.value = reg.name || ""; inp.placeholder = reg.original_name || e.name;
     inp.style.cssText = "width:100%;box-sizing:border-box;padding:8px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font:inherit;font-size:15px";
     inp.onkeydown = (ev) => { ev.stopPropagation(); if (ev.key === "Enter") save.click(); };
-    body.append(lab, inp);
+    const idLab = document.createElement("div"); idLab.style.cssText = "font-size:12px;opacity:.7;margin:12px 0 4px"; idLab.textContent = L.idLabel;
+    const idInp = document.createElement("input"); idInp.type = "text"; idInp.value = e.id; idInp.style.cssText = inp.style.cssText + ";font-family:monospace;font-size:14px";
+    idInp.onkeydown = inp.onkeydown;
+    body.append(lab, inp, idLab, idInp);
     const hint = (txt) => { const d = document.createElement("div"); d.style.cssText = "font-size:12px;opacity:.65;margin-top:6px"; d.textContent = txt; body.appendChild(d); };
     if (reg.has_entity_name && e.device) hint(L.nameHintDev.replace("{dev}", e.device));
     if (reg.original_name) hint(L.nameDefault.replace("{n}", reg.original_name));
+    hint(L.idWarn);
     const doSave = async (name) => {
-      try { await this._hass.callWS({ type: "config/entity_registry/update", entity_id: e.id, name: name || null }); close(); setTimeout(() => this._refresh(true), 1200); }
+      const newId = idInp.value.trim(), dom = e.id.slice(0, e.id.indexOf("."));
+      if (newId !== e.id && !(newId.startsWith(dom + ".") && /^[a-z0-9_]+\.[a-z0-9_]+$/.test(newId))) { alert(L.idInvalid.replace("{d}", dom)); return; }
+      try {
+        const msg = { type: "config/entity_registry/update", entity_id: e.id, name: name || null };
+        if (newId !== e.id) msg.new_entity_id = newId;
+        await this._hass.callWS(msg); close();
+        setTimeout(() => { this._refresh(true); this._loadMeta(); }, 1500);
+      }
       catch (x) { alert(`${L.nameFail}: ${(x && x.message) || x}`); }
     };
     const save = this._btn(L.save, true, () => doSave(inp.value.trim()));
     const reset = this._btn(L.nameReset, false, () => doSave(""));
     const det = this._btn(L.nameDetails, false, () => { close(); this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId: e.id } })); });
     body.appendChild(this._footer(det, reset, this._btn(L.cancel, false, close), save));
-    setTimeout(() => { inp.focus(); inp.select(); }, 50);
+    setTimeout(() => { const f = focus === "id" ? idInp : inp; f.focus(); f.select(); }, 50);
   }
 
   _photosDialog(e) {
@@ -880,6 +894,12 @@ class EntityInventoryPanel extends HTMLElement {
     const act = ev.target.closest("[data-act]"), row = ev.target.closest("tr[data-id]");
     if (act && row && !row.dataset.id.startsWith("user:")) {
       const e = (this._rows || []).find((r) => r.id === row.dataset.id);
+      if (act.dataset.act === "copy") {
+        try { navigator.clipboard.writeText(row.dataset.id); } catch (x) { /* ignore */ }
+        act.innerHTML = svgIcon("check", 14); act.style.color = "var(--success-color,#43a047)"; act.style.visibility = "visible";
+        setTimeout(() => { act.innerHTML = svgIcon("copy", 14); act.style.color = ""; act.style.visibility = ""; }, 800);
+        return;
+      }
       if (e && act.dataset.act === "icon") { this._hidePop(); this._iconDialog(e); return; }
       if (e) { this._hidePop(); if (act.dataset.act === "photos") this._photosDialog(e); else if (act.dataset.act === "docs") this._docsDialog(e); else this._noteDialog(e); }
       return;
@@ -889,8 +909,8 @@ class EntityInventoryPanel extends HTMLElement {
     const id = tr.dataset.id;
     if (id.startsWith("user:")) { if (td.dataset.col === "name" || td.dataset.col === "person") { history.pushState(null, "", "/config/person"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); } return; }
     if (td.dataset.col === "id") {
-      try { navigator.clipboard.writeText(id); } catch (e) { /* ignore */ }
-      const old = td.textContent; td.textContent = this._L.copied; setTimeout(() => { td.textContent = old; }, 700);
+      const e = (this._rows || []).find((r) => r.id === id);
+      if (e) this._nameDialog(e, "id");
     } else if (["device", "platform", "area"].includes(td.dataset.col)) { // device page / integration page / area page of HA
       const e = (this._rows || []).find((r) => r.id === id), c = td.dataset.col;
       const path = !e ? "" : c === "device" ? (e.deviceId && `/config/devices/device/${e.deviceId}`) : c === "platform" ? (e.platform && e.platform !== "core" && `/config/integrations/integration/${e.platform}`) : (e.areaId && `/config/areas/area/${e.areaId}`);
