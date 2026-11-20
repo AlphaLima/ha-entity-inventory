@@ -5,9 +5,9 @@
   "config_flow": true,
   "dependencies": ["http", "websocket_api", "frontend", "panel_custom"],
   "documentation": "https://github.com/AlphaLima/ha-entity-inventory",
-  "issue_tracker": "https://github.com/AlphaLima/ha-entity-inventory/issues",
   "integration_type": "service",
   "iot_class": "calculated",
+  "issue_tracker": "https://github.com/AlphaLima/ha-entity-inventory/issues",
   "single_config_entry": true,
   "version": "0.3.0"
 }
