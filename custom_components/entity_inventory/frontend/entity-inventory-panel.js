@@ -84,12 +84,12 @@ const MDI = {
 // order and groups of the tabs
 const GROUPS = [
   ["gLight", ["all", "light", "dimmer", "illuminance"]], // fixed order: everything, lamps, dimmers, brightness sensors
-  ["gElectro", ["power", "voltage", "frequency", "current", "battery", "switch"]],
+  ["gElectro", ["power", "voltage", "current", "frequency", "energy"]],
   ["gClimate", ["temperature", "humidity", "climate"]],
   ["gCover", ["cover", "tilt"]],
-  ["gUsage", ["energy", "consumption"]],
+  ["gUsage", ["consumption"]],
   ["gAuto", ["auto", "scene", "helper"]],
-  ["gMore", ["media", "person", "users", "binary", "presence", "labels", "sensor", "unavailable"]],
+  ["gMore", ["switch", "battery", "media", "person", "users", "binary", "presence", "labels", "sensor", "unavailable"]],
 ];
 const TABS_BY_COUNT = true; // from the second group on, the tabs of a group are ordered by the number of entities (most first)
 
