@@ -400,7 +400,7 @@ class EntityInventoryPanel extends HTMLElement {
       case "icon": return [e.user ? "" : `<span class="eicon" data-act="icon" title="${esc(L.iconTip)}"></span>`, e.a.icon || ""];
       case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
       case "name": return [esc(e.name), e.name.toLowerCase()];
-      case "id": return [`<span class="cp" data-act="copy" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span>${esc(e.id)}`, e.id];
+      case "id": return [`<span class="cp" data-act="copy" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.id)}</span>`, e.id];
       case "value": { // the number only; the unit has its own column
         let t = this._valueText(e); const n = num(e.state);
         if (e.unit && t.endsWith(e.unit)) t = t.slice(0, t.length - e.unit.length).trim();
@@ -471,7 +471,7 @@ class EntityInventoryPanel extends HTMLElement {
       tr:hover td{background:rgba(127,127,127,.08)}
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
-      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id]:hover{color:var(--primary-color)}
+      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id]{position:relative;overflow:visible}.idt{display:block;overflow:hidden;text-overflow:ellipsis}td[data-col=id]:hover{color:var(--primary-color)}
       td{font-variant-numeric:tabular-nums}
       td[data-col=value],td[data-col=cur],td[data-col=target]{overflow:visible;text-overflow:clip;max-width:none}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
       td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
@@ -491,7 +491,7 @@ class EntityInventoryPanel extends HTMLElement {
       td[data-off]{opacity:.35}
       .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
       .eicon{display:inline-flex;align-items:center;min-width:20px;height:20px;cursor:pointer;opacity:.85}.eicon:hover{opacity:1;color:var(--primary-color)}
-      .cp{display:inline-flex;vertical-align:middle;margin-right:5px;cursor:pointer;visibility:hidden;opacity:.7}.cp:hover{opacity:1;color:var(--primary-color)}tr:hover .cp{visibility:visible}@media (hover:none){.cp{visibility:visible;opacity:.35}}
+      .cp{display:inline-flex;position:absolute;left:-17px;top:50%;margin-top:-7px;z-index:2;cursor:pointer;visibility:hidden;opacity:.7}.cp:hover{opacity:1;color:var(--primary-color)}tr:hover .cp{visibility:visible}@media (hover:none){.cp{visibility:visible;opacity:.35}}
       .chip{cursor:pointer;display:inline-block;padding:0 7px;border-radius:10px;font-size:11px;line-height:18px;color:#fff;margin-right:3px}
       td[data-col=note]{max-width:420px}td[data-col=note] span[data-act]{cursor:pointer}`;
     const top = document.createElement("div"); top.className = "top";
