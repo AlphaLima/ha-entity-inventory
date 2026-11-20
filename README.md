@@ -7,6 +7,12 @@ Made for installations with thousands of entities, where nobody remembers any mo
 
 Sister project of [Device Inventory](https://github.com/AlphaLima/ha-device-inventory): the same look, the same column editor, the same print layout, the same phone behaviour – Device Inventory lists the **devices**, Entity Inventory lists the **entities**.
 
+## Screenshot
+
+The *Dimmer* tab: tabs in groups on top (light, electrical, climate, blinds, consumption, automation, more), toolbar with search, area / integration / label selectors and the buttons for hidden entities, alignment, row spacing, unavailable entities, comment / photo filter and the column editor. Status LED, entity symbol, name, entity ID, read / write access (`r/w`), state, brightness, area, device, integration, coloured labels, last change and the photo / document / comment columns.
+
+<p align="center"><img src="docs/screenshot-dimmer.png" width="900" alt="Dimmer tab of the Entity Inventory panel"></p>
+
 ## What you get
 
 - **One tab per type, in groups:** *All & light* (all entities, lights, dimmers, brightness) · *Electrical* (power, energy, voltage, current, frequency) · *Climate* (temperature, humidity, thermostats) · *Blinds* (covers, slats) · *Consumption* (gas, water, volume) · *Automation* (automations & scripts, scenes, helpers) · *More* (switches, batteries, media players, persons, user accounts, binary sensors, trackers, labels, other sensors, unavailable). Tabs without entries are not shown, the others carry a red badge for unavailable entities. A dialog switches single tabs on and off (kept in your browser).
