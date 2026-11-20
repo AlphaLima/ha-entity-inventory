@@ -23,6 +23,7 @@ from homeassistant.components.http.auth import async_sign_path
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers.event import async_track_time_change
 from homeassistant.helpers.storage import Store
 from homeassistant.loader import async_get_integration
 from homeassistant.util import dt as dt_util
@@ -32,6 +33,9 @@ from .const import (
     MAX_DOC_BYTES,
     MAX_FILES_PER_ENTITY,
     MAX_PHOTO_BYTES,
+    MAX_RETENTION_DAYS,
+    RETENTION_HOUR,
+    RETENTION_MINUTE,
     PANEL_PATH,
     PANEL_URL,
     STORAGE_VERSION,
@@ -51,7 +55,7 @@ class Manager:
     def __init__(self, hass: HomeAssistant) -> None:
         self.hass = hass
         self.store: Store = Store(hass, STORAGE_VERSION, DOMAIN)
-        self.data: dict[str, Any] = {"notes": {}, "photos": {}, "docs": {}}
+        self.data: dict[str, Any] = {"notes": {}, "photos": {}, "docs": {}, "retention": {}, "settings": {}}
         self.root = Path(hass.config.path(DOMAIN))
 
     async def async_load(self) -> None:
@@ -69,7 +73,16 @@ class Manager:
         def sign(path: str) -> str:
             return async_sign_path(self.hass, path, timedelta(hours=1), refresh_token_id=refresh_token_id)
 
+        settings = self.data["settings"]
         return {
+            "retention": self.data["retention"],
+            "retention_info": {
+                "enabled": bool(settings.get("retention_enabled", False)),
+                "last_run": settings.get("retention_last_run"),
+                "last_result": settings.get("retention_last_result"),
+                "hour": RETENTION_HOUR,
+                "minute": RETENTION_MINUTE,
+            },
             "notes": self.data["notes"],
             "photos": {
                 eid: [{"id": p["id"], "ts": p.get("ts"), "url": sign(f"/api/{DOMAIN}/photo/{p['id']}")} for p in items]
@@ -115,6 +128,38 @@ class Manager:
                 moved = True
         if moved:
             self.save()
+
+
+async def async_run_retention(hass: HomeAssistant, manager: Manager) -> dict[str, Any]:
+    """Deletes the recorder history of every entity that has a retention rule and is older than its number of days.
+
+    Uses the recorder service recorder.purge_entities once per number of days; keep_days is always passed
+    explicitly (the service default of 0 would delete everything). The rules can only shorten the global
+    purge_keep_days of the recorder, they cannot keep data longer than that.
+    """
+    result: dict[str, Any] = {"entities": 0, "groups": 0, "error": None}
+    if not hass.services.has_service("recorder", "purge_entities"):
+        result["error"] = "recorder_not_available"
+    else:
+        by_days: dict[int, list[str]] = {}
+        for entity_id, days in manager.data["retention"].items():
+            if isinstance(days, int) and 1 <= days <= MAX_RETENTION_DAYS and ENTITY_RE.match(entity_id):
+                by_days.setdefault(days, []).append(entity_id)
+        for days, entity_ids in sorted(by_days.items()):
+            for i in range(0, len(entity_ids), 200):
+                chunk = entity_ids[i : i + 200]
+                try:
+                    await hass.services.async_call("recorder", "purge_entities", {"entity_id": chunk, "keep_days": days}, blocking=True)
+                except Exception as err:  # noqa: BLE001 - one failing group must not stop the others
+                    _LOGGER.warning("Retention purge (%s days, %s entities) failed: %s", days, len(chunk), err)
+                    result["error"] = str(err)
+                    continue
+                result["entities"] += len(chunk)
+            result["groups"] += 1
+    manager.data["settings"]["retention_last_run"] = dt_util.utcnow().isoformat()
+    manager.data["settings"]["retention_last_result"] = result
+    manager.save()
+    return result
 
 
 def _safe_name(name: str | None, fallback: str) -> str:
@@ -177,7 +222,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.http.register_view(DocUploadView)
     hass.http.register_view(PhotoServeView)
     hass.http.register_view(DocServeView)
-    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc):
+    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention):
         websocket_api.async_register_command(hass, command)
 
     @callback
@@ -187,6 +232,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             manager.entity_renamed(data["old_entity_id"], data["entity_id"])
 
     entry.async_on_unload(hass.bus.async_listen(er.EVENT_ENTITY_REGISTRY_UPDATED, _registry_updated))
+
+    async def _nightly(_now) -> None:
+        if manager.data["settings"].get("retention_enabled") and manager.data["retention"]:
+            await async_run_retention(hass, manager)
+
+    entry.async_on_unload(async_track_time_change(hass, _nightly, hour=RETENTION_HOUR, minute=RETENTION_MINUTE, second=0))
 
     stamp = await hass.async_add_executor_job(lambda: int(sum((FRONTEND_DIR / f).stat().st_mtime for f in FRONTEND_FILES)))
     version = f"{(await async_get_integration(hass, DOMAIN)).version}.{stamp}"
@@ -289,6 +340,46 @@ def ws_rename_doc(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
     if doc is not None and name:
         doc["name"] = name
         manager.save()
+    connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command(
+    {vol.Required("type"): f"{DOMAIN}/set_retention", vol.Required("entity_id"): str, vol.Required("days"): vol.Any(None, vol.All(int, vol.Range(min=1, max=MAX_RETENTION_DAYS)))}
+)
+@websocket_api.require_admin
+@callback
+def ws_set_retention(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """Sets (or, with days = null, removes) the retention rule of an entity."""
+    manager: Manager = hass.data[DOMAIN]
+    if not ENTITY_RE.match(msg["entity_id"]):
+        connection.send_error(msg["id"], "invalid_entity", "Invalid entity_id")
+        return
+    if msg["days"] is None:
+        manager.data["retention"].pop(msg["entity_id"], None)
+    else:
+        manager.data["retention"][msg["entity_id"]] = msg["days"]
+    manager.save()
+    connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/retention_enabled", vol.Required("enabled"): bool})
+@websocket_api.require_admin
+@callback
+def ws_retention_enabled(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """Master switch of the nightly retention job (off by default)."""
+    manager: Manager = hass.data[DOMAIN]
+    manager.data["settings"]["retention_enabled"] = msg["enabled"]
+    manager.save()
+    connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/run_retention"})
+@websocket_api.require_admin
+@websocket_api.async_response
+async def ws_run_retention(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """Runs the retention job now (also when the nightly job is switched off)."""
+    manager: Manager = hass.data[DOMAIN]
+    await async_run_retention(hass, manager)
     connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
 
 

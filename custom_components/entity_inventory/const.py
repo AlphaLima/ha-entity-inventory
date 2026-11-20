@@ -8,3 +8,8 @@ PANEL_URL = f"/{DOMAIN}_static/entity-inventory-panel.js"
 MAX_PHOTO_BYTES = 12 * 1024 * 1024
 MAX_DOC_BYTES = 25 * 1024 * 1024
 MAX_FILES_PER_ENTITY = 20
+
+# recorder retention per entity: nightly job time (local time) and the longest rule
+RETENTION_HOUR = 3
+RETENTION_MINUTE = 20
+MAX_RETENTION_DAYS = 3650
