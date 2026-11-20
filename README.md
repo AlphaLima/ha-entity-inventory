@@ -17,7 +17,7 @@ Sister project of [Device Inventory](https://github.com/AlphaLima/ha-device-inve
 - **Access column `r/w`:** read-only (`r`), write-only (`w`) or both (`rw`) per entity.
 - **Entity symbol** in its own column; a click opens a dialog to change it.
 - **Labels and scenes:** a labels column with the coloured Home Assistant labels, a tab with every labelled entity, a selector to show only one label (or *without label*), a tab with scenes and their last activation.
-- **User accounts tab:** all Home Assistant accounts with role, last login and linked person (administrators only).
+- **User accounts tab:** all Home Assistant accounts with user name, role, login provider and linked person (administrators only).
 - **Filters:** search over name, ID, area, device, integration, comments and document names; area, integration and label selectors; buttons to hide unavailable / hidden entities and to show only entries that have a comment or a photo.
 - **Your own columns:** show / hide, drag and drop to reorder, width (also narrower than the content), own column names – separately for the **screen** and for the **printout**.
 - **Print / PDF documentation** of exactly what you see (portrait or landscape, symbol and page number in the heading, photos and comments included) and **CSV export**.
