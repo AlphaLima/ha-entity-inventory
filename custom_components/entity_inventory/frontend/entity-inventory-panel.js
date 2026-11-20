@@ -12,7 +12,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
-    c_state: "State", stand: "As of", entities: "entities", printFail: "Printing failed", portrait: "Print: portrait (click: landscape)", landscape: "Print: landscape (click: portrait)", showBadges: "Show the red numbers on the tabs (unavailable entities)", hideBadges: "Hide the red numbers on the tabs", copyTip: "Copy the entity ID", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
+    c_state: "State", cfgBtn: "Edit columns (display and printer)", tgtView: "Display", tgtPrint: "Printer", autoTip: "Fit the column widths to the widest content", resetTip: "Reset the layout", resetAsk: "Reset the column layout to the default?", doneTip: "Done", renameTip: "Column name (empty = default)", stand: "As of", entities: "entities", printFail: "Printing failed", portrait: "Print: portrait (click: landscape)", landscape: "Print: landscape (click: portrait)", showBadges: "Show the red numbers on the tabs (unavailable entities)", hideBadges: "Hide the red numbers on the tabs", copyTip: "Copy the entity ID", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
     photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
     uploadFail: "Upload failed", noPhotos: "No photos yet.", noDocs: "No documents yet (e.g. electricity contract, gas contract, photo of the meter).", notePh: "Comment (location, fuse, contract number …)", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
     on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
@@ -46,7 +46,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
-    c_state: "Zustand", stand: "Stand", entities: "Entitäten", printFail: "Drucken fehlgeschlagen", portrait: "Drucken: Hochformat (Klick: Querformat)", landscape: "Drucken: Querformat (Klick: Hochformat)", showBadges: "Rote Zahlen an den Tabs anzeigen (nicht verfügbare Entitäten)", hideBadges: "Rote Zahlen an den Tabs ausblenden", copyTip: "Entity-ID kopieren", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
+    c_state: "Zustand", cfgBtn: "Spalten bearbeiten (Anzeige und Drucker)", tgtView: "Anzeige", tgtPrint: "Drucker", autoTip: "Spaltenbreiten an den längsten Inhalt anpassen", resetTip: "Layout zurücksetzen", resetAsk: "Spaltenlayout auf Standard zurücksetzen?", doneTip: "Fertig", renameTip: "Spaltenname (leer = Standard)", stand: "Stand", entities: "Entitäten", printFail: "Drucken fehlgeschlagen", portrait: "Drucken: Hochformat (Klick: Querformat)", landscape: "Drucken: Querformat (Klick: Hochformat)", showBadges: "Rote Zahlen an den Tabs anzeigen (nicht verfügbare Entitäten)", hideBadges: "Rote Zahlen an den Tabs ausblenden", copyTip: "Entity-ID kopieren", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
     photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
     uploadFail: "Upload fehlgeschlagen", noPhotos: "Noch keine Fotos.", noDocs: "Noch keine Dokumente (z. B. Stromvertrag, Gasvertrag, Foto des Zählers).", notePh: "Kommentar (Standort, Sicherung, Vertragsnummer …)", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
     on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
@@ -146,6 +146,10 @@ const ICON = {
   noteFull: "M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z",
 };
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
+// every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
+const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "changed", "photos", "docs", "note"];
+const DEFAULT_OFF = { view: [], print: ["led", "icon"] };
+const MM = 96 / 25.4; // pixels per millimetre (widths of the printout are stored in mm)
 const REFRESH_MS = 6000; // the table follows state changes at most this often (the values are live, but a calm table is easier to read and cheaper)
 const CHUNK = 300; // rows drawn at once
 const OFFLINE = new Set(["unavailable", "unknown"]);
@@ -408,6 +412,10 @@ class EntityInventoryPanel extends HTMLElement {
       .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 4px}.dim{opacity:.65;font-size:12px}
       .ib{display:inline-flex;align-items:center;padding:4px 9px}
       .none{padding:20px;opacity:.6}
+      th .cfgc{display:flex;gap:2px;align-items:center;margin-bottom:2px}th .cfgc button{padding:0 4px;font-size:11px;line-height:16px;border-radius:4px}th .cfgc input{margin:0}
+      th input[type=text]{width:100%;min-width:48px;box-sizing:border-box;font:inherit;font-weight:700;padding:1px 3px;border:1px dashed var(--divider-color,#888);border-radius:4px;background:transparent;color:inherit}
+      th .grip{position:absolute;right:0;top:0;bottom:0;width:7px;cursor:col-resize;background:rgba(127,127,127,.25)}
+      td[data-off]{opacity:.35}
       .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
       .eicon{display:inline-flex;align-items:center;min-width:20px;height:20px;cursor:pointer;opacity:.85}.eicon:hover{opacity:1;color:var(--primary-color)}
       .cp{display:inline-flex;vertical-align:middle;margin-right:5px;cursor:pointer;visibility:hidden;opacity:.7}.cp:hover{opacity:1;color:var(--primary-color)}tr:hover .cp{visibility:visible}@media (hover:none){.cp{visibility:visible;opacity:.35}}
@@ -522,10 +530,15 @@ class EntityInventoryPanel extends HTMLElement {
     const grp = document.createElement("span"); grp.style.cssText = "display:inline-flex";
     pb.style.borderRadius = "8px 0 0 8px"; ob.style.borderRadius = "0 8px 8px 0"; ob.style.marginLeft = "-1px";
     grp.append(pb, ob);
-    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, alB, ub);
+    this._edit = false; this._tgt = "view";
+    this._editBox = document.createElement("span"); this._editBox.style.cssText = "display:inline-flex;gap:6px;align-items:center;margin-left:auto";
+    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, alB, ub, this._editBox);
+    this._paintEdit();
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
     this._wrap.onclick = (ev) => this._click(ev);
+    this._wrap.addEventListener("change", (ev) => this._cfgChange(ev));
+    this._wrap.addEventListener("mousedown", (ev) => this._cfgGrip(ev));
     this._wrap.addEventListener("mouseover", (ev) => this._hover(ev));
     this._wrap.addEventListener("mouseout", (ev) => { if (!ev.relatedTarget || !ev.relatedTarget.closest || !ev.relatedTarget.closest("[data-act]")) this._hidePop(); });
     this._wrap.addEventListener("scroll", () => { if (this._wrap.scrollTop + this._wrap.clientHeight > this._wrap.scrollHeight - 500) this._more(); }, { passive: true });
@@ -604,10 +617,39 @@ class EntityInventoryPanel extends HTMLElement {
   // hidden / disabled entities and (optionally) unavailable ones are filtered out; the "unavailable" tab always shows them
   _vis(e) { return (!e.hidden || this._showHidden) && !(this._hideOff && this._active !== "unavailable" && OFFLINE.has(e.state)); }
 
-  _cols() { return TABCOLS[this._active] || BASE; }
+  // layout of the display ("view") or the printer ("print"): order of all columns, hidden ones, widths and own names
+  _layout(tgt) {
+    this._lay = this._lay || {};
+    if (this._lay[tgt]) return this._lay[tgt];
+    let c = null;
+    try { c = JSON.parse(localStorage.getItem(tgt === "print" ? "eiPrint" : "eiView") || "null"); } catch (e) { c = null; }
+    c = c || {};
+    const order = (c.order || []).filter((k, i, a) => ALLCOLS.includes(k) && a.indexOf(k) === i);
+    ALLCOLS.forEach((k, i) => { // columns that are new go right behind their predecessor in the default order
+      if (order.includes(k)) return;
+      let at = 0;
+      for (let j = i - 1; j >= 0; j--) { const q = order.indexOf(ALLCOLS[j]); if (q >= 0) { at = q + 1; break; } }
+      order.splice(at, 0, k);
+    });
+    return (this._lay[tgt] = { order, off: new Set(c.off || DEFAULT_OFF[tgt]), w: c.w || {}, n: c.n || {} });
+  }
+
+  _saveLayout(tgt) {
+    const c = this._layout(tgt);
+    try { localStorage.setItem(tgt === "print" ? "eiPrint" : "eiView", JSON.stringify({ order: c.order, off: [...c.off], w: c.w, n: c.n })); } catch (e) { /* ignore */ }
+  }
+
+  // columns of the active tab in the order of the layout; all = also the hidden ones (column editor)
+  _cols(tgt = "view", all = false) {
+    const base = TABCOLS[this._active] || BASE, cfg = this._layout(tgt);
+    const cols = cfg.order.filter((c) => base.includes(c));
+    return all ? cols : cols.filter((c) => !cfg.off.has(c));
+  }
+
+  _colName(tgt, c) { const n = this._layout(tgt).n[c]; return n || this._L["c_" + c] || c; }
 
   _sorted(list) {
-    const k = this._active, cols = this._cols();
+    const k = this._active, cols = this._cols("view", true);
     let [col, dir] = this._sort[k] || SORT_DEFAULT[k] || ["name", 1];
     if (!cols.includes(col)) { col = "name"; dir = 1; }
     const keyOf = (e) => this._cell(e, col)[1];
@@ -650,11 +692,20 @@ class EntityInventoryPanel extends HTMLElement {
     const list = this._sorted(this._filtered());
     this._list = list;
     this._cnt.textContent = `Σ ${list.length}${list.length !== inTab.length ? "/" + inTab.length : ""}`;
-    const cols = this._cols();
+    const tgt = this._edit ? this._tgt : "view", cfg = this._layout(tgt), cols = this._cols(tgt, this._edit);
+    this._offSet = this._edit ? cfg.off : new Set();
+    this._wrap.className = "wrap al-" + this._align + (this._edit ? " edit" : "");
     const [sc, sd] = this._sort[k] || SORT_DEFAULT[k] || ["name", 1];
     const prevTop = this._wrap.scrollTop, prevLeft = this._wrap.scrollLeft;
-    if (!list.length) { this._wrap.innerHTML = `<div class="none">${esc(L.none)}</div>`; return; }
-    const th = cols.map((c) => `<th data-col="${c}" title="${esc(L["c_" + c] || c)}">${c === "led" ? "●" : esc(L["c_" + c] || c)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`).join("");
+    if (!list.length && !this._edit) { this._wrap.innerHTML = `<div class="none">${esc(L.none)}</div>`; return; }
+    const th = cols.map((c) => {
+      const nm = cfg.n[c] || L["c_" + c] || c;
+      if (this._edit) { // controls right in the heading: show / print, move left / right, own name, drag the right edge to resize
+        return `<th data-col="${c}" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"><span class="grip" data-cfg="grip" title="↔"></span></th>`;
+      }
+      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
+    }).join("");
+    const wcss = cols.filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return `td[data-col=${c}],th[data-col=${c}]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
     ["value", "cur", "target"].forEach((c) => { // widths of the decimals and of the unit = longest in the column, so separators and units line up
       this._wrap.style.removeProperty("--wf-" + c); this._wrap.style.removeProperty("--wu-" + c);
@@ -665,7 +716,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
     });
     this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
-    this._wrap.innerHTML = `<table><thead><tr><th>#</th>${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
+    this._wrap.innerHTML = `<style>${wcss}</style><table><thead><tr><th>#</th>${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
     this._fillIcons();
     if (prevTop > 0) { while (this._shown < list.length && this._wrap.scrollHeight < prevTop + this._wrap.clientHeight + 400) this._more(); } // keep the scroll position after a refresh
     this._wrap.scrollTop = prevTop; this._wrap.scrollLeft = prevLeft;
@@ -906,7 +957,7 @@ class EntityInventoryPanel extends HTMLElement {
     const cols = this._cols_, out = [];
     for (let i = from; i < to; i++) {
       const e = this._list[i];
-      out.push(`<tr data-id="${esc(e.id)}"><td class="dim">${i + 1}</td>${cols.map((c) => `<td data-col="${c}">${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
+      out.push(`<tr data-id="${esc(e.id)}"><td class="dim">${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._cell(e, c)[0]}</td>`).join("")}</tr>`);
     }
     return out.join("");
   }
@@ -921,6 +972,15 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   _click(ev) {
+    const mv = ev.target.closest("[data-cfg=mv]");
+    if (mv) { // move a column one place left / right (among the columns of this tab)
+      const c = mv.closest("th").dataset.col, d = +mv.dataset.d, cfg = this._layout(this._tgt), base = TABCOLS[this._active] || BASE;
+      const i = cfg.order.indexOf(c); let j = i + d;
+      while (j >= 0 && j < cfg.order.length && !base.includes(cfg.order[j])) j += d;
+      if (j >= 0 && j < cfg.order.length) { [cfg.order[i], cfg.order[j]] = [cfg.order[j], cfg.order[i]]; this._saveLayout(this._tgt); this._render(); }
+      return;
+    }
+    if (this._edit) return; // in the column editor the headings do not sort
     const th = ev.target.closest("th[data-col]");
     if (th) {
       const k = this._active, c = th.dataset.col, cur = this._sort[k] || SORT_DEFAULT[k] || ["name", 1];
@@ -963,12 +1023,83 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   // ------------------------------------------------------------ export / print
-  _tableData() {
-    const L = this._L, cols = this._cols().filter((c) => c !== "led" && c !== "icon");
+  // column editor: visibility checkbox and own name
+  _cfgChange(ev) {
+    const el = ev.target.closest && ev.target.closest("[data-cfg]");
+    if (!el || !this._edit) return;
+    const c = el.closest("th").dataset.col, cfg = this._layout(this._tgt);
+    if (el.dataset.cfg === "vis") { if (el.checked) cfg.off.delete(c); else cfg.off.add(c); }
+    else if (el.dataset.cfg === "name") { const v = el.value.trim(); if (v) cfg.n[c] = v; else delete cfg.n[c]; }
+    else return;
+    this._saveLayout(this._tgt); this._render();
+  }
+
+  // column editor: drag the right edge of a heading to set the width (double click = automatic)
+  _cfgGrip(ev) {
+    const g = ev.target.closest && ev.target.closest("[data-cfg=grip]");
+    if (!g || !this._edit) return;
+    ev.preventDefault(); ev.stopPropagation();
+    const th = g.closest("th"), c = th.dataset.col, cfg = this._layout(this._tgt), tgt = this._tgt;
+    const x0 = ev.clientX, w0 = th.getBoundingClientRect().width; let cur = w0;
+    const cells = () => [th, ...this._wrap.querySelectorAll(`td[data-col="${c}"]`)];
+    const mv = (e) => { cur = Math.max(24, w0 + e.clientX - x0); cells().forEach((x) => { x.style.width = x.style.maxWidth = x.style.minWidth = cur + "px"; }); };
+    const up = () => {
+      document.removeEventListener("mousemove", mv); document.removeEventListener("mouseup", up);
+      if (cur !== w0) { cfg.w[c] = tgt === "print" ? Math.round(cur / MM) : Math.round(cur); this._saveLayout(tgt); this._render(); }
+    };
+    document.addEventListener("mousemove", mv); document.addEventListener("mouseup", up);
+  }
+
+  // sets every width to the widest content of its column
+  _autoWidth() {
+    const tgt = this._tgt, cfg = this._layout(tgt), tb = this._wrap.querySelector("table");
+    if (!tb) return;
+    const natural = (n) => { const rg = document.createRange(); rg.selectNodeContents(n); const cs = getComputedStyle(n); return Math.ceil(rg.getBoundingClientRect().width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)) + 2; };
+    const w = {};
+    tb.querySelectorAll("tbody tr").forEach((r) => [...r.children].forEach((td) => { const c = td.dataset.col; if (!c) return; const x = natural(td); if (!(w[c] >= x)) w[c] = x; }));
+    // the heading counts with its text only (the editor controls fit into 76 px anyway when the column is that wide)
+    const probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:inherit;font-weight:600"; tb.appendChild(probe);
+    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "led" ? "●" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
+    probe.remove();
+    Object.keys(w).forEach((c) => { cfg.w[c] = tgt === "print" ? Math.round(w[c] / MM) : w[c]; });
+    this._saveLayout(tgt); this._render();
+  }
+
+  // buttons of the column editor at the right end of the toolbar
+  _paintEdit() {
+    const L = this._L, box = this._editBox;
+    box.innerHTML = "";
+    const mk = (svg, title, fn, on) => {
+      const b = document.createElement("button"); b.className = "ib"; b.title = title; b.innerHTML = svg; b.onclick = fn;
+      if (on) { b.style.background = "var(--primary-color,#03a9f4)"; b.style.color = "#fff"; b.style.borderColor = "transparent"; }
+      return b;
+    };
+    const st = (d) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+    const fl = (d) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="${d}"/></svg>`;
+    if (this._edit) {
+      box.append(
+        mk(fl("M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"), L.tgtView, () => { this._tgt = "view"; this._paintEdit(); this._render(); }, this._tgt === "view"),
+        mk(fl("M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"), L.tgtPrint, () => { this._tgt = "print"; this._paintEdit(); this._render(); }, this._tgt === "print"),
+      );
+      const au = mk("", L.autoTip, () => this._autoWidth()); au.textContent = "Auto"; au.style.fontWeight = "600";
+      box.append(
+        au,
+        mk(fl("M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"), L.resetTip, () => {
+          if (!confirm(`${this._tgt === "print" ? L.tgtPrint : L.tgtView}: ${L.resetAsk}`)) return;
+          try { localStorage.removeItem(this._tgt === "print" ? "eiPrint" : "eiView"); } catch (e) { /* ignore */ }
+          delete this._lay[this._tgt]; this._render();
+        }),
+      );
+    }
+    box.append(mk(st('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/>'), this._edit ? L.doneTip : L.cfgBtn, () => { this._edit = !this._edit; this._tgt = "view"; this._paintEdit(); this._render(); }, this._edit));
+  }
+
+  _tableData(tgt = "view") {
+    const cols = this._cols(tgt).filter((c) => c !== "led" && c !== "icon");
     const strip = (h) => String(h).replace(/<[^>]*>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
     return {
       cols,
-      head: cols.map((c) => L["c_" + c] || c),
+      head: cols.map((c) => this._colName(tgt, c)),
       rows: (this._list || []).map((e) => cols.map((c) => c === "changed" ? new Date(e.ts).toLocaleString() : c === "photos" ? (this._meta.photos[e.id] || []).length || "" : c === "docs" ? (this._meta.docs[e.id] || []).map((d) => d.name).join("; ") : c === "note" ? (this._meta.notes[e.id] || {}).t || "" : strip(this._cell(e, c)[0]))),
     };
   }
@@ -999,14 +1130,15 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   _print() {
-    const L = this._L, { cols, head, rows } = this._tableData(), list = this._list || [];
+    const L = this._L, { cols, head, rows } = this._tableData("print"), list = this._list || [], pcfg = this._layout("print");
+    const wst = (c) => (pcfg.w[c] ? ` style="width:${pcfg.w[c]}mm;max-width:${pcfg.w[c]}mm;word-break:break-word;white-space:normal"` : "");
     const title = this._label(this._active), path = this._tabIconPath();
     const stand = `${L.stand}: ${new Date().toLocaleString(this._hass.language || "en")} | ${rows.length} ${L.entities}`;
     const small = this._ori === "portrait" || cols.length > 11;
     const img = (u) => `<img src="${esc(u.startsWith("http") ? u : location.origin + u)}">`;
     const body = rows.map((r, i) => `<tr>${r.map((c, k) => cols[k] === "photos"
-      ? `<td>${(this._meta.photos[list[i].id] || []).slice(0, 8).map((q) => img(q.url)).join("")}</td>`
-      : `<td${cols[k] === "note" || cols[k] === "docs" ? ' class="wrap"' : ""}>${esc(c).replace(/\n/g, "<br>")}</td>`).join("")}</tr>`).join("");
+      ? `<td${wst(cols[k])}>${(this._meta.photos[list[i].id] || []).slice(0, 8).map((q) => img(q.url)).join("")}</td>`
+      : `<td${wst(cols[k])}${cols[k] === "note" || cols[k] === "docs" ? ' class="wrap"' : ""}>${esc(c).replace(/\n/g, "<br>")}</td>`).join("")}</tr>`).join("");
     // title row inside the table head: it repeats on every page together with the column headings; the page number is at the bottom right
     const html = `<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>
       @page{size:A4 ${this._ori};margin:8mm 8mm 12mm;@bottom-right{content:counter(page) "/" counter(pages);font:8pt Arial,sans-serif;color:#444}}
@@ -1018,7 +1150,7 @@ class EntityInventoryPanel extends HTMLElement {
       td.wrap{white-space:normal;max-width:70mm}th{background:#e8e8e8}
       thead{display:table-header-group}tr{page-break-inside:avoid}img{width:${small ? 48 : 64}px;height:${small ? 48 : 64}px;object-fit:cover;margin:1px}</style></head><body>
       <table><thead><tr><th class="ttl" colspan="${cols.length}">${path ? `<span class="ico"><svg viewBox="0 0 24 24"><path d="${esc(path)}"/></svg></span>` : ""}${esc(title)}<small>${esc(stand)}</small></th></tr>
-      <tr>${head.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></body></html>`;
+      <tr>${head.map((h, k) => `<th${wst(cols[k])}>${esc(h)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></body></html>`;
     // printed from a hidden frame (no pop-up window); waits until the photos are loaded
     const f = document.createElement("iframe");
     f.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:0";
