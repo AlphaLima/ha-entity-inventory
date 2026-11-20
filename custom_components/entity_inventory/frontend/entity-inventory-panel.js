@@ -12,7 +12,9 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
-    c_state: "State", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
+    c_state: "State", c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
+    photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
+    uploadFail: "Upload failed", noPhotos: "No photos yet.", noDocs: "No documents yet (e.g. electricity contract, gas contract, photo of the meter).", notePh: "Comment (location, fuse, contract number …)", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
     on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
     ago: { s: "just now", m: "{n} min ago", h: "{n} h ago", d: "{n} d ago" },
     t: {
@@ -44,7 +46,9 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
-    c_state: "Zustand", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
+    c_state: "Zustand", c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
+    photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
+    uploadFail: "Upload fehlgeschlagen", noPhotos: "Noch keine Fotos.", noDocs: "Noch keine Dokumente (z. B. Stromvertrag, Gasvertrag, Foto des Zählers).", notePh: "Kommentar (Standort, Sicherung, Vertragsnummer …)", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
     on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
     ago: { s: "gerade eben", m: "vor {n} Min", h: "vor {n} Std", d: "vor {n} T" },
     t: {
@@ -113,6 +117,7 @@ const TABCOLS = {
   sensor: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
   unavailable: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
 };
+Object.keys(TABCOLS).forEach((k) => { if (k !== "users") TABCOLS[k] = [...TABCOLS[k], "photos", "docs", "note"]; });
 const SORT_DEFAULT = { battery: ["value", 1], unavailable: ["changed", 1], cover: ["area", 1], tilt: ["area", 1], light: ["area", 1], dimmer: ["area", 1] };
 
 // unit -> [base unit, size]: Wh < kWh < MWh, mV < V < kV … (empty units last)
@@ -121,6 +126,13 @@ const unitKey = (u) => {
   const m = /^([µmkMG]?)(Wh|W|VA|var|A|V|Hz|m³|m3|l|L|B|b)$/.exec(u);
   return m ? [m[2], PREFIX[m[1]]] : [u || "￿", 0];
 };
+const ICON = {
+  image: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z",
+  doc: "M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z",
+  note: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z",
+  noteFull: "M3 18h12v-2H3v2zM3 6v2h18V6H3zm0 7h18v-2H3v2z",
+};
+const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 const CHUNK = 300; // rows drawn at once
 const OFFLINE = new Set(["unavailable", "unknown"]);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -195,6 +207,15 @@ class EntityInventoryPanel extends HTMLElement {
     return rows;
   }
 
+  async _loadMeta() {
+    try {
+      this._meta = await this._hass.callWS({ type: "entity_inventory/list" });
+      if (this._rows) this._render();
+    } catch (e) { /* server part not installed: the columns stay empty */ }
+  }
+
+  get _admin() { return !!(this._hass.user && this._hass.user.is_admin); }
+
   async _loadUsers() {
     try { this._users = (await this._hass.callWS({ type: "config/auth/list" })); } catch (e) { this._users = []; } // not an admin: no tab
     this._refresh(true);
@@ -258,7 +279,7 @@ class EntityInventoryPanel extends HTMLElement {
 
   // value of a column: [display text, sort key]
   _cell(e, col) {
-    if (col === "changed") return this._cell0(e, col); // the relative time changes, everything else only with the state
+    if (col === "changed" || col === "photos" || col === "docs" || col === "note") return this._cell0(e, col); // the relative time changes, everything else only with the state
     const c = e._c || (e._c = {});
     return c[col] || (c[col] = this._cell0(e, col));
   }
@@ -297,6 +318,9 @@ class EntityInventoryPanel extends HTMLElement {
         return n === null ? [esc(t), t] : this._split(t, n);
       }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
+      case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
+      case "docs": { const n = e.user ? 0 : ((this._meta.docs[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="docs">${svgIcon("doc")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
+      case "note": { const t = e.user ? "" : ((this._meta.notes[e.id] || {}).t || ""); return [e.user ? "" : `<span class="ic${t ? "" : " ic0"}" data-act="note">${svgIcon(t ? "noteFull" : "note")}</span>${t ? ` <span data-act="note" title="${esc(t)}">${esc(t.replace(/\s+/g, " "))}</span>` : ""}`, t.toLowerCase()]; }
       case "unit": return [esc(e.unit), e.unit];
       case "area": return [esc(e.area), e.area.toLowerCase()];
       case "device": return [esc(e.device), e.device.toLowerCase()];
@@ -364,7 +388,9 @@ class EntityInventoryPanel extends HTMLElement {
       select{max-width:200px;padding:4px 6px}
       .bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 4px}.dim{opacity:.65;font-size:12px}
       .ib{display:inline-flex;align-items:center;padding:4px 9px}
-      .none{padding:20px;opacity:.6}`;
+      .none{padding:20px;opacity:.6}
+      .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
+      td[data-col=note]{max-width:420px}td[data-col=note] span[data-act]{cursor:pointer}`;
     const top = document.createElement("div"); top.className = "top";
     this._menu = document.createElement("ha-menu-button");
     this._menu.hass = this._hass; this._menu.narrow = this._narrow;
@@ -380,7 +406,9 @@ class EntityInventoryPanel extends HTMLElement {
     try { this._active = localStorage.getItem("eiTab") || "all"; } catch (e) { /* ignore */ }
     this._sort = {}; this._q = ""; this._area = ""; this._int = ""; this._paused = false;
     try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; } catch (e) { /* ignore */ }
+    this._meta = { notes: {}, photos: {}, docs: {} };
     this._buildCard();
+    this._loadMeta(); this._metaTimer = setInterval(() => (this.isConnected ? this._loadMeta() : clearInterval(this._metaTimer)), 300000); // signed URLs last one hour
     this._loadUsers(); this._userTimer = setInterval(() => (this.isConnected ? this._loadUsers() : clearInterval(this._userTimer)), 300000);
   }
 
@@ -428,6 +456,8 @@ class EntityInventoryPanel extends HTMLElement {
     bar.append(pb, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, ub);
     this._wrap = document.createElement("div"); this._wrap.className = "wrap";
     this._wrap.onclick = (ev) => this._click(ev);
+    this._wrap.addEventListener("mouseover", (ev) => this._hover(ev));
+    this._wrap.addEventListener("mouseout", (ev) => { if (!ev.relatedTarget || !ev.relatedTarget.closest || !ev.relatedTarget.closest("[data-act]")) this._hidePop(); });
     this._wrap.addEventListener("scroll", () => { if (this._wrap.scrollTop + this._wrap.clientHeight > this._wrap.scrollHeight - 500) this._more(); }, { passive: true });
     card.append(head, bar, this._wrap);
     this._body.appendChild(card);
@@ -496,7 +526,7 @@ class EntityInventoryPanel extends HTMLElement {
       if (k === "all" && e.user) return false;
       if (this._area && e.area !== this._area) return false;
       if (this._int && e.platform !== this._int) return false;
-      if (q && !(`${e.name} ${e.id} ${e.area} ${e.device} ${e.platform} ${e.dc} ${e.state} ${e.maker} ${e.model}`.toLowerCase().includes(q))) return false;
+      if (q && !(`${e.name} ${e.id} ${e.area} ${e.device} ${e.platform} ${e.dc} ${e.state} ${e.maker} ${e.model} ${(this._meta.notes[e.id] || {}).t || ""} ${(this._meta.docs[e.id] || []).map((d) => d.name).join(" ")}`.toLowerCase().includes(q))) return false;
       return true;
     });
   }
@@ -570,6 +600,174 @@ class EntityInventoryPanel extends HTMLElement {
     this._wrap.scrollTop = prevTop; this._wrap.scrollLeft = prevLeft;
   }
 
+  // ---------- hover preview (photos, document names, whole comment)
+  _hover(ev) {
+    const a = ev.target.closest && ev.target.closest("[data-act]"), row = a && a.closest("tr[data-id]");
+    if (!a || !row || a === this._popFor) return;
+    const id = row.dataset.id, m = this._meta;
+    let node = null;
+    if (a.dataset.act === "photos" && (m.photos[id] || []).length) {
+      const ps = m.photos[id];
+      node = document.createElement("div");
+      node.style.cssText = `display:grid;grid-template-columns:repeat(${ps.length > 1 ? 2 : 1},auto);gap:6px`;
+      ps.slice(0, 6).forEach((q) => { const im = document.createElement("img"); im.src = q.url; im.style.cssText = ps.length > 1 ? "width:150px;height:150px;object-fit:cover;border-radius:4px" : "max-width:260px;max-height:260px;object-fit:contain"; node.appendChild(im); });
+    } else if (a.dataset.act === "docs" && (m.docs[id] || []).length) {
+      node = document.createElement("div"); node.style.cssText = "line-height:1.5;white-space:nowrap";
+      m.docs[id].forEach((d) => { const r = document.createElement("div"); r.textContent = d.name; node.appendChild(r); });
+    } else if (a.dataset.act === "note" && (m.notes[id] || {}).t) {
+      node = document.createElement("div"); node.style.cssText = "max-width:420px;white-space:pre-wrap"; node.textContent = m.notes[id].t;
+    }
+    if (!node) return;
+    this._hidePop();
+    const pop = document.createElement("div");
+    pop.style.cssText = "position:fixed;z-index:9000;pointer-events:none;background:var(--card-background-color,#fff);color:var(--primary-text-color);border:1px solid var(--divider-color,#888);border-radius:8px;padding:8px;box-shadow:0 4px 16px rgba(0,0,0,.35);font-size:12px";
+    pop.appendChild(node); this.shadowRoot.appendChild(pop);
+    const r = a.getBoundingClientRect(), pr = pop.getBoundingClientRect();
+    pop.style.left = Math.max(4, Math.min(r.left, innerWidth - pr.width - 8)) + "px";
+    pop.style.top = (r.bottom + pr.height + 8 > innerHeight ? Math.max(4, r.top - pr.height - 6) : r.bottom + 4) + "px";
+    this._pop = pop; this._popFor = a;
+  }
+
+  _hidePop() { if (this._pop) { this._pop.remove(); this._pop = null; this._popFor = null; } }
+
+  // ---------- dialogs: photos, documents, comment
+  _modal(title, sub) {
+    const ov = document.createElement("div");
+    ov.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10000;display:flex;align-items:center;justify-content:center";
+    const bx = document.createElement("div");
+    bx.style.cssText = "background:var(--card-background-color,#fff);color:var(--primary-text-color,#000);border-radius:12px;padding:16px;width:min(720px,94vw);max-height:88vh;overflow:auto;box-shadow:0 8px 32px rgba(0,0,0,.4);font-family:var(--ha-font-family-body,Roboto,sans-serif)";
+    const close = () => { ov.remove(); document.removeEventListener("keydown", kd, true); };
+    const kd = (e) => { if (e.key === "Escape") { e.stopPropagation(); close(); } };
+    document.addEventListener("keydown", kd, true);
+    ov.addEventListener("mousedown", (e) => { if (e.target === ov) close(); });
+    const h = document.createElement("div"); h.style.cssText = "font-weight:600;font-size:16px";
+    h.textContent = title;
+    const sb = document.createElement("div"); sb.style.cssText = "font-size:12px;opacity:.65;margin:2px 0 10px"; sb.textContent = sub;
+    const body = document.createElement("div");
+    bx.append(h, sb, body); ov.appendChild(bx); this.shadowRoot.appendChild(ov);
+    return { body, close };
+  }
+
+  _btn(txt, primary, fn) {
+    const b = document.createElement("button"); b.textContent = txt;
+    b.style.cssText = `padding:8px 16px;border-radius:8px;font-size:14px;cursor:pointer;border:1px solid var(--divider-color,#888);${primary ? "background:var(--primary-color,#03a9f4);color:#fff;border-color:transparent" : "background:transparent;color:inherit"}`;
+    b.onclick = fn; return b;
+  }
+
+  _footer(...btns) { const f = document.createElement("div"); f.style.cssText = "display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap"; f.append(...btns); return f; }
+
+  async _call(msg) { this._meta = await this._hass.callWS(msg); this._render(); }
+
+  // resize a picture before the upload (max. 1600 px, JPEG)
+  _resize(f) {
+    return new Promise((res) => {
+      const u = URL.createObjectURL(f), im = new Image();
+      im.onload = () => {
+        try {
+          const sc = Math.min(1, 1600 / Math.max(im.width, im.height)), cv = document.createElement("canvas");
+          cv.width = Math.round(im.width * sc); cv.height = Math.round(im.height * sc);
+          cv.getContext("2d").drawImage(im, 0, 0, cv.width, cv.height);
+          URL.revokeObjectURL(u); cv.toBlob((b) => res(b || f), "image/jpeg", 0.85);
+        } catch (x) { res(f); }
+      };
+      im.onerror = () => { URL.revokeObjectURL(u); res(f); };
+      im.src = u;
+    });
+  }
+
+  _pickFiles(accept, fn) {
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.multiple = true; inp.style.display = "none"; if (accept) inp.accept = accept;
+    document.body.appendChild(inp);
+    inp.onchange = async () => { const files = [...(inp.files || [])]; inp.remove(); if (files.length) await fn(files); };
+    inp.click();
+  }
+
+  async _upload(url, blob, name) {
+    const fd = new FormData(); fd.append("file", blob, name);
+    const r = await this._hass.fetchWithAuth(url, { method: "POST", body: fd });
+    if (!r.ok) throw new Error(`HTTP ${r.status} ${await r.text()}`);
+  }
+
+  _photosDialog(e) {
+    const L = this._L, { body, close } = this._modal(`${L.photosTitle} – ${e.name}`, e.id);
+    const draw = () => {
+      body.innerHTML = "";
+      const ps = this._meta.photos[e.id] || [];
+      if (!ps.length) { const n = document.createElement("div"); n.style.cssText = "opacity:.6;padding:12px 0"; n.textContent = L.noPhotos; body.appendChild(n); }
+      const g = document.createElement("div"); g.style.cssText = "display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px";
+      ps.forEach((q) => {
+        const w = document.createElement("div"); w.style.cssText = "position:relative";
+        const im = document.createElement("img"); im.src = q.url; im.style.cssText = "width:100%;height:150px;object-fit:cover;border-radius:6px;cursor:zoom-in";
+        im.onclick = () => window.open(q.url, "_blank", "noopener");
+        w.appendChild(im);
+        if (this._admin) {
+          const x = document.createElement("button"); x.textContent = "✕"; x.title = L.del;
+          x.style.cssText = "position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(0,0,0,.6);color:#fff;cursor:pointer;font-size:13px";
+          x.onclick = async () => { if (confirm(L.confirmDel.replace("{name}", "🖼"))) { await this._call({ type: "entity_inventory/delete_photo", entity_id: e.id, photo_id: q.id }); draw(); } };
+          w.appendChild(x);
+        }
+        g.appendChild(w);
+      });
+      body.appendChild(g);
+      const add = this._admin ? this._btn(L.addPhotos, true, () => this._pickFiles("image/*", async (files) => {
+        add.textContent = "…";
+        try {
+          for (let i = 0; i < files.length; i++) { add.textContent = `… ${i + 1}/${files.length}`; await this._upload(`/api/entity_inventory/upload/${e.id}`, await this._resize(files[i]), "photo.jpg"); }
+        } catch (x) { alert(`${L.uploadFail}: ${x.message || x}`); }
+        await this._loadMeta(); draw();
+      })) : null;
+      body.appendChild(this._footer(...(add ? [add] : []), this._btn(L.tabsClose, !add, close)));
+    };
+    draw();
+  }
+
+  _docsDialog(e) {
+    const L = this._L, { body, close } = this._modal(`${L.docsTitle} – ${e.name}`, e.id);
+    const draw = () => {
+      body.innerHTML = "";
+      const ds = this._meta.docs[e.id] || [];
+      if (!ds.length) { const n = document.createElement("div"); n.style.cssText = "opacity:.6;padding:12px 0"; n.textContent = L.noDocs; body.appendChild(n); }
+      ds.forEach((d) => {
+        const r = document.createElement("div"); r.style.cssText = "display:flex;align-items:center;gap:10px;padding:6px 4px;border-bottom:1px solid var(--divider-color,#444)";
+        const ic = document.createElement("span"); ic.innerHTML = svgIcon("doc", 22); ic.style.cssText = "flex:none;opacity:.8";
+        const a = document.createElement("a"); a.href = d.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = d.name || "document";
+        a.style.cssText = "flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--primary-color);text-decoration:none";
+        const dt = document.createElement("span"); dt.style.cssText = "opacity:.6;font-size:12px;flex:none"; dt.textContent = d.ts ? new Date(d.ts).toLocaleDateString() : "";
+        r.append(ic, a, dt);
+        if (this._admin) {
+          const mk = (txt, title, fn) => { const b = document.createElement("button"); b.textContent = txt; b.title = title; b.style.cssText = "border:none;background:transparent;color:inherit;cursor:pointer;opacity:.7;font-size:15px;padding:2px 6px"; b.onclick = fn; return b; };
+          r.append(
+            mk("✎", L.rename, async () => { const n = prompt(L.renamePrompt, d.name || ""); if (n && n.trim()) { await this._call({ type: "entity_inventory/rename_doc", entity_id: e.id, doc_id: d.id, name: n.trim() }); draw(); } }),
+            mk("✕", L.del, async () => { if (confirm(L.confirmDel.replace("{name}", d.name || ""))) { await this._call({ type: "entity_inventory/delete_doc", entity_id: e.id, doc_id: d.id }); draw(); } }),
+          );
+        }
+        body.appendChild(r);
+      });
+      const add = this._admin ? this._btn(L.addDocs, true, () => this._pickFiles("", async (files) => {
+        add.textContent = "…";
+        try {
+          for (let i = 0; i < files.length; i++) { add.textContent = `… ${i + 1}/${files.length}`; await this._upload(`/api/entity_inventory/doc_upload/${e.id}`, files[i], files[i].name); }
+        } catch (x) { alert(`${L.uploadFail}: ${x.message || x}`); }
+        await this._loadMeta(); draw();
+      })) : null;
+      body.appendChild(this._footer(...(add ? [add] : []), this._btn(L.tabsClose, !add, close)));
+    };
+    draw();
+  }
+
+  _noteDialog(e) {
+    const L = this._L, { body, close } = this._modal(`${L.noteTitle} – ${e.name}`, e.id);
+    const ta = document.createElement("textarea");
+    ta.rows = 9; ta.value = (this._meta.notes[e.id] || {}).t || ""; ta.placeholder = L.notePh; ta.readOnly = !this._admin;
+    ta.style.cssText = "width:100%;box-sizing:border-box;padding:8px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font:inherit;resize:vertical";
+    ta.onkeydown = (ev) => ev.stopPropagation();
+    body.appendChild(ta);
+    const save = this._admin ? this._btn(L.save, true, async () => { save.textContent = "…"; try { await this._call({ type: "entity_inventory/set_note", entity_id: e.id, text: ta.value }); close(); } catch (x) { alert(x.message || x); save.textContent = L.save; } }) : null;
+    body.appendChild(this._footer(this._btn(this._admin ? L.cancel : L.tabsClose, !save, close), ...(save ? [save] : [])));
+    setTimeout(() => ta.focus(), 50);
+  }
+
   _rowsHtml(from, to) {
     const cols = this._cols_, out = [];
     for (let i = from; i < to; i++) {
@@ -593,6 +791,12 @@ class EntityInventoryPanel extends HTMLElement {
       const k = this._active, c = th.dataset.col, cur = this._sort[k] || SORT_DEFAULT[k] || ["name", 1];
       this._sort[k] = [c, cur[0] === c ? -cur[1] : 1];
       this._render(); return;
+    }
+    const act = ev.target.closest("[data-act]"), row = ev.target.closest("tr[data-id]");
+    if (act && row && !row.dataset.id.startsWith("user:")) {
+      const e = (this._rows || []).find((r) => r.id === row.dataset.id);
+      if (e) { this._hidePop(); if (act.dataset.act === "photos") this._photosDialog(e); else if (act.dataset.act === "docs") this._docsDialog(e); else this._noteDialog(e); }
+      return;
     }
     const td = ev.target.closest("td[data-col]"), tr = ev.target.closest("tr[data-id]");
     if (!td || !tr) return;
@@ -619,7 +823,7 @@ class EntityInventoryPanel extends HTMLElement {
     const strip = (h) => String(h).replace(/<[^>]*>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
     return {
       head: cols.map((c) => L["c_" + c] || c),
-      rows: (this._list || []).map((e) => cols.map((c) => c === "changed" ? new Date(e.ts).toLocaleString() : strip(this._cell(e, c)[0]))),
+      rows: (this._list || []).map((e) => cols.map((c) => c === "changed" ? new Date(e.ts).toLocaleString() : c === "photos" ? (this._meta.photos[e.id] || []).length || "" : c === "docs" ? (this._meta.docs[e.id] || []).map((d) => d.name).join("; ") : c === "note" ? (this._meta.notes[e.id] || {}).t || "" : strip(this._cell(e, c)[0]))),
     };
   }
 
