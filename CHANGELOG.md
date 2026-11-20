@@ -2,6 +2,10 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.1 – 2026-11-20
+- Manifest: sorted keys and category as required by hassfest and HACS validation
+- Norwegian translation file (no.json)
+
 ## 0.3.0 – 2026-11-20
 - Everything from the 0.3.0 test version
 - All 14 languages like Device Inventory (English fallback per text)
