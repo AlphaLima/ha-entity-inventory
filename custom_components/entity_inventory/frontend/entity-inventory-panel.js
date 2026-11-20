@@ -148,6 +148,7 @@ const unitKey = (u) => {
 };
 const ICON = {
   image: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z",
+  shape: "M11 13.5v8H3v-8h8zM12 2l5.5 9h-11L12 2zm5.5 11a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9z",
   doc: "M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z",
   note: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z",
   copy: "M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z",
@@ -401,7 +402,7 @@ class EntityInventoryPanel extends HTMLElement {
     const L = this._L;
     switch (col) {
       case "icon": return [e.user ? "" : `<span class="eicon" data-act="icon" title="${esc(L.iconTip)}"></span>`, e.a.icon || ""];
-      case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [ok ? "🟢" : "🔴", ok ? 1 : 0]; // the same symbols as Device Inventory }
+      case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [ok ? "🟢" : "🔴", ok ? 1 : 0]; }
       case "name": return [e.user ? esc(e.name) : `<span class="cp" data-act="copy" data-copy="name" title="${esc(L.copyNameTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.name)}</span>`, e.name.toLowerCase()];
       case "id": return [`<span class="cp" data-act="copy" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.id)}</span>`, e.id];
       case "value": { // the number only; the unit has its own column
@@ -860,7 +861,7 @@ class EntityInventoryPanel extends HTMLElement {
       if (this._edit) { // controls right in the heading: show / print, move left / right, own name, drag the right edge to resize
         return `<th data-col="${c}" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"><span class="grip" data-cfg="grip" title="↔"></span></th>`;
       }
-      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
+      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
     const wcss = cols.filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return NOCLIP.includes(c) ? `td[data-col=${c}],th[data-col=${c}]{min-width:${w}px}` : `td[data-col=${c}],th[data-col=${c}]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
@@ -1264,7 +1265,7 @@ class EntityInventoryPanel extends HTMLElement {
     tb.querySelectorAll("tbody tr").forEach((r) => [...r.children].forEach((td) => { const c = td.dataset.col; if (!c) return; const x = natural(td); if (!(w[c] >= x)) w[c] = x; }));
     // the heading counts with its text only (the editor controls fit into 76 px anyway when the column is that wide)
     const probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:inherit;font-weight:600"; tb.appendChild(probe);
-    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "led" ? "●" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
+    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
     probe.remove();
     Object.keys(w).forEach((c) => { cfg.w[c] = tgt === "print" ? Math.round(w[c] / MM) : w[c]; });
     this._saveLayout(tgt); this._render();
