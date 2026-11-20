@@ -13,7 +13,7 @@ const L10N = {
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
     copied: "Copied", hideOff: "Hide unavailable / unknown entities (highlighted = hidden)", none: "No entities in this tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
-    c_labels: "Labels", allLabels: "All labels", noLabel: "Without label", c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
+    labelTitle: "Label", labelName: "Name", labelIcon: "Icon (e.g. mdi:tag)", labelColor: "Colour", labelDesc: "Description", labelEntities: "Entities with this label", labelManage: "Label settings", labelCount: "{n} entities in this tab / {m} in total", labelFail: "Saving failed", labelNone: "none", c_labels: "Labels", allLabels: "All labels", noLabel: "Without label", c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
     c_state: "State", onlyNotes: "Only entries with a comment and/or photo (highlighted = active)", cfgBtn: "Edit columns (display and printer)", tgtView: "Display", tgtPrint: "Printer", autoTip: "Fit the column widths to the widest content", resetTip: "Reset the layout", resetAsk: "Reset the column layout to the default?", doneTip: "Done", renameTip: "Column name (empty = default)", stand: "As of", entities: "entities", printFail: "Printing failed", portrait: "Print: portrait (click: landscape)", landscape: "Print: landscape (click: portrait)", showBadges: "Show the red numbers on the tabs (unavailable entities)", hideBadges: "Hide the red numbers on the tabs", copyTip: "Copy the entity ID", idLabel: "Entity ID", idWarn: "Automations, scripts, dashboards and templates that use the old ID are NOT changed by Home Assistant here – check them afterwards.", idInvalid: "Invalid entity ID. It must keep the domain and use only a-z, 0-9 and _ (e.g. {d}.name).", alignDec: "Values aligned by the decimal separator (click: left)", alignLeft: "Values left-aligned (click: right)", alignRight: "Values right-aligned (click: by decimal separator)", nameTitle: "Rename entity", nameLabel: "Name", nameHintDev: "Home Assistant puts the device name in front: \"{dev}\"", nameDefault: "Default name: {n}", nameReset: "Reset to default", nameDetails: "History / details", nameFail: "Saving failed", nameNoReg: "This entity has no unique ID, so it is not in the entity registry and cannot be renamed here.", nameAdmin: "Only administrators can rename entities.", c_icon: "Icon", iconTip: "Change the icon (opens the settings of the entity)", iconNoReg: "The icon of this entity cannot be changed: it has no unique ID, so it is not in the entity registry.", iconAdmin: "Only administrators can change the icon.", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
     photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
@@ -47,7 +47,7 @@ const L10N = {
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
     copied: "Kopiert", hideOff: "Nicht verfügbare / unbekannte Entitäten ausblenden (farbig = ausgeblendet)", none: "Keine Entitäten in diesem Tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
-    c_labels: "Labels", allLabels: "Alle Labels", noLabel: "Ohne Label", c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
+    labelTitle: "Label", labelName: "Name", labelIcon: "Symbol (z. B. mdi:tag)", labelColor: "Farbe", labelDesc: "Beschreibung", labelEntities: "Entitäten mit diesem Label", labelManage: "Label-Einstellungen", labelCount: "{n} Entitäten in diesem Tab / {m} insgesamt", labelFail: "Speichern fehlgeschlagen", labelNone: "keine", c_labels: "Labels", allLabels: "Alle Labels", noLabel: "Ohne Label", c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
     c_state: "Zustand", onlyNotes: "Nur Einträge mit Kommentar und/oder Bild (farbig = aktiv)", cfgBtn: "Spalten bearbeiten (Anzeige und Drucker)", tgtView: "Anzeige", tgtPrint: "Drucker", autoTip: "Spaltenbreiten an den längsten Inhalt anpassen", resetTip: "Layout zurücksetzen", resetAsk: "Spaltenlayout auf Standard zurücksetzen?", doneTip: "Fertig", renameTip: "Spaltenname (leer = Standard)", stand: "Stand", entities: "Entitäten", printFail: "Drucken fehlgeschlagen", portrait: "Drucken: Hochformat (Klick: Querformat)", landscape: "Drucken: Querformat (Klick: Hochformat)", showBadges: "Rote Zahlen an den Tabs anzeigen (nicht verfügbare Entitäten)", hideBadges: "Rote Zahlen an den Tabs ausblenden", copyTip: "Entity-ID kopieren", idLabel: "Entity-ID", idWarn: "Automationen, Skripte, Dashboards und Templates, die die alte ID benutzen, werden hier NICHT mit geändert – danach prüfen.", idInvalid: "Ungültige Entity-ID. Sie muss die Domain behalten und nur a-z, 0-9 und _ enthalten (z. B. {d}.name).", alignDec: "Werte kommabündig (Klick: linksbündig)", alignLeft: "Werte linksbündig (Klick: rechtsbündig)", alignRight: "Werte rechtsbündig (Klick: kommabündig)", nameTitle: "Entität umbenennen", nameLabel: "Name", nameHintDev: "Home Assistant stellt den Gerätenamen voran: \"{dev}\"", nameDefault: "Standardname: {n}", nameReset: "Auf Standard zurücksetzen", nameDetails: "Verlauf / Details", nameFail: "Speichern fehlgeschlagen", nameNoReg: "Diese Entität hat keine eindeutige ID, steht deshalb nicht in der Entitätsregistrierung und lässt sich hier nicht umbenennen.", nameAdmin: "Nur Administratoren können Entitäten umbenennen.", c_icon: "Symbol", iconTip: "Symbol ändern (öffnet die Einstellungen der Entität)", iconNoReg: "Das Symbol dieser Entität lässt sich nicht ändern: sie hat keine eindeutige ID und steht deshalb nicht in der Entitätsregistrierung.", iconAdmin: "Nur Administratoren können das Symbol ändern.", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
     photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
@@ -249,7 +249,7 @@ class EntityInventoryPanel extends HTMLElement {
   async _loadLabels() {
     try {
       const list = await this._hass.callWS({ type: "config/label_registry/list" });
-      this._labels = Object.fromEntries((list || []).map((l) => [l.label_id, { name: l.name, color: l.color }]));
+      this._labels = Object.fromEntries((list || []).map((l) => [l.label_id, { name: l.name, color: l.color, icon: l.icon, description: l.description }]));
       if (this._rows) this._render();
     } catch (e) { /* not an administrator: the label ids are shown */ }
   }
@@ -259,8 +259,49 @@ class EntityInventoryPanel extends HTMLElement {
   _labelChips(ids) {
     return ids.map((id) => {
       const c = ((this._labels || {})[id] || {}).color, bg = !c ? "#888" : c.startsWith("#") ? c : `var(--${c}-color,#888)`;
-      return `<span class="chip" style="background:${bg}">${esc(this._labelName(id))}</span>`;
+      return `<span class="chip" data-label="${esc(id)}" title="${esc(this._labelName(id))}" style="background:${bg}">${esc(this._labelName(id))}</span>`;
     }).join("");
+  }
+
+  // label dialog: name, symbol, colour and description (saved in the label registry), plus jumps to the entities / settings of Home Assistant
+  _labelDialog(id) {
+    const L = this._L, lab = (this._labels || {})[id] || { name: id }, admin = this._admin, { body, close } = this._modal(`${L.labelTitle} – ${lab.name}`, id);
+    const field = (txt, node) => { const d = document.createElement("div"); d.style.cssText = "font-size:12px;opacity:.7;margin:10px 0 4px"; d.textContent = txt; body.append(d, node); return node; };
+    const css = "width:100%;box-sizing:border-box;padding:8px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font:inherit";
+    const name = field(L.labelName, Object.assign(document.createElement("input"), { type: "text", value: lab.name || "", disabled: !admin }));
+    const icon = field(L.labelIcon, Object.assign(document.createElement("input"), { type: "text", value: lab.icon || "", placeholder: "mdi:tag", disabled: !admin }));
+    name.style.cssText = icon.style.cssText = css;
+    // colour: the named colours of Home Assistant as round swatches
+    let color = lab.color || "";
+    const sw = document.createElement("div"); sw.style.cssText = "display:flex;flex-wrap:wrap;gap:6px";
+    const COLORS = ["primary", "accent", "disabled", "red", "pink", "purple", "deep-purple", "indigo", "blue", "light-blue", "cyan", "teal", "green", "light-green", "lime", "yellow", "amber", "orange", "deep-orange", "brown", "light-grey", "grey", "dark-grey", "blue-grey", "black", "white"];
+    const paint = () => sw.querySelectorAll("button").forEach((b) => { b.style.outline = b.dataset.c === color ? "3px solid var(--primary-text-color,#000)" : "none"; });
+    ["", ...COLORS].forEach((c) => {
+      const b = document.createElement("button"); b.dataset.c = c; b.title = c || L.labelNone; b.disabled = !admin;
+      b.style.cssText = `width:26px;height:26px;border-radius:50%;border:1px solid var(--divider-color,#888);cursor:pointer;padding:0;outline-offset:1px;background:${c ? `var(--${c}-color,#888)` : "repeating-linear-gradient(45deg,#ccc 0 4px,#fff 4px 8px)"}`;
+      b.onclick = () => { color = c; paint(); };
+      sw.appendChild(b);
+    });
+    field(L.labelColor, sw); paint();
+    const desc = field(L.labelDesc, Object.assign(document.createElement("textarea"), { rows: 3, value: lab.description || "", disabled: !admin }));
+    desc.style.cssText = css + ";resize:vertical";
+    [name, icon, desc].forEach((x) => { x.onkeydown = (ev) => ev.stopPropagation(); });
+    const total = (this._rows || []).filter((e) => (e.labels || []).includes(id)).length, here = (this._list || []).filter((e) => (e.labels || []).includes(id)).length;
+    const info = document.createElement("div"); info.style.cssText = "font-size:12px;opacity:.65;margin-top:10px"; info.textContent = L.labelCount.replace("{n}", here).replace("{m}", total); body.appendChild(info);
+    const go = (path) => { close(); history.pushState(null, "", path); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); };
+    const save = this._btn(L.save, true, async () => {
+      save.textContent = "…";
+      try {
+        await this._hass.callWS({ type: "config/label_registry/update", label_id: id, name: name.value.trim() || lab.name, icon: icon.value.trim() || null, color: color || null, description: desc.value.trim() || null });
+        await this._loadLabels(); close();
+      } catch (x) { alert(`${L.labelFail}: ${(x && x.message) || x}`); save.textContent = L.save; }
+    });
+    body.appendChild(this._footer(
+      this._btn(L.labelEntities, false, () => go(`/config/entities?historyBack=1&label=${encodeURIComponent(id)}`)),
+      this._btn(L.labelManage, false, () => go("/config/labels")),
+      this._btn(admin ? L.cancel : L.tabsClose, !admin, close),
+      ...(admin ? [save] : []),
+    ));
   }
 
   async _loadUsers() {
@@ -454,7 +495,7 @@ class EntityInventoryPanel extends HTMLElement {
       .ic{display:inline-flex;align-items:center;gap:2px;cursor:pointer;margin-right:3px}.ic0{opacity:.25}tr:hover .ic0{opacity:.75}
       .eicon{display:inline-flex;align-items:center;min-width:20px;height:20px;cursor:pointer;opacity:.85}.eicon:hover{opacity:1;color:var(--primary-color)}
       .cp{display:inline-flex;vertical-align:middle;margin-right:5px;cursor:pointer;visibility:hidden;opacity:.7}.cp:hover{opacity:1;color:var(--primary-color)}tr:hover .cp{visibility:visible}@media (hover:none){.cp{visibility:visible;opacity:.35}}
-      .chip{display:inline-block;padding:0 7px;border-radius:10px;font-size:11px;line-height:18px;color:#fff;margin-right:3px}
+      .chip{cursor:pointer;display:inline-block;padding:0 7px;border-radius:10px;font-size:11px;line-height:18px;color:#fff;margin-right:3px}
       td[data-col=note]{max-width:420px}td[data-col=note] span[data-act]{cursor:pointer}`;
     const top = document.createElement("div"); top.className = "top";
     this._menu = document.createElement("ha-menu-button");
@@ -1079,6 +1120,8 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   _click(ev) {
+    const chip = ev.target.closest && ev.target.closest(".chip[data-label]");
+    if (chip) { this._labelDialog(chip.dataset.label); return; }
     const mv = ev.target.closest("[data-cfg=mv]");
     if (mv) { // move a column one place left / right (among the columns of this tab)
       const c = mv.closest("th").dataset.col, d = +mv.dataset.d, cfg = this._layout(this._tgt), base = TABCOLS[this._active] || BASE;
