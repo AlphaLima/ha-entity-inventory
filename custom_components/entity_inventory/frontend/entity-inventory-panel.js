@@ -1208,7 +1208,7 @@ class EntityInventoryPanel extends HTMLElement {
     if (id.startsWith("user:")) { if (td.dataset.col === "name" || td.dataset.col === "person") { history.pushState(null, "", "/config/person"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); } return; }
     if (td.dataset.col === "id") {
       const e = (this._rows || []).find((r) => r.id === id);
-      if (e) this._inlineEdit(td, e, "id");
+      if (e) this._nameDialog(e, "id");
     } else if (["device", "platform", "area"].includes(td.dataset.col)) { // device page / integration page / area page of HA
       const e = (this._rows || []).find((r) => r.id === id), c = td.dataset.col;
       const path = !e ? "" : c === "device" ? (e.deviceId && `/config/devices/device/${e.deviceId}`) : c === "platform" ? (e.platform && e.platform !== "core" && `/config/integrations/integration/${e.platform}`) : (e.areaId && `/config/areas/area/${e.areaId}`);
@@ -1218,7 +1218,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
     } else if (td.dataset.col === "name") {
       const e = (this._rows || []).find((r) => r.id === id);
-      if (e) this._inlineEdit(td, e, "name");
+      if (e) this._nameDialog(e);
     } else if (["value", "state", "pos", "tilt", "bright", "cur", "target", "mode", "action"].includes(td.dataset.col)) { // opens the normal HA dialog with the history
       this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId: id } }));
     }
