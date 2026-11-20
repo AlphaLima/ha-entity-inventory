@@ -10,8 +10,8 @@ const L10N = {
     gMeasure: "Measurements", gActors: "Actuators", gMore: "More",
     search: "Search (name, entity ID, area, device, integration …)", count: "Entities shown / in this tab",
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
-    allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities",
-    copied: "Copied", hiddenShort: "hidden", none: "No entities in this tab.",
+    allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
+    copied: "Copied", hideOff: "Hide unavailable / unknown entities (highlighted = hidden)", none: "No entities in this tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
@@ -42,8 +42,8 @@ const L10N = {
     gMeasure: "Messwerte", gActors: "Aktoren", gMore: "Weiteres",
     search: "Suche (Name, Entity-ID, Bereich, Gerät, Integration …)", count: "Angezeigte Entitäten / in diesem Tab",
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
-    allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen",
-    copied: "Kopiert", hiddenShort: "Versteckte", none: "Keine Entitäten in diesem Tab.",
+    allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
+    copied: "Kopiert", hideOff: "Nicht verfügbare / unbekannte Entitäten ausblenden (farbig = ausgeblendet)", none: "Keine Entitäten in diesem Tab.",
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
@@ -267,7 +267,8 @@ class EntityInventoryPanel extends HTMLElement {
       th:hover{color:var(--primary-color)}
       td{padding:2px 4px;line-height:1.3;border-bottom:1px solid var(--divider-color,#444);white-space:nowrap;max-width:420px;overflow:hidden;text-overflow:ellipsis}
       tr:hover td{background:rgba(127,127,127,.08)}
-      td[data-col=name]{cursor:pointer}td[data-col=name]:hover{color:var(--primary-color)}
+      td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
+      td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
       td[data-col=id]{cursor:copy;opacity:.8}
       td[data-col=value],th[data-col=value],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target]{text-align:right}
       button,select{cursor:pointer;padding:4px 10px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font-size:13px}
@@ -288,7 +289,8 @@ class EntityInventoryPanel extends HTMLElement {
     root.append(st, top, this._body);
     this._active = "all";
     try { this._active = localStorage.getItem("eiTab") || "all"; } catch (e) { /* ignore */ }
-    this._sort = {}; this._q = ""; this._area = ""; this._int = ""; this._showHidden = false; this._paused = false;
+    this._sort = {}; this._q = ""; this._area = ""; this._int = ""; this._paused = false;
+    try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; } catch (e) { /* ignore */ }
     this._buildCard();
   }
 
@@ -320,11 +322,20 @@ class EntityInventoryPanel extends HTMLElement {
     qi.onkeydown = (ev) => { ev.stopPropagation(); if (ev.key === "Escape" && qi.value) { qi.value = ""; qi.oninput(); } };
     this._selArea = document.createElement("select"); this._selArea.onchange = () => { this._area = this._selArea.value; this._render(); };
     this._selInt = document.createElement("select"); this._selInt.onchange = () => { this._int = this._selInt.value; this._render(); };
-    const hl = document.createElement("label"); hl.className = "dim"; hl.style.cssText = "display:inline-flex;align-items:center;gap:4px;cursor:pointer"; hl.title = L.hidden;
-    const hc = document.createElement("input"); hc.type = "checkbox"; hc.checked = this._showHidden;
-    hc.onchange = () => { this._showHidden = hc.checked; this._render(); };
-    hl.append(hc, document.createTextNode(L.hiddenShort));
-    bar.append(pb, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hl);
+    const toggle = (svg, title, key) => {
+      const b = mkBtn(svg, title, () => {
+        this[key] = !this[key]; paint();
+        try { localStorage.setItem("ei_" + key, this[key] ? "1" : "0"); } catch (e) { /* ignore */ }
+        this._render();
+      });
+      const paint = () => { b.style.background = this[key] ? "var(--primary-color,#03a9f4)" : ""; b.style.color = this[key] ? "#fff" : ""; b.style.borderColor = this[key] ? "transparent" : ""; };
+      paint(); return b;
+    };
+    const eye = "M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z";
+    const warn = "M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z";
+    const hb = toggle(eye, L.hidden, "_showHidden");
+    const ub = toggle(warn, L.hideOff, "_hideOff");
+    bar.append(pb, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, hb, ub);
     this._wrap = document.createElement("div"); this._wrap.className = "wrap";
     this._wrap.onclick = (ev) => this._click(ev);
     card.append(head, bar, this._wrap);
@@ -339,7 +350,7 @@ class EntityInventoryPanel extends HTMLElement {
     const rows = this._collect();
     rows.forEach((e) => this._classify(e));
     this._rows = rows;
-    const sig = rows.length + ":" + rows.reduce((a, e) => a + Date.parse(e.s.last_updated), 0) + ":" + rows.filter((e) => OFFLINE.has(e.state)).length + ":" + this._showHidden;
+    const sig = rows.length + ":" + rows.reduce((a, e) => a + Date.parse(e.s.last_updated), 0) + ":" + rows.filter((e) => OFFLINE.has(e.state)).length + ":" + this._showHidden + this._hideOff;
     const now = Date.now();
     this._counts = { all: { n: 0, off: 0 } };
     rows.forEach((e) => {
@@ -389,7 +400,7 @@ class EntityInventoryPanel extends HTMLElement {
   _filtered() {
     const k = this._active, q = this._q.trim().toLowerCase();
     return (this._rows || []).filter((e) => {
-      if (e.hidden && !this._showHidden) return false;
+      if (!this._vis(e)) return false;
       if (k !== "all" && !e.tabs.includes(k)) return false;
       if (this._area && e.area !== this._area) return false;
       if (this._int && e.platform !== this._int) return false;
@@ -397,6 +408,9 @@ class EntityInventoryPanel extends HTMLElement {
       return true;
     });
   }
+
+  // hidden / disabled entities and (optionally) unavailable ones are filtered out; the "unavailable" tab always shows them
+  _vis(e) { return (!e.hidden || this._showHidden) && !(this._hideOff && this._active !== "unavailable" && OFFLINE.has(e.state)); }
 
   _cols() { return TABCOLS[this._active] || BASE; }
 
@@ -423,7 +437,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._hico.setAttribute("icon", MDI[k] || "mdi:eye");
     this._htxt.textContent = this._label(k);
     // area / integration selectors follow the tab (all values that exist in it)
-    const inTab = (this._rows || []).filter((e) => (!e.hidden || this._showHidden) && (k === "all" || e.tabs.includes(k)));
+    const inTab = (this._rows || []).filter((e) => this._vis(e) && (k === "all" || e.tabs.includes(k)));
     const fill = (sel, vals, all, cur) => {
       const key = vals.join("\u0001") + "|" + cur;
       if (sel._key === key) return; sel._key = key;
@@ -464,7 +478,7 @@ class EntityInventoryPanel extends HTMLElement {
     if (td.dataset.col === "id") {
       try { navigator.clipboard.writeText(id); } catch (e) { /* ignore */ }
       const old = td.textContent; td.textContent = this._L.copied; setTimeout(() => { td.textContent = old; }, 700);
-    } else if (td.dataset.col === "name") {
+    } else if (["name", "value", "state", "pos", "tilt", "bright", "cur", "target", "mode", "action"].includes(td.dataset.col)) { // opens the normal HA dialog with the history
       this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId: id } }));
     }
   }
