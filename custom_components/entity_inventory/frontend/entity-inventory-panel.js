@@ -398,6 +398,9 @@ class EntityInventoryPanel extends HTMLElement {
     return [`<span>${esc(ip)}</span><span class="vf">${esc(dec)}</span><span class="vu">${esc(rest)}</span>`, key, dec.length, rest.length];
   }
 
+  // temperature unit of the Home Assistant unit system (°C / °F) – thermostats report current and target temperature in it
+  _tempUnit() { const u = this._hass && this._hass.config && this._hass.config.unit_system; return (u && u.temperature) || "°C"; }
+
   _cell0(e, col) {
     const L = this._L;
     switch (col) {
@@ -439,8 +442,8 @@ class EntityInventoryPanel extends HTMLElement {
       case "pos": { const v = e.a.current_position; return [v == null ? "" : v + " %", v ?? -1]; }
       case "tilt": { const v = e.a.current_tilt_position; return [v == null ? "" : v + " %", v ?? -1]; }
       case "bright": { const v = e.a.brightness; if (v == null) return [e.state === "on" ? "" : "", -1]; const p = Math.round(v / 2.55); return [p + " %", p]; }
-      case "cur": { const v = e.a.current_temperature; return v == null ? ["", -999] : this._split(this._fmtNum(v) + " °", v); }
-      case "target": { const v = e.a.temperature; return v == null ? ["", -999] : this._split(this._fmtNum(v) + " °", v); }
+      case "cur": { const v = e.a.current_temperature; return v == null ? ["", -999] : this._split(this._fmtNum(v) + " " + this._tempUnit(), v); }
+      case "target": { const v = e.a.temperature; return v == null ? ["", -999] : this._split(this._fmtNum(v) + " " + this._tempUnit(), v); }
       case "mode": { const t = this._valueText(e); return [esc(t), t]; }
       case "action": { const v = e.a.hvac_action || ""; return [esc(v), v]; }
     }
