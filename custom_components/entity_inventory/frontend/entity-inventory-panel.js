@@ -399,7 +399,7 @@ class EntityInventoryPanel extends HTMLElement {
     switch (col) {
       case "icon": return [e.user ? "" : `<span class="eicon" data-act="icon" title="${esc(L.iconTip)}"></span>`, e.a.icon || ""];
       case "led": { const ok = e.user ? e.active : !OFFLINE.has(e.state); return [`<span style="color:${ok ? "#2e7d32" : "#c62828"}">●</span>`, ok ? 1 : 0]; }
-      case "name": return [esc(e.name), e.name.toLowerCase()];
+      case "name": return [e.user ? esc(e.name) : `<span class="cp" data-act="copy" data-copy="name" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.name)}</span>`, e.name.toLowerCase()];
       case "id": return [`<span class="cp" data-act="copy" title="${esc(L.copyTip)}">${svgIcon("copy", 14)}</span><span class="idt">${esc(e.id)}</span>`, e.id];
       case "value": { // the number only; the unit has its own column
         let t = this._valueText(e); const n = num(e.state);
@@ -471,7 +471,7 @@ class EntityInventoryPanel extends HTMLElement {
       tr:hover td{background:rgba(127,127,127,.08)}
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
-      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id]{position:relative;overflow:visible}.idt{display:block;overflow:hidden;text-overflow:ellipsis}tr:hover .idt{padding-left:19px}@media (hover:none){.idt{padding-left:19px}}td[data-col=id]:hover{color:var(--primary-color)}
+      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id],td[data-col=name]{position:relative;overflow:visible}.idt{display:block;overflow:hidden;text-overflow:ellipsis}tr:hover .idt{padding-left:19px}@media (hover:none){.idt{padding-left:19px}}td[data-col=id]:hover{color:var(--primary-color)}
       td{font-variant-numeric:tabular-nums}
       td[data-col=value],td[data-col=cur],td[data-col=target]{overflow:visible;text-overflow:clip;max-width:none}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
       td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
@@ -1138,7 +1138,7 @@ class EntityInventoryPanel extends HTMLElement {
     if (act && row && !row.dataset.id.startsWith("user:")) {
       const e = (this._rows || []).find((r) => r.id === row.dataset.id);
       if (act.dataset.act === "copy") {
-        try { navigator.clipboard.writeText(row.dataset.id); } catch (x) { /* ignore */ }
+        try { navigator.clipboard.writeText(act.dataset.copy === "name" ? (e ? e.name : "") : row.dataset.id); } catch (x) { /* ignore */ }
         act.innerHTML = svgIcon("check", 14); act.style.color = "var(--success-color,#43a047)"; act.style.visibility = "visible";
         setTimeout(() => { act.innerHTML = svgIcon("copy", 14); act.style.color = ""; act.style.visibility = ""; }, 800);
         return;
