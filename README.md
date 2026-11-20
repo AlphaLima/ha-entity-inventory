@@ -13,6 +13,10 @@ The *Dimmer* tab: tabs in groups on top (light, electrical, climate, blinds, con
 
 <p align="center"><img src="docs/screenshot-dimmer.png" width="900" alt="Dimmer tab of the Entity Inventory panel"></p>
 
+The *Temperature* tab with 171 sensors, sorted by value: the value (decimal separators lined up), the unit in its own column, area, device, integration and the time of the last change. Cells that are cut off show their full text as a tooltip.
+
+<p align="center"><img src="docs/screenshot-temperature.png" width="900" alt="Temperature tab of the Entity Inventory panel"></p>
+
 ## What you get
 
 - **One tab per type, in groups:** *All & light* (all entities, lights, dimmers, brightness) · *Electrical* (power, energy, voltage, current, frequency) · *Climate* (temperature, humidity, thermostats) · *Blinds* (covers, slats) · *Consumption* (gas, water, volume) · *Automation* (automations & scripts, scenes, helpers) · *More* (switches, batteries, media players, persons, user accounts, binary sensors, trackers, labels, other sensors, unavailable). Tabs without entries are not shown, the others carry a red badge for unavailable entities. A dialog switches single tabs on and off (kept in your browser).
