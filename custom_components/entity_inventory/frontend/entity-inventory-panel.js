@@ -150,6 +150,7 @@ class EntityInventoryPanel extends HTMLElement {
       rows.push({
         id, domain, s, a, state: s.state, dc: a.device_class || "", unit: a.unit_of_measurement || "", sc: a.state_class || "",
         name: a.friendly_name || id,
+        deviceId: d ? reg.device_id : "",
         device: d ? (d.name_by_user || d.name || "") : "",
         maker: d ? d.manufacturer || "" : "", model: d ? d.model || "" : "",
         area: areaId && ar[areaId] ? ar[areaId].name : "",
@@ -264,8 +265,8 @@ class EntityInventoryPanel extends HTMLElement {
       th:hover{color:var(--primary-color)}
       td{padding:2px 4px;line-height:1.3;border-bottom:1px solid var(--divider-color,#444);white-space:nowrap;max-width:420px;overflow:hidden;text-overflow:ellipsis}
       tr:hover td{background:rgba(127,127,127,.08)}
-      td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
-      td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
+      td[data-col=device],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
+      td[data-col=device]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
       td[data-col=id]{cursor:copy;opacity:.8}
       td[data-col=value],th[data-col=value],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target]{text-align:right}
       button,select{cursor:pointer;padding:4px 10px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font-size:13px}
@@ -475,6 +476,12 @@ class EntityInventoryPanel extends HTMLElement {
     if (td.dataset.col === "id") {
       try { navigator.clipboard.writeText(id); } catch (e) { /* ignore */ }
       const old = td.textContent; td.textContent = this._L.copied; setTimeout(() => { td.textContent = old; }, 700);
+    } else if (td.dataset.col === "device") { // device page of HA (settings → devices)
+      const e = (this._rows || []).find((r) => r.id === id);
+      if (e && e.deviceId) {
+        history.pushState(null, "", `/config/devices/device/${e.deviceId}`);
+        window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } }));
+      }
     } else if (["name", "value", "state", "pos", "tilt", "bright", "cur", "target", "mode", "action"].includes(td.dataset.col)) { // opens the normal HA dialog with the history
       this.dispatchEvent(new CustomEvent("hass-more-info", { bubbles: true, composed: true, detail: { entityId: id } }));
     }
