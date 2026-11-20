@@ -15,7 +15,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity ID", c_value: "Value", c_area: "Area", c_device: "Device",
     c_platform: "Integration", c_class: "Class", c_changed: "Changed", c_pos: "Position", c_tilt: "Slat angle",
     c_bright: "Brightness", c_cur: "Current", c_target: "Target", c_mode: "Mode", c_action: "Action", c_unit: "Unit",
-    c_state: "State", c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
+    c_state: "State", c_access: "Access", accessTip: { r: "r = read only (measured or reported value)", w: "w = write only (trigger without a state of its own)", rw: "rw = readable and controllable" }, c_photos: "Photos", c_docs: "Documents", c_note: "Comment",
     photosTitle: "Photos", addPhotos: "Add photos", docsTitle: "Documents", addDocs: "Add documents", noteTitle: "Comment", save: "Save", cancel: "Cancel", del: "Delete", rename: "Rename", renamePrompt: "New name", confirmDel: "Really delete {name}?",
     uploadFail: "Upload failed", noPhotos: "No photos yet.", noDocs: "No documents yet (e.g. electricity contract, gas contract, photo of the meter).", notePh: "Comment (location, fuse, contract number …)", c_trackers: "Trackers", c_source: "Source", c_username: "Username", c_person: "Person", c_role: "Role", c_provider: "Login method", c_local: "Local only", c_system: "System account", c_userid: "User ID", c_active: "Active", yes: "✓", no: "–", c_sc: "State class", c_maker: "Manufacturer", c_model: "Model",
     on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
@@ -49,7 +49,7 @@ const L10N = {
     c_led: "Status", c_name: "Name", c_id: "Entity-ID", c_value: "Wert", c_area: "Bereich", c_device: "Gerät",
     c_platform: "Integration", c_class: "Klasse", c_changed: "Geändert", c_pos: "Position", c_tilt: "Lamellenwinkel",
     c_bright: "Helligkeit", c_cur: "Ist", c_target: "Soll", c_mode: "Modus", c_action: "Aktion", c_unit: "Einheit",
-    c_state: "Zustand", c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
+    c_state: "Zustand", c_access: "Zugriff", accessTip: { r: "r = nur lesend (gemessener oder gemeldeter Wert)", w: "w = nur schreibend (Auslöser ohne eigenen Zustand)", rw: "rw = lesbar und steuerbar" }, c_photos: "Fotos", c_docs: "Dokumente", c_note: "Kommentar",
     photosTitle: "Fotos", addPhotos: "Fotos hinzufügen", docsTitle: "Dokumente", addDocs: "Dokumente hinzufügen", noteTitle: "Kommentar", save: "Speichern", cancel: "Abbrechen", del: "Löschen", rename: "Umbenennen", renamePrompt: "Neuer Name", confirmDel: "{name} wirklich löschen?",
     uploadFail: "Upload fehlgeschlagen", noPhotos: "Noch keine Fotos.", noDocs: "Noch keine Dokumente (z. B. Stromvertrag, Gasvertrag, Foto des Zählers).", notePh: "Kommentar (Standort, Sicherung, Vertragsnummer …)", c_trackers: "Tracker", c_source: "Quelle", c_username: "Benutzername", c_person: "Person", c_role: "Rolle", c_provider: "Anmeldung", c_local: "Nur lokal", c_system: "Systemkonto", c_userid: "Benutzer-ID", c_active: "Aktiv", yes: "✓", no: "–", c_sc: "State-Class", c_maker: "Hersteller", c_model: "Modell",
     on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
@@ -120,7 +120,17 @@ const TABCOLS = {
   sensor: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
   unavailable: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
 };
-Object.keys(TABCOLS).forEach((k) => { if (k !== "users") TABCOLS[k] = [...TABCOLS[k], "photos", "docs", "note"]; });
+Object.keys(TABCOLS).forEach((k) => {
+  if (k === "users") return;
+  const cols = [...TABCOLS[k], "photos", "docs", "note"], i = cols.indexOf("id");
+  if (i >= 0) cols.splice(i + 1, 0, "access"); // r / w / rw right behind the entity ID
+  TABCOLS[k] = cols;
+});
+
+// access of an entity by its domain: r = read only (measured / reported), w = write only (triggers, no state of its own), rw = readable and controllable
+const W_ONLY = new Set(["button", "scene", "script", "notify", "input_button"]);
+const RW = new Set(["switch", "light", "cover", "climate", "fan", "lock", "media_player", "input_boolean", "input_number", "input_select", "input_text", "input_datetime", "number", "select", "text", "date", "time", "datetime", "vacuum", "humidifier", "water_heater", "valve", "siren", "alarm_control_panel", "remote", "counter", "timer", "automation", "update", "lawn_mower", "schedule", "todo", "camera"]);
+const accessOf = (domain) => (W_ONLY.has(domain) ? "w" : RW.has(domain) ? "rw" : "r");
 const SORT_DEFAULT = { battery: ["value", 1], unavailable: ["changed", 1], cover: ["area", 1], tilt: ["area", 1], light: ["area", 1], dimmer: ["area", 1] };
 
 // unit -> [base unit, size]: Wh < kWh < MWh, mV < V < kV … (empty units last)
@@ -324,6 +334,7 @@ class EntityInventoryPanel extends HTMLElement {
       case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
       case "docs": { const n = e.user ? 0 : ((this._meta.docs[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="docs">${svgIcon("doc")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
       case "note": { const t = e.user ? "" : ((this._meta.notes[e.id] || {}).t || ""); return [e.user ? "" : `<span class="ic${t ? "" : " ic0"}" data-act="note">${svgIcon(t ? "noteFull" : "note")}</span>${t ? ` <span data-act="note" title="${esc(t)}">${esc(t.replace(/\s+/g, " "))}</span>` : ""}`, t.toLowerCase()]; }
+      case "access": { const a = e.user ? "" : accessOf(e.domain); return [a ? `<span title="${esc(L.accessTip[a])}">${a}</span>` : "", a]; }
       case "unit": return [esc(e.unit), e.unit];
       case "area": return [esc(e.area), e.area.toLowerCase()];
       case "device": return [esc(e.device), e.device.toLowerCase()];
