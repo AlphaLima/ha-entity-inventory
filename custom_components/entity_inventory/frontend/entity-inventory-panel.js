@@ -4,7 +4,7 @@
 const L10N = {
   en: {
     title: "Entity Inventory", tabsBtn: "Show or hide tabs", tabsShowAll: "Show all", tabsClose: "Close",
-    gMeasure: "Measurements", gActors: "Actuators", gMore: "More",
+    gLight: "All and light", gMeasure: "Measurements", gActors: "Actuators", gMore: "More",
     search: "Search (name, entity ID, area, device, integration …)", count: "Entities shown / in this tab",
     csv: "Export CSV", print: "Print / PDF", pause: "Pause live update", resume: "Resume live update",
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
@@ -18,14 +18,14 @@ const L10N = {
     on: "on", off: "off", roleOwner: "Owner", roleRead: "Read-only",
     ago: { s: "just now", m: "{n} min ago", h: "{n} h ago", d: "{n} d ago" },
     t: {
-      all: "All entities", temperature: "Temperature", humidity: "Humidity", power: "Power", energy: "Energy",
+      all: "All entities", illuminance: "Brightness", temperature: "Temperature", humidity: "Humidity", power: "Power", energy: "Energy",
       consumption: "Consumption", voltage: "Voltage", frequency: "Frequency", current: "Current", battery: "Batteries",
       cover: "Covers", tilt: "Slats", light: "Lights", dimmer: "Dimmers", switch: "Switches", climate: "Thermostats",
       media: "Media", person: "Persons", users: "User accounts", binary: "Binary sensors", presence: "Trackers", auto: "Automations / scripts", helper: "Helpers",
       sensor: "Other sensors", unavailable: "Unavailable",
     },
     d: {
-      all: "Every entity Home Assistant knows", temperature: "Sensors that measure a temperature", humidity: "Humidity sensors",
+      all: "Every entity Home Assistant knows", illuminance: "Brightness sensors (lux)", temperature: "Sensors that measure a temperature", humidity: "Humidity sensors",
       power: "Momentary power (W, kW)", energy: "Energy counters (Wh, kWh)", consumption: "Gas, water, volume and everything named consumption",
       voltage: "Voltage sensors (V, mV, kV)", frequency: "Frequency sensors (Hz)", current: "Current and power factor (A, mA)", battery: "Battery levels, the weakest first",
       cover: "Blinds, shutters, garage doors: position", tilt: "Covers with adjustable slats: slat angle",
@@ -38,7 +38,7 @@ const L10N = {
   },
   de: {
     title: "Entitäten-Inventar", tabsBtn: "Tabs ein- oder ausblenden", tabsShowAll: "Alle anzeigen", tabsClose: "Schließen",
-    gMeasure: "Messwerte", gActors: "Aktoren", gMore: "Weiteres",
+    gLight: "Alle und Licht", gMeasure: "Messwerte", gActors: "Aktoren", gMore: "Weiteres",
     search: "Suche (Name, Entity-ID, Bereich, Gerät, Integration …)", count: "Angezeigte Entitäten / in diesem Tab",
     csv: "CSV exportieren", print: "Drucken / PDF", pause: "Live-Aktualisierung anhalten", resume: "Live-Aktualisierung fortsetzen",
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
@@ -52,14 +52,14 @@ const L10N = {
     on: "an", off: "aus", roleOwner: "Besitzer", roleRead: "Nur lesen",
     ago: { s: "gerade eben", m: "vor {n} Min", h: "vor {n} Std", d: "vor {n} T" },
     t: {
-      all: "Alle Entitäten", temperature: "Temperatur", humidity: "Feuchte", power: "Leistung", energy: "Energie",
+      all: "Alle Entitäten", illuminance: "Helligkeit", temperature: "Temperatur", humidity: "Feuchte", power: "Leistung", energy: "Energie",
       consumption: "Verbrauch", voltage: "Spannung", frequency: "Frequenz", current: "Strom", battery: "Batterien",
       cover: "Cover", tilt: "Lamellen", light: "Lichter", dimmer: "Dimmer", switch: "Schalter", climate: "Thermostate",
       media: "Medien", person: "Personen", users: "Benutzerkonten", binary: "Binärsensoren", presence: "Tracker", auto: "Automationen / Skripte", helper: "Helfer",
       sensor: "Sonstige Sensoren", unavailable: "Nicht verfügbar",
     },
     d: {
-      all: "Jede Entität, die Home Assistant kennt", temperature: "Sensoren, die eine Temperatur messen", humidity: "Feuchtesensoren",
+      all: "Jede Entität, die Home Assistant kennt", illuminance: "Helligkeitssensoren (Lux)", temperature: "Sensoren, die eine Temperatur messen", humidity: "Feuchtesensoren",
       power: "Momentanleistung (W, kW)", energy: "Energiezähler (Wh, kWh)", consumption: "Gas, Wasser, Volumen und alles, was Verbrauch heißt",
       voltage: "Spannungssensoren (V, mV, kV)", frequency: "Frequenzsensoren (Hz)", current: "Strom und Leistungsfaktor (A, mA)", battery: "Batteriestände, die schwächsten zuerst",
       cover: "Raffstores, Rollläden, Garagentore: Position", tilt: "Cover mit verstellbaren Lamellen: Lamellenwinkel",
@@ -74,7 +74,7 @@ const L10N = {
 
 // tab symbols (Material Design Icons, shown with ha-icon)
 const MDI = {
-  all: "mdi:format-list-bulleted-type", temperature: "mdi:thermometer", humidity: "mdi:water-percent", power: "mdi:flash",
+  all: "mdi:format-list-bulleted-type", illuminance: "mdi:brightness-5", temperature: "mdi:thermometer", humidity: "mdi:water-percent", power: "mdi:flash",
   energy: "mdi:lightning-bolt-circle", consumption: "mdi:meter-electric-outline", voltage: "mdi:flash-triangle-outline", frequency: "mdi:sine-wave", current: "mdi:current-ac", battery: "mdi:battery-60",
   cover: "mdi:window-shutter", tilt: "mdi:blinds-horizontal", light: "mdi:lightbulb", dimmer: "mdi:lightbulb-on-50",
   switch: "mdi:toggle-switch", climate: "mdi:thermostat", media: "mdi:play-box-multiple", person: "mdi:account", users: "mdi:account-key", binary: "mdi:radiobox-marked",
@@ -83,16 +83,19 @@ const MDI = {
 
 // order and groups of the tabs
 const GROUPS = [
-  ["gMeasure", ["all", "temperature", "humidity", "power", "energy", "consumption", "voltage", "frequency", "current", "battery"]],
-  ["gActors", ["cover", "tilt", "light", "dimmer", "switch", "climate", "media"]],
+  ["gLight", ["all", "light", "dimmer", "illuminance"]], // fixed order: everything, lamps, dimmers, brightness sensors
+  ["gActors", ["cover", "tilt", "switch", "climate", "media"]],
+  ["gMeasure", ["temperature", "humidity", "power", "energy", "consumption", "voltage", "frequency", "current", "battery"]],
   ["gMore", ["person", "users", "binary", "presence", "auto", "helper", "sensor", "unavailable"]],
 ];
+const TABS_BY_COUNT = true; // from the second group on, the tabs of a group are ordered by the number of entities (most first)
 
 // columns shown per tab (the first one is the sort default unless "sort" is given)
 const BASE = ["led", "name", "id", "area", "device", "platform", "changed"];
 const TABCOLS = {
   all: ["led", "name", "id", "value", "unit", "area", "device", "platform", "class", "changed"],
   temperature: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
+  illuminance: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
   humidity: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
   power: ["led", "name", "id", "value", "unit", "area", "device", "platform", "changed"],
   energy: ["led", "name", "id", "value", "unit", "sc", "area", "device", "platform", "changed"],
@@ -248,6 +251,7 @@ class EntityInventoryPanel extends HTMLElement {
       let hit = false;
       if (dc === "temperature" || (!dc && /^(°C|°F|K)$/.test(u))) { t.push("temperature"); hit = true; }
       if (dc === "humidity") { t.push("humidity"); hit = true; }
+      if (dc === "illuminance" || (!dc && /^(lx|lux)$/i.test(u))) { t.push("illuminance"); hit = true; }
       if (["power", "apparent_power", "reactive_power"].includes(dc) || (!dc && /^(W|kW|mW|MW)$/.test(u))) { t.push("power"); hit = true; }
       if (dc === "energy" || (!dc && /^(Wh|kWh|MWh)$/.test(u))) { t.push("energy"); hit = true; }
       if (["gas", "water", "volume", "volume_flow_rate", "volume_storage"].includes(dc) || /verbrauch|consumption|durchfluss/.test(nm)) { t.push("consumption"); hit = true; }
@@ -607,11 +611,18 @@ class EntityInventoryPanel extends HTMLElement {
     this._render();
   }
 
+  // tabs of group gi in display order: the first group is fixed, the others by number of entities (ties keep the default order)
+  _groupKeys(gi) {
+    const ks = GROUPS[gi][1], c = this._counts || {};
+    if (!TABS_BY_COUNT || gi === 0) return ks;
+    return ks.map((k, i) => [k, i]).sort((a, b) => ((c[b[0]] || { n: 0 }).n - (c[a[0]] || { n: 0 }).n) || a[1] - b[1]).map((x) => x[0]);
+  }
+
   _label(k) { return this._L.t[k] || k; }
 
   _drawTabs() {
     const L = this._L, c = this._counts;
-    const keys = GROUPS.flatMap(([, ks]) => ks).filter((k) => k === "all" || (c[k] && c[k].n > 0));
+    const keys = GROUPS.flatMap((_, gi) => this._groupKeys(gi)).filter((k) => k === "all" || (c[k] && c[k].n > 0));
     this._keys = keys;
     const shown = keys.filter((k) => k === "all" || !this._off.has(k));
     if (!shown.includes(this._active)) this._active = "all";
@@ -1232,8 +1243,8 @@ class EntityInventoryPanel extends HTMLElement {
     const h = document.createElement("div"); h.style.cssText = "font-weight:600;font-size:16px;margin-bottom:10px"; h.textContent = L.tabsBtn; bx.appendChild(h);
     const save = () => { try { localStorage.setItem("eiTabsOff", JSON.stringify([...this._off])); } catch (e) { /* ignore */ } this._sigT = null; this._drawTabs(); };
     const rows = [];
-    GROUPS.forEach(([gk, ks]) => {
-      const present = ks.filter((k) => this._keys && this._keys.includes(k));
+    GROUPS.forEach(([gk], gi) => {
+      const present = this._groupKeys(gi).filter((k) => this._keys && this._keys.includes(k));
       if (!present.length) return;
       const g = document.createElement("div"); g.style.cssText = "font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;opacity:.65;margin:12px 0 4px"; g.textContent = L[gk]; bx.appendChild(g);
       const list = document.createElement("div"); list.style.cssText = "display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px 8px"; bx.appendChild(list);
