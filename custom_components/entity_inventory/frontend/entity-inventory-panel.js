@@ -888,7 +888,7 @@ class EntityInventoryPanel extends HTMLElement {
       }
       return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
-    const wcss = ["#", ...cols].filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return (c === "#" || NOCLIP.includes(c)) ? `td[data-col="${c}"],th[data-col="${c}"]{min-width:${w}px}` : `td[data-col="${c}"],th[data-col="${c}"]{width:${w}px;max-width:${w}px;min-width:${w}px}`; }).join("");
+    const wcss = ["#", ...cols].filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return `td[data-col="${c}"],th[data-col="${c}"]{width:${w}px;max-width:${w}px;min-width:${w}px;overflow:hidden;text-overflow:${c === "#" || NOCLIP.includes(c) ? "clip" : "ellipsis"}}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
     ["value", "cur", "target"].forEach((c) => { // widths of the decimals and of the unit = longest in the column, so separators and units line up
       this._wrap.style.removeProperty("--wf-" + c); this._wrap.style.removeProperty("--wu-" + c);
@@ -1273,7 +1273,7 @@ class EntityInventoryPanel extends HTMLElement {
     const th = g.closest("th"), c = th.dataset.col, cfg = this._layout(this._tgt), tgt = this._tgt;
     const x0 = ev.clientX, w0 = th.getBoundingClientRect().width; let cur = w0;
     const cells = () => [th, ...this._wrap.querySelectorAll(`td[data-col="${c}"]`)];
-    const mv = (e) => { cur = Math.max(12, w0 + e.clientX - x0); cells().forEach((x) => { x.style.width = x.style.maxWidth = x.style.minWidth = cur + "px"; }); };
+    const mv = (e) => { cur = Math.max(8, w0 + e.clientX - x0); cells().forEach((x) => { x.style.width = x.style.maxWidth = x.style.minWidth = cur + "px"; }); };
     const up = () => {
       document.removeEventListener("mousemove", mv); document.removeEventListener("mouseup", up);
       if (cur !== w0) { cfg.w[c] = tgt === "print" ? Math.round(cur / MM) : Math.round(cur); this._saveLayout(tgt); this._render(); }
