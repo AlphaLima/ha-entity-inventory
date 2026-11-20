@@ -2142,7 +2142,7 @@ class EntityInventoryPanel extends HTMLElement {
         if (e.unit && t.endsWith(e.unit)) t = t.slice(0, t.length - e.unit.length).trim();
         const cp = e.user ? "" : `<span class="cp" data-act="copy" data-copy="value" title="${esc(L.copyValueTip)}">${svgIcon("copy", 14)}</span>`; // absolutely positioned: does not move the number
         if (n === null) return [cp + esc(t), t];
-        const sp = this._split(t, n); return [cp + sp[0], sp[1]];
+        const sp = this._split(t, n); return [cp + sp[0], sp[1], sp[2], sp[3]]; // keep the widths of decimals and unit for the alignment
       }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
       case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }

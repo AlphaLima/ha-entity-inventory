@@ -14,7 +14,7 @@ const L10N = {
     allAreas: "All areas", allInts: "All integrations", hidden: "Show hidden / disabled entities (highlighted = shown)",
     retSince: "Stored in the recorder since: {t} ({n} days)", retSinceNone: "No history stored in the recorder.", retSinceFail: "Age of the history could not be read.", retSinceBusy: "Reading the age of the history …",
     retShort: "{n} d", retRule: "rule: {n} d", retErr: "The recorder query failed: {e}",
-    c_retention: "Stored for (days, recorder)", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click and type the number of days (empty = no rule), Shift+click opens the dialog",
+    c_retention: "Stored for (days, recorder)", retTitle: "Recorder – retention", retBtn: "Recorder", retTip: "Recorder retention of this entity: click opens the dialog, Shift+click types the number of days right here",
     retIntro: "History of this entity (the recorder database) older than the chosen number of days is deleted every night. A rule can only shorten the global retention of the recorder (purge_keep_days), it cannot keep data longer.",
     retNone: "No rule (recorder default)", retDays: "{n} days", retCustom: "Other number of days", retJob: "Run the nightly retention job (03:20) for all entities with a rule", retRules: "{n} entities with a rule",
     retRunNow: "Run now", retRunAsk: "Delete the history older than the rules of all entities that have a retention rule? This cannot be undone.", retLast: "Last run: {t}", retDone: "Done: {n} entities processed.", retFail: "The recorder reported an error: {e}", retNoRec: "The recorder is not available.", retAdmin: "Only administrators can change the recorder retention.", retNever: "never",
@@ -55,7 +55,7 @@ const L10N = {
     allAreas: "Alle Bereiche", allInts: "Alle Integrationen", hidden: "Versteckte / deaktivierte Entitäten zeigen (farbig = angezeigt)",
     retSince: "Im Recorder gespeichert seit: {t} ({n} Tage)", retSinceNone: "Im Recorder ist kein Verlauf gespeichert.", retSinceFail: "Das Alter des Verlaufs konnte nicht gelesen werden.", retSinceBusy: "Alter des Verlaufs wird gelesen …",
     retShort: "{n} T", retRule: "Regel: {n} T", retErr: "Recorder-Abfrage fehlgeschlagen: {e}",
-    c_retention: "Gespeichert seit (Tage, Recorder)", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: anklicken und Anzahl Tage eintippen (leer = keine Regel), Umschalt+Klick öffnet den Dialog",
+    c_retention: "Gespeichert seit (Tage, Recorder)", retTitle: "Recorder – Aufbewahrung", retBtn: "Recorder", retTip: "Recorder-Aufbewahrung dieser Entität: Klick öffnet den Dialog, Umschalt+Klick trägt die Tage direkt hier ein",
     retIntro: "Der Verlauf dieser Entität (Recorder-Datenbank), der älter ist als die gewählte Anzahl Tage, wird jede Nacht gelöscht. Eine Regel kann die globale Aufbewahrung des Recorders (purge_keep_days) nur verkürzen, nicht verlängern.",
     retNone: "Keine Regel (Recorder-Standard)", retDays: "{n} Tage", retCustom: "Andere Anzahl Tage", retJob: "Nächtlichen Aufbewahrungs-Job (03:20) für alle Entitäten mit Regel ausführen", retRules: "{n} Entitäten mit Regel",
     retRunNow: "Jetzt ausführen", retRunAsk: "Den Verlauf, der älter ist als die Regeln, für alle Entitäten mit Aufbewahrungsregel jetzt löschen? Das lässt sich nicht rückgängig machen.", retLast: "Letzter Lauf: {t}", retDone: "Fertig: {n} Entitäten bearbeitet.", retFail: "Der Recorder meldet einen Fehler: {e}", retNoRec: "Der Recorder ist nicht verfügbar.", retAdmin: "Nur Administratoren können die Recorder-Aufbewahrung ändern.", retNever: "nie",
@@ -2145,7 +2145,7 @@ class EntityInventoryPanel extends HTMLElement {
         if (e.unit && t.endsWith(e.unit)) t = t.slice(0, t.length - e.unit.length).trim();
         const cp = e.user ? "" : `<span class="cp" data-act="copy" data-copy="value" title="${esc(L.copyValueTip)}">${svgIcon("copy", 14)}</span>`; // absolutely positioned: does not move the number
         if (n === null) return [cp + esc(t), t];
-        const sp = this._split(t, n); return [cp + sp[0], sp[1]];
+        const sp = this._split(t, n); return [cp + sp[0], sp[1], sp[2], sp[3]]; // keep the widths of decimals and unit for the alignment
       }
       case "state": { const t = this._valueText(e); return [esc(t), t]; }
       case "photos": { const n = e.user ? 0 : ((this._meta.photos[e.id] || []).length); return [e.user ? "" : `<span class="ic${n ? "" : " ic0"}" data-act="photos">${svgIcon("image")}${n > 1 ? `<small>${n}</small>` : ""}</span>`, n]; }
@@ -3058,7 +3058,7 @@ class EntityInventoryPanel extends HTMLElement {
         return;
       }
       if (e && act.dataset.act === "icon") { this._hidePop(); this._iconDialog(e); return; }
-      if (e && act.dataset.act === "retention") { this._hidePop(); if (ev.shiftKey || !this._admin) this._retentionDialog(e); else this._retentionInline(act, e); return; }
+      if (e && act.dataset.act === "retention") { this._hidePop(); if (ev.shiftKey && this._admin) this._retentionInline(act, e); else this._retentionDialog(e); return; }
       if (e) { this._hidePop(); if (act.dataset.act === "photos") this._photosDialog(e); else if (act.dataset.act === "docs") this._docsDialog(e); else this._noteDialog(e); }
       return;
     }
