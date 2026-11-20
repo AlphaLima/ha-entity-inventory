@@ -1124,6 +1124,8 @@ class EntityInventoryPanel extends HTMLElement {
     };
     const st = (d) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
     const fl = (d) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="${d}"/></svg>`;
+    const toggle = () => { this._edit = !this._edit; this._tgt = "view"; this._paintEdit(); this._render(); };
+    box.append(mk(st('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/>'), this._edit ? L.doneTip : L.cfgBtn, toggle, this._edit));
     if (this._edit) {
       box.append(
         mk(fl("M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"), L.tgtView, () => { this._tgt = "view"; this._paintEdit(); this._render(); }, this._tgt === "view"),
@@ -1137,9 +1139,9 @@ class EntityInventoryPanel extends HTMLElement {
           try { localStorage.removeItem(this._tgt === "print" ? "eiPrint" : "eiView"); } catch (e) { /* ignore */ }
           delete this._lay[this._tgt]; this._render();
         }),
+        mk(fl("M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"), L.doneTip, toggle), // OK / done: leaves the column editor
       );
     }
-    box.append(mk(st('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/>'), this._edit ? L.doneTip : L.cfgBtn, () => { this._edit = !this._edit; this._tgt = "view"; this._paintEdit(); this._render(); }, this._edit));
   }
 
   _tableData(tgt = "view") {
