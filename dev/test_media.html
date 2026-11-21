@@ -2227,7 +2227,7 @@ class EntityInventoryPanel extends HTMLElement {
       tr:hover td{background:rgba(127,127,127,.08)}
       td[data-col=device],td[data-col=platform],td[data-col=area],td[data-col=name],td[data-col=value],td[data-col=state],td[data-col=pos],td[data-col=tilt],td[data-col=bright],td[data-col=cur],td[data-col=target],td[data-col=mode],td[data-col=action]{cursor:pointer}
       td[data-col=device]:hover,td[data-col=platform]:hover,td[data-col=area]:hover,td[data-col=name]:hover,td[data-col=value]:hover,td[data-col=state]:hover,td[data-col=pos]:hover,td[data-col=tilt]:hover,td[data-col=bright]:hover,td[data-col=cur]:hover,td[data-col=target]:hover,td[data-col=mode]:hover,td[data-col=action]:hover{color:var(--primary-color)}
-      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id],td[data-col=name]{position:relative;overflow:visible}td[data-col=access],th[data-col=access]{width:1%;padding-left:2px;padding-right:2px;text-align:center}.idt{display:block;overflow:hidden;text-overflow:ellipsis}tr:hover .idt{padding-left:19px}@media (hover:none){.idt{padding-left:19px}}td[data-col=id]:hover{color:var(--primary-color)}
+      td[data-col=id]{cursor:pointer;opacity:.8}td[data-col=id],td[data-col=name]{position:relative;overflow:visible}td[data-col=access],th[data-col=access]{width:1%;padding-left:2px;padding-right:2px;text-align:center}.idt{display:block;overflow:hidden;text-overflow:ellipsis}tr:hover .idt{position:relative;left:19px;width:calc(100% - 19px)}@media (hover:none){.idt{position:relative;left:19px;width:calc(100% - 19px)}} /* the text moves aside for the copy symbol without changing the column width (it is cut off earlier instead) */td[data-col=id]:hover{color:var(--primary-color)}
       td{font-variant-numeric:tabular-nums}
       td[data-col=value]{position:relative}td[data-col=value],td[data-col=cur],td[data-col=target]{overflow:visible;text-overflow:clip;max-width:none}.vf,.vu{display:inline-block;text-align:left;white-space:pre}
       td[data-col=value] .vf{min-width:var(--wf-value,0)}td[data-col=value] .vu{min-width:var(--wu-value,0)}
@@ -3017,7 +3017,7 @@ class EntityInventoryPanel extends HTMLElement {
   // every number of a column gets the same number of decimals: the missing zeros are added on the right (display only; 236,0 -> 236,00 next to 1,20)
   _padDecimals(html, col) {
     const f = this._maxDec && this._maxDec[col];
-    if (!f || f < 2) return html;
+    if (this._align !== "dec" || !f || f < 2) return html; // only with the decimal-separator alignment
     return html.replace(/<span class="vf">([^<]*)<\/span>/, (m, d) => d.length >= f ? m : `<span class="vf">${(d || this._dec) + "0".repeat(f - (d || this._dec).length)}</span>`);
   }
 
