@@ -11,6 +11,7 @@ import logging
 from pathlib import Path
 import re
 import secrets
+import time
 from typing import Any
 from urllib.parse import quote
 
@@ -87,6 +88,8 @@ class Manager:
                 "last_result": settings.get("retention_last_result"),
                 "hour": RETENTION_HOUR,
                 "minute": RETENTION_MINUTE,
+                "default_days": settings.get("default_days"),
+                "recorder": _recorder_info(self.hass),
             },
             "notes": self.data["notes"],
             "photos": {
@@ -146,22 +149,85 @@ def _oldest_states(hass: HomeAssistant) -> dict[str, float]:
     return {entity_id: float(ts) for entity_id, ts in rows if entity_id and ts}
 
 
+def _recorder_info(hass: HomeAssistant) -> dict[str, Any] | None:
+    """The global settings of the recorder that matter here (purge_keep_days, automatic purge)."""
+    try:
+        instance = get_instance(hass)
+    except Exception:  # noqa: BLE001 - recorder not set up
+        return None
+    keep = getattr(instance, "keep_days", None)
+    return {"keep_days": int(keep) if keep else None, "auto_purge": bool(getattr(instance, "auto_purge", True))}
+
+
+def _plan_sync(hass: HomeAssistant, rules: dict[str, int], default_days: int | None, keep_days: int | None, count_rows: bool) -> dict[str, Any]:
+    """What the retention job would delete (runs in the recorder's executor).
+
+    Every entity the recorder has states for gets its own rule, or else the default retention. Entities whose number
+    of days is not shorter than the global purge_keep_days are skipped (the recorder deletes them at that age anyway).
+    """
+    by_days: dict[int, list[str]] = {}
+    skipped = 0
+    with session_scope(hass=hass, read_only=True) as session:
+        for (entity_id,) in session.execute(select(StatesMeta.entity_id)).all():
+            if not entity_id or not ENTITY_RE.match(entity_id):
+                continue
+            days = rules.get(entity_id, default_days)
+            if not isinstance(days, int) or days < 1:
+                continue
+            if keep_days and days >= keep_days:
+                skipped += 1
+                continue
+            by_days.setdefault(days, []).append(entity_id)
+        groups = []
+        now = time.time()
+        for days, ids in sorted(by_days.items()):
+            rows = None
+            if count_rows:
+                rows = 0
+                cutoff = now - days * 86400
+                for k in range(0, len(ids), 200):
+                    rows += (
+                        session.execute(
+                            select(func.count())
+                            .select_from(States)
+                            .join(StatesMeta, States.metadata_id == StatesMeta.metadata_id)
+                            .where(StatesMeta.entity_id.in_(ids[k : k + 200]), States.last_updated_ts < cutoff)
+                        ).scalar()
+                        or 0
+                    )
+            groups.append({"days": days, "entities": len(ids), "rows": rows, "ids": ids})
+    return {"groups": groups, "skipped": skipped}
+
+
+async def async_plan_retention(hass: HomeAssistant, manager: Manager, count_rows: bool, default_days: Any = "saved") -> dict[str, Any]:
+    info = _recorder_info(hass)
+    keep = info["keep_days"] if info else None
+    if default_days == "saved":
+        default_days = manager.data["settings"].get("default_days")
+    plan = await get_instance(hass).async_add_executor_job(_plan_sync, hass, dict(manager.data["retention"]), default_days, keep, count_rows)
+    plan["recorder"] = info
+    return plan
+
+
 async def async_run_retention(hass: HomeAssistant, manager: Manager) -> dict[str, Any]:
-    """Deletes the recorder history of every entity that has a retention rule and is older than its number of days.
+    """Deletes the recorder history that is older than the retention of its entity (own rule, else the default).
 
     Uses the recorder service recorder.purge_entities once per number of days; keep_days is always passed
-    explicitly (the service default of 0 would delete everything). The rules can only shorten the global
-    purge_keep_days of the recorder, they cannot keep data longer than that.
+    explicitly (the service default of 0 would delete everything). Retention can only be shortened here, it
+    cannot exceed the global purge_keep_days of the recorder.
     """
     result: dict[str, Any] = {"entities": 0, "groups": 0, "error": None}
     if not hass.services.has_service("recorder", "purge_entities"):
         result["error"] = "recorder_not_available"
     else:
-        by_days: dict[int, list[str]] = {}
-        for entity_id, days in manager.data["retention"].items():
-            if isinstance(days, int) and 1 <= days <= MAX_RETENTION_DAYS and ENTITY_RE.match(entity_id):
-                by_days.setdefault(days, []).append(entity_id)
-        for days, entity_ids in sorted(by_days.items()):
+        try:
+            plan = await async_plan_retention(hass, manager, False)
+        except Exception as err:  # noqa: BLE001 - tell the panel instead of failing
+            _LOGGER.warning("Retention plan failed: %s", err)
+            plan = {"groups": []}
+            result["error"] = str(err)
+        for group in plan["groups"]:
+            days, entity_ids = group["days"], group["ids"]
             for i in range(0, len(entity_ids), 200):
                 chunk = entity_ids[i : i + 200]
                 try:
@@ -238,7 +304,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.http.register_view(DocUploadView)
     hass.http.register_view(PhotoServeView)
     hass.http.register_view(DocServeView)
-    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention, ws_recorder_age):
+    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention, ws_recorder_age, ws_set_default_retention, ws_retention_preview):
         websocket_api.async_register_command(hass, command)
 
     @callback
@@ -250,7 +316,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     entry.async_on_unload(hass.bus.async_listen(er.EVENT_ENTITY_REGISTRY_UPDATED, _registry_updated))
 
     async def _nightly(_now) -> None:
-        if manager.data["settings"].get("retention_enabled") and manager.data["retention"]:
+        if manager.data["settings"].get("retention_enabled") and (manager.data["retention"] or manager.data["settings"].get("default_days")):
             await async_run_retention(hass, manager)
 
     entry.async_on_unload(async_track_time_change(hass, _nightly, hour=RETENTION_HOUR, minute=RETENTION_MINUTE, second=0))
@@ -387,6 +453,44 @@ def ws_retention_enabled(hass: HomeAssistant, connection, msg: dict[str, Any]) -
     manager.data["settings"]["retention_enabled"] = msg["enabled"]
     manager.save()
     connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command(
+    {vol.Required("type"): f"{DOMAIN}/set_default_retention", vol.Required("days"): vol.Any(None, vol.All(int, vol.Range(min=1, max=MAX_RETENTION_DAYS)))}
+)
+@websocket_api.require_admin
+@callback
+def ws_set_default_retention(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """Default retention for every entity without an own rule (null = none)."""
+    manager: Manager = hass.data[DOMAIN]
+    if msg["days"] is None:
+        manager.data["settings"].pop("default_days", None)
+    else:
+        manager.data["settings"]["default_days"] = msg["days"]
+    manager.save()
+    connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command(
+    {vol.Required("type"): f"{DOMAIN}/retention_preview", vol.Optional("default_days"): vol.Any(None, vol.All(int, vol.Range(min=1, max=MAX_RETENTION_DAYS)))}
+)
+@websocket_api.require_admin
+@websocket_api.async_response
+async def ws_retention_preview(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """What the job would delete right now (entities and rows per number of days); deletes nothing."""
+    manager: Manager = hass.data[DOMAIN]
+    try:
+        plan = await async_plan_retention(hass, manager, True, msg["default_days"] if "default_days" in msg else "saved")
+    except Exception as err:  # noqa: BLE001
+        _LOGGER.warning("Retention preview failed: %s", err)
+        connection.send_error(msg["id"], "recorder_error", str(err))
+        return
+    for group in plan["groups"]:
+        group.pop("ids", None)
+    plan["enabled"] = bool(manager.data["settings"].get("retention_enabled", False))
+    plan["default_days"] = msg["default_days"] if "default_days" in msg else manager.data["settings"].get("default_days")
+    plan["rules"] = len(manager.data["retention"])
+    connection.send_result(msg["id"], plan)
 
 
 @websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/recorder_age"})
