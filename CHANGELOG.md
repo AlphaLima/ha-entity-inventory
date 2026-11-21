@@ -2,6 +2,11 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.2b4 – 2026-11-21
+- Long press or right click on a column heading renames the column (display names)
+- Column editor: the box with checkbox, arrows and name is no longer clipped by a stored column width
+- README: German user manual, recorder columns and retention
+
 ## 0.3.2b3 – 2026-11-21
 - Recorder retention: default retention for all entities, global purge_keep_days shown, hints for keeping data longer, preview and explaining confirm dialogs, all languages
 - Recorder columns (stored for, entries, average interval, last report) with a switch in the toolbar, placed behind the unit
