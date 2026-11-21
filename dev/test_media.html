@@ -6,6 +6,26 @@
 
 const L10N = {
   en: {
+    selTip: "Select several entities (to hide, switch on / off or set the recorder retention for all at once)",
+    selCount: "{n} selected",
+    selAll: "Select all shown",
+    selClear: "Clear selection",
+    bHide: "Hide",
+    bUnhide: "Show",
+    bEnable: "Switch on",
+    bDisable: "Switch off",
+    bRet: "Retention …",
+    bHideAsk: "Hide {n} entities? They disappear from the automatically generated dashboards and lists of Home Assistant; they keep working.",
+    bUnhideAsk: "Show {n} hidden entities again?",
+    bEnableAsk: "Switch {n} entities on? Home Assistant reloads the affected integrations after about 30 seconds.",
+    bDisableAsk: "Switch {n} entities OFF? They stop working until you switch them on again: no state, no new history, and automations, scripts and dashboards that use them break. Home Assistant reloads the affected integrations after about 30 seconds. Old history stays in the database.",
+    bRetAsk: "Set the recorder retention of {n} entities to {d}? The rule only takes effect while the nightly job is switched on (see the Recorder dialog).",
+    bRetNoneAsk: "Remove the retention rule of {n} entities?",
+    bRunning: "{i} / {n} …",
+    bDone: "Done: {n} entities changed.",
+    bFailed: "{f} failed (first error: {e}).",
+    bRetTitle: "Recorder retention for {n} entities",
+    bResult: "Result",
     tabHidden: "Hidden / disabled",
     tabHiddenDesc: "Entities that are hidden or switched off (disabled entities have no state and are read from the entity registry; administrators only)",
     hHidden: "hidden",
@@ -96,6 +116,26 @@ const L10N = {
     },
   },
   de: {
+    selTip: "Mehrere Entitäten auswählen (um sie gemeinsam zu verstecken, ein-/auszuschalten oder die Recorder-Aufbewahrung zu setzen)",
+    selCount: "{n} ausgewählt",
+    selAll: "Alle angezeigten auswählen",
+    selClear: "Auswahl leeren",
+    bHide: "Verstecken",
+    bUnhide: "Einblenden",
+    bEnable: "Einschalten",
+    bDisable: "Ausschalten",
+    bRet: "Aufbewahrung …",
+    bHideAsk: "{n} Entitäten verstecken? Sie verschwinden aus den automatisch erzeugten Dashboards und Listen von Home Assistant; sie funktionieren weiter.",
+    bUnhideAsk: "{n} versteckte Entitäten wieder einblenden?",
+    bEnableAsk: "{n} Entitäten einschalten? Home Assistant lädt die betroffenen Integrationen nach etwa 30 Sekunden neu.",
+    bDisableAsk: "{n} Entitäten AUSSCHALTEN? Sie funktionieren nicht mehr, bis du sie wieder einschaltest: kein Zustand, kein neuer Verlauf, und Automationen, Skripte und Dashboards, die sie nutzen, funktionieren nicht mehr. Home Assistant lädt die betroffenen Integrationen nach etwa 30 Sekunden neu. Alter Verlauf bleibt in der Datenbank.",
+    bRetAsk: "Recorder-Aufbewahrung von {n} Entitäten auf {d} setzen? Die Regel wirkt erst, wenn der nächtliche Job eingeschaltet ist (siehe Recorder-Dialog).",
+    bRetNoneAsk: "Aufbewahrungsregel von {n} Entitäten entfernen?",
+    bRunning: "{i} / {n} …",
+    bDone: "Fertig: {n} Entitäten geändert.",
+    bFailed: "{f} fehlgeschlagen (erster Fehler: {e}).",
+    bRetTitle: "Recorder-Aufbewahrung für {n} Entitäten",
+    bResult: "Ergebnis",
     tabHidden: "Versteckt / deaktiviert",
     tabHiddenDesc: "Entitäten, die versteckt oder abgeschaltet sind (deaktivierte Entitäten haben keinen Zustand und werden aus der Entitäten-Registry gelesen; nur für Administratoren)",
     hHidden: "versteckt",
@@ -186,6 +226,26 @@ const L10N = {
     },
   },
   fr: {
+    selTip: "Sélectionner plusieurs entités (pour les masquer, les activer / désactiver ou régler leur conservation dans l’enregistreur en une fois)",
+    selCount: "{n} sélectionnées",
+    selAll: "Sélectionner toutes celles affichées",
+    selClear: "Effacer la sélection",
+    bHide: "Masquer",
+    bUnhide: "Afficher",
+    bEnable: "Activer",
+    bDisable: "Désactiver",
+    bRet: "Conservation …",
+    bHideAsk: "Masquer {n} entités ? Elles disparaissent des tableaux de bord et listes générés automatiquement par Home Assistant ; elles continuent de fonctionner.",
+    bUnhideAsk: "Afficher à nouveau {n} entités masquées ?",
+    bEnableAsk: "Activer {n} entités ? Home Assistant recharge les intégrations concernées après environ 30 secondes.",
+    bDisableAsk: "DÉSACTIVER {n} entités ? Elles ne fonctionnent plus tant que vous ne les réactivez pas : pas d’état, pas de nouvel historique, et les automatisations, scripts et tableaux de bord qui les utilisent cessent de fonctionner. Home Assistant recharge les intégrations concernées après environ 30 secondes. L’ancien historique reste dans la base de données.",
+    bRetAsk: "Régler la conservation de {n} entités sur {d} ? La règle n’agit que si la tâche nocturne est activée (voir la fenêtre Enregistreur).",
+    bRetNoneAsk: "Supprimer la règle de conservation de {n} entités ?",
+    bRunning: "{i} / {n} …",
+    bDone: "Terminé : {n} entités modifiées.",
+    bFailed: "{f} échec(s) (première erreur : {e}).",
+    bRetTitle: "Conservation dans l’enregistreur pour {n} entités",
+    bResult: "Résultat",
     tabHidden: "Masquées / désactivées",
     tabHiddenDesc: "Entités masquées ou désactivées (les entités désactivées n’ont pas d’état et sont lues dans le registre des entités ; administrateurs uniquement)",
     hHidden: "masquée",
@@ -418,6 +478,26 @@ const L10N = {
     d: {"all": "Toutes les entités connues de Home Assistant", "illuminance": "Capteurs de luminosité (lux)", "temperature": "Capteurs qui mesurent une température", "humidity": "Capteurs d'humidité", "power": "Puissance instantanée (W, kW)", "energy": "Compteurs d'énergie (Wh, kWh)", "consumption": "Gaz, eau, volume et tout ce qui s'appelle consommation", "voltage": "Capteurs de tension (V, mV, kV)", "frequency": "Capteurs de fréquence (Hz)", "current": "Courant et facteur de puissance (A, mA)", "battery": "Niveaux de batterie, les plus faibles d'abord", "cover": "Stores, volets, portes de garage : position", "tilt": "Volets à lames orientables : angle des lames", "light": "Toutes les lumières", "dimmer": "Lumières variables", "switch": "Interrupteurs, prises et entrées marche/arrêt", "climate": "Thermostats et pompes à chaleur : actuel, consigne, mode", "media": "Téléviseurs, enceintes et autres lecteurs", "binary": "Capteurs de mouvement, contact, fenêtre, fumée …", "person": "Personnes avec leurs traceurs et leur compte lié", "users": "Comptes de connexion de Home Assistant (droits d'administrateur requis)", "presence": "Traceurs d'appareils", "scene": "Scènes avec leur dernière activation", "labels": "Toute entité ayant au moins une étiquette", "auto": "Automatisations et scripts", "helper": "input_*, compteurs, minuteurs, planifications", "sensor": "Capteurs qui ne rentrent dans aucun onglet de mesure", "unavailable": "Entités actuellement indisponibles ou inconnues"},
   },
   es: {
+    selTip: "Seleccionar varias entidades (para ocultarlas, activarlas / desactivarlas o fijar su conservación en el grabador a la vez)",
+    selCount: "{n} seleccionadas",
+    selAll: "Seleccionar todas las mostradas",
+    selClear: "Borrar selección",
+    bHide: "Ocultar",
+    bUnhide: "Mostrar",
+    bEnable: "Activar",
+    bDisable: "Desactivar",
+    bRet: "Conservación …",
+    bHideAsk: "¿Ocultar {n} entidades? Desaparecen de los paneles y listas generados automáticamente por Home Assistant; siguen funcionando.",
+    bUnhideAsk: "¿Volver a mostrar {n} entidades ocultas?",
+    bEnableAsk: "¿Activar {n} entidades? Home Assistant recarga las integraciones afectadas tras unos 30 segundos.",
+    bDisableAsk: "¿DESACTIVAR {n} entidades? Dejan de funcionar hasta que las actives de nuevo: sin estado, sin historial nuevo, y las automatizaciones, scripts y paneles que las usan dejan de funcionar. Home Assistant recarga las integraciones afectadas tras unos 30 segundos. El historial antiguo permanece en la base de datos.",
+    bRetAsk: "¿Fijar la conservación de {n} entidades en {d}? La regla solo surte efecto mientras la tarea nocturna esté activa (véase el diálogo del grabador).",
+    bRetNoneAsk: "¿Quitar la regla de conservación de {n} entidades?",
+    bRunning: "{i} / {n} …",
+    bDone: "Hecho: {n} entidades modificadas.",
+    bFailed: "{f} con error (primer error: {e}).",
+    bRetTitle: "Conservación en el grabador para {n} entidades",
+    bResult: "Resultado",
     tabHidden: "Ocultas / desactivadas",
     tabHiddenDesc: "Entidades ocultas o desactivadas (las desactivadas no tienen estado y se leen del registro de entidades; solo administradores)",
     hHidden: "oculta",
@@ -650,6 +730,26 @@ const L10N = {
     d: {"all": "Todas las entidades que conoce Home Assistant", "illuminance": "Sensores de luminosidad (lux)", "temperature": "Sensores que miden una temperatura", "humidity": "Sensores de humedad", "power": "Potencia instantánea (W, kW)", "energy": "Contadores de energía (Wh, kWh)", "consumption": "Gas, agua, volumen y todo lo que se llama consumo", "voltage": "Sensores de tensión (V, mV, kV)", "frequency": "Sensores de frecuencia (Hz)", "current": "Corriente y factor de potencia (A, mA)", "battery": "Niveles de batería, los más débiles primero", "cover": "Persianas, contraventanas, puertas de garaje: posición", "tilt": "Persianas con lamas orientables: ángulo de las lamas", "light": "Todas las luces", "dimmer": "Luces regulables", "switch": "Interruptores, enchufes y ayudantes de encendido/apagado", "climate": "Termostatos y bombas de calor: actual, objetivo, modo", "media": "Televisores, altavoces y otros reproductores", "binary": "Sensores de movimiento, contacto, ventana, humo …", "person": "Personas con sus rastreadores y su cuenta vinculada", "users": "Cuentas de acceso de Home Assistant (requiere derechos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Escenas con su última activación", "labels": "Cada entidad que tiene al menos una etiqueta", "auto": "Automatizaciones y scripts", "helper": "input_*, contadores, temporizadores, programaciones", "sensor": "Sensores que no encajan en ninguna pestaña de medición", "unavailable": "Entidades que ahora no están disponibles o son desconocidas"},
   },
   nl: {
+    selTip: "Meerdere entiteiten selecteren (om ze samen te verbergen, in-/uit te schakelen of de recorderbewaartijd in te stellen)",
+    selCount: "{n} geselecteerd",
+    selAll: "Alle getoonde selecteren",
+    selClear: "Selectie wissen",
+    bHide: "Verbergen",
+    bUnhide: "Tonen",
+    bEnable: "Inschakelen",
+    bDisable: "Uitschakelen",
+    bRet: "Bewaartijd …",
+    bHideAsk: "{n} entiteiten verbergen? Ze verdwijnen uit de automatisch gegenereerde dashboards en lijsten van Home Assistant; ze blijven werken.",
+    bUnhideAsk: "{n} verborgen entiteiten weer tonen?",
+    bEnableAsk: "{n} entiteiten inschakelen? Home Assistant herlaadt de betrokken integraties na ongeveer 30 seconden.",
+    bDisableAsk: "{n} entiteiten UITSCHAKELEN? Ze werken niet meer totdat je ze weer inschakelt: geen status, geen nieuwe geschiedenis, en automatiseringen, scripts en dashboards die ze gebruiken werken niet meer. Home Assistant herlaadt de betrokken integraties na ongeveer 30 seconden. Oude geschiedenis blijft in de database.",
+    bRetAsk: "De recorderbewaartijd van {n} entiteiten op {d} zetten? De regel werkt alleen als de nachtelijke taak aan staat (zie het recorderdialoog).",
+    bRetNoneAsk: "De bewaarregel van {n} entiteiten verwijderen?",
+    bRunning: "{i} / {n} …",
+    bDone: "Klaar: {n} entiteiten gewijzigd.",
+    bFailed: "{f} mislukt (eerste fout: {e}).",
+    bRetTitle: "Recorderbewaartijd voor {n} entiteiten",
+    bResult: "Resultaat",
     tabHidden: "Verborgen / uitgeschakeld",
     tabHiddenDesc: "Entiteiten die verborgen of uitgeschakeld zijn (uitgeschakelde entiteiten hebben geen status en worden uit het entiteitenregister gelezen; alleen beheerders)",
     hHidden: "verborgen",
@@ -882,6 +982,26 @@ const L10N = {
     d: {"all": "Elke entiteit die Home Assistant kent", "illuminance": "Helderheidssensoren (lux)", "temperature": "Sensoren die een temperatuur meten", "humidity": "Vochtigheidssensoren", "power": "Momentaan vermogen (W, kW)", "energy": "Energietellers (Wh, kWh)", "consumption": "Gas, water, volume en alles wat verbruik heet", "voltage": "Spanningssensoren (V, mV, kV)", "frequency": "Frequentiesensoren (Hz)", "current": "Stroom en arbeidsfactor (A, mA)", "battery": "Batterijniveaus, de zwakste eerst", "cover": "Zonwering, rolluiken, garagedeuren: positie", "tilt": "Zonwering met verstelbare lamellen: lamelhoek", "light": "Alle lampen", "dimmer": "Dimbare lampen", "switch": "Schakelaars, stopcontacten en aan/uit-hulpmiddelen", "climate": "Thermostaten en warmtepompen: huidig, doel, modus", "media": "Tv's, luidsprekers en andere spelers", "binary": "Beweging-, contact-, raam-, rooksensoren …", "person": "Personen met hun trackers en gekoppelde account", "users": "Inlogaccounts van Home Assistant (beheerdersrechten nodig)", "presence": "Apparaattrackers", "scene": "Scènes met hun laatste activering", "labels": "Elke entiteit met minstens één label", "auto": "Automatiseringen en scripts", "helper": "input_*, tellers, timers, schema's", "sensor": "Sensoren die in geen meettabblad passen", "unavailable": "Entiteiten die nu niet beschikbaar of onbekend zijn"},
   },
   it: {
+    selTip: "Seleziona più entità (per nasconderle, attivarle / disattivarle o impostare la conservazione nel recorder tutte insieme)",
+    selCount: "{n} selezionate",
+    selAll: "Seleziona tutte quelle mostrate",
+    selClear: "Cancella selezione",
+    bHide: "Nascondi",
+    bUnhide: "Mostra",
+    bEnable: "Attiva",
+    bDisable: "Disattiva",
+    bRet: "Conservazione …",
+    bHideAsk: "Nascondere {n} entità? Spariscono dalle dashboard e dagli elenchi generati automaticamente da Home Assistant; continuano a funzionare.",
+    bUnhideAsk: "Mostrare di nuovo {n} entità nascoste?",
+    bEnableAsk: "Attivare {n} entità? Home Assistant ricarica le integrazioni interessate dopo circa 30 secondi.",
+    bDisableAsk: "DISATTIVARE {n} entità? Smettono di funzionare finché non le riattivi: nessuno stato, nessuna nuova cronologia, e le automazioni, gli script e le dashboard che le usano smettono di funzionare. Home Assistant ricarica le integrazioni interessate dopo circa 30 secondi. La vecchia cronologia resta nel database.",
+    bRetAsk: "Impostare la conservazione di {n} entità su {d}? La regola ha effetto solo finché l’attività notturna è attiva (vedi la finestra Recorder).",
+    bRetNoneAsk: "Rimuovere la regola di conservazione di {n} entità?",
+    bRunning: "{i} / {n} …",
+    bDone: "Fatto: {n} entità modificate.",
+    bFailed: "{f} non riuscite (primo errore: {e}).",
+    bRetTitle: "Conservazione nel recorder per {n} entità",
+    bResult: "Risultato",
     tabHidden: "Nascoste / disattivate",
     tabHiddenDesc: "Entità nascoste o disattivate (quelle disattivate non hanno stato e vengono lette dal registro delle entità; solo amministratori)",
     hHidden: "nascosta",
@@ -1114,6 +1234,26 @@ const L10N = {
     d: {"all": "Ogni entità che Home Assistant conosce", "illuminance": "Sensori di luminosità (lux)", "temperature": "Sensori che misurano una temperatura", "humidity": "Sensori di umidità", "power": "Potenza istantanea (W, kW)", "energy": "Contatori di energia (Wh, kWh)", "consumption": "Gas, acqua, volume e tutto ciò che si chiama consumo", "voltage": "Sensori di tensione (V, mV, kV)", "frequency": "Sensori di frequenza (Hz)", "current": "Corrente e fattore di potenza (A, mA)", "battery": "Livelli delle batterie, le più deboli per prime", "cover": "Tapparelle, persiane, porte del garage: posizione", "tilt": "Tapparelle con lamelle orientabili: angolo delle lamelle", "light": "Tutte le luci", "dimmer": "Luci dimmerabili", "switch": "Interruttori, prese e aiutanti on/off", "climate": "Termostati e pompe di calore: attuale, obiettivo, modalità", "media": "TV, altoparlanti e altri lettori", "binary": "Sensori di movimento, contatto, finestra, fumo …", "person": "Persone con i loro tracker e l'account collegato", "users": "Account di accesso di Home Assistant (servono diritti di amministratore)", "presence": "Tracker di dispositivi", "scene": "Scene con la loro ultima attivazione", "labels": "Ogni entità con almeno un'etichetta", "auto": "Automazioni e script", "helper": "input_*, contatori, timer, pianificazioni", "sensor": "Sensori che non rientrano in nessuna scheda di misura", "unavailable": "Entità al momento non disponibili o sconosciute"},
   },
   pl: {
+    selTip: "Zaznacz kilka encji (aby je ukryć, włączyć / wyłączyć lub ustawić przechowywanie w rejestratorze naraz)",
+    selCount: "Zaznaczono: {n}",
+    selAll: "Zaznacz wszystkie pokazane",
+    selClear: "Wyczyść zaznaczenie",
+    bHide: "Ukryj",
+    bUnhide: "Pokaż",
+    bEnable: "Włącz",
+    bDisable: "Wyłącz",
+    bRet: "Przechowywanie …",
+    bHideAsk: "Ukryć {n} encji? Znikną z automatycznie generowanych pulpitów i list Home Assistanta; nadal działają.",
+    bUnhideAsk: "Pokazać ponownie {n} ukrytych encji?",
+    bEnableAsk: "Włączyć {n} encji? Home Assistant przeładuje dotknięte integracje po około 30 sekundach.",
+    bDisableAsk: "WYŁĄCZYĆ {n} encji? Przestaną działać, dopóki ich nie włączysz: brak stanu, brak nowej historii, a automatyzacje, skrypty i pulpity, które ich używają, przestaną działać. Home Assistant przeładuje dotknięte integracje po około 30 sekundach. Stara historia zostaje w bazie danych.",
+    bRetAsk: "Ustawić przechowywanie {n} encji w rejestratorze na {d}? Reguła działa tylko, gdy nocne zadanie jest włączone (patrz okno Rejestrator).",
+    bRetNoneAsk: "Usunąć regułę przechowywania {n} encji?",
+    bRunning: "{i} / {n} …",
+    bDone: "Gotowe: zmieniono {n} encji.",
+    bFailed: "Niepowodzeń: {f} (pierwszy błąd: {e}).",
+    bRetTitle: "Przechowywanie w rejestratorze dla {n} encji",
+    bResult: "Wynik",
     tabHidden: "Ukryte / wyłączone",
     tabHiddenDesc: "Encje ukryte lub wyłączone (wyłączone encje nie mają stanu i są odczytywane z rejestru encji; tylko administratorzy)",
     hHidden: "ukryta",
@@ -1346,6 +1486,26 @@ const L10N = {
     d: {"all": "Każda encja, którą zna Home Assistant", "illuminance": "Czujniki jasności (lx)", "temperature": "Czujniki mierzące temperaturę", "humidity": "Czujniki wilgotności", "power": "Moc chwilowa (W, kW)", "energy": "Liczniki energii (Wh, kWh)", "consumption": "Gaz, woda, objętość i wszystko, co nazywa się zużyciem", "voltage": "Czujniki napięcia (V, mV, kV)", "frequency": "Czujniki częstotliwości (Hz)", "current": "Prąd i współczynnik mocy (A, mA)", "battery": "Poziomy baterii, najsłabsze najpierw", "cover": "Rolety, żaluzje, bramy garażowe: pozycja", "tilt": "Rolety z regulowanymi lamelami: kąt lameli", "light": "Wszystkie światła", "dimmer": "Światła ze ściemnianiem", "switch": "Przełączniki, gniazdka i pomocnicy wł./wył.", "climate": "Termostaty i pompy ciepła: aktualna, zadana, tryb", "media": "Telewizory, głośniki i inne odtwarzacze", "binary": "Czujniki ruchu, kontaktu, okien, dymu …", "person": "Osoby z ich trackerami i powiązanym kontem", "users": "Konta logowania Home Assistanta (wymaga praw administratora)", "presence": "Trackery urządzeń", "scene": "Sceny z ostatnią aktywacją", "labels": "Każda encja z co najmniej jedną etykietą", "auto": "Automatyzacje i skrypty", "helper": "input_*, liczniki, timery, harmonogramy", "sensor": "Czujniki, które nie pasują do żadnej karty pomiarowej", "unavailable": "Encje, które są teraz niedostępne lub nieznane"},
   },
   pt: {
+    selTip: "Selecionar várias entidades (para as ocultar, ativar / desativar ou definir a retenção no gravador de uma só vez)",
+    selCount: "{n} selecionadas",
+    selAll: "Selecionar todas as mostradas",
+    selClear: "Limpar seleção",
+    bHide: "Ocultar",
+    bUnhide: "Mostrar",
+    bEnable: "Ativar",
+    bDisable: "Desativar",
+    bRet: "Retenção …",
+    bHideAsk: "Ocultar {n} entidades? Desaparecem dos painéis e listas gerados automaticamente pelo Home Assistant; continuam a funcionar.",
+    bUnhideAsk: "Mostrar de novo {n} entidades ocultas?",
+    bEnableAsk: "Ativar {n} entidades? O Home Assistant recarrega as integrações afetadas após cerca de 30 segundos.",
+    bDisableAsk: "DESATIVAR {n} entidades? Deixam de funcionar até as ativar de novo: sem estado, sem novo histórico, e as automações, scripts e painéis que as usam deixam de funcionar. O Home Assistant recarrega as integrações afetadas após cerca de 30 segundos. O histórico antigo fica na base de dados.",
+    bRetAsk: "Definir a retenção de {n} entidades no gravador para {d}? A regra só tem efeito enquanto a tarefa noturna estiver ativa (ver o diálogo do gravador).",
+    bRetNoneAsk: "Remover a regra de retenção de {n} entidades?",
+    bRunning: "{i} / {n} …",
+    bDone: "Concluído: {n} entidades alteradas.",
+    bFailed: "{f} falharam (primeiro erro: {e}).",
+    bRetTitle: "Retenção no gravador para {n} entidades",
+    bResult: "Resultado",
     tabHidden: "Ocultas / desativadas",
     tabHiddenDesc: "Entidades ocultas ou desativadas (as desativadas não têm estado e são lidas do registo de entidades; só administradores)",
     hHidden: "oculta",
@@ -1578,6 +1738,26 @@ const L10N = {
     d: {"all": "Todas as entidades que o Home Assistant conhece", "illuminance": "Sensores de luminosidade (lux)", "temperature": "Sensores que medem uma temperatura", "humidity": "Sensores de humidade", "power": "Potência instantânea (W, kW)", "energy": "Contadores de energia (Wh, kWh)", "consumption": "Gás, água, volume e tudo o que se chama consumo", "voltage": "Sensores de tensão (V, mV, kV)", "frequency": "Sensores de frequência (Hz)", "current": "Corrente e fator de potência (A, mA)", "battery": "Níveis de bateria, os mais fracos primeiro", "cover": "Persianas, estores, portões de garagem: posição", "tilt": "Persianas com lâminas ajustáveis: ângulo das lâminas", "light": "Todas as luzes", "dimmer": "Luzes reguláveis", "switch": "Interruptores, tomadas e auxiliares ligar/desligar", "climate": "Termóstatos e bombas de calor: atual, alvo, modo", "media": "TVs, colunas e outros leitores", "binary": "Sensores de movimento, contacto, janela, fumo …", "person": "Pessoas com os seus rastreadores e conta associada", "users": "Contas de início de sessão do Home Assistant (requer direitos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Cenas com a sua última ativação", "labels": "Todas as entidades com pelo menos uma etiqueta", "auto": "Automações e scripts", "helper": "input_*, contadores, temporizadores, agendas", "sensor": "Sensores que não cabem em nenhum separador de medição", "unavailable": "Entidades que neste momento estão indisponíveis ou desconhecidas"},
   },
   cs: {
+    selTip: "Vybrat více entit (aby se společně skryly, zapnuly / vypnuly nebo se nastavilo uchovávání v rekordéru)",
+    selCount: "Vybráno: {n}",
+    selAll: "Vybrat všechny zobrazené",
+    selClear: "Zrušit výběr",
+    bHide: "Skrýt",
+    bUnhide: "Zobrazit",
+    bEnable: "Zapnout",
+    bDisable: "Vypnout",
+    bRet: "Uchovávání …",
+    bHideAsk: "Skrýt {n} entit? Zmizí z automaticky vytvářených přehledů a seznamů Home Assistantu; dál fungují.",
+    bUnhideAsk: "Znovu zobrazit {n} skrytých entit?",
+    bEnableAsk: "Zapnout {n} entit? Home Assistant znovu načte dotčené integrace asi za 30 sekund.",
+    bDisableAsk: "VYPNOUT {n} entit? Přestanou fungovat, dokud je znovu nezapnete: žádný stav, žádná nová historie a automatizace, skripty a přehledy, které je používají, přestanou fungovat. Home Assistant znovu načte dotčené integrace asi za 30 sekund. Stará historie zůstane v databázi.",
+    bRetAsk: "Nastavit uchovávání {n} entit v rekordéru na {d}? Pravidlo působí jen, když je zapnutá noční úloha (viz okno Rekordér).",
+    bRetNoneAsk: "Odstranit pravidlo uchovávání {n} entit?",
+    bRunning: "{i} / {n} …",
+    bDone: "Hotovo: změněno {n} entit.",
+    bFailed: "Selhalo: {f} (první chyba: {e}).",
+    bRetTitle: "Uchovávání v rekordéru pro {n} entit",
+    bResult: "Výsledek",
     tabHidden: "Skryté / vypnuté",
     tabHiddenDesc: "Entity, které jsou skryté nebo vypnuté (vypnuté entity nemají stav a čtou se z registru entit; jen správci)",
     hHidden: "skrytá",
@@ -1810,6 +1990,26 @@ const L10N = {
     d: {"all": "Každá entita, kterou Home Assistant zná", "illuminance": "Senzory jasu (lx)", "temperature": "Senzory, které měří teplotu", "humidity": "Senzory vlhkosti", "power": "Okamžitý výkon (W, kW)", "energy": "Měřiče energie (Wh, kWh)", "consumption": "Plyn, voda, objem a vše, co se jmenuje spotřeba", "voltage": "Senzory napětí (V, mV, kV)", "frequency": "Senzory frekvence (Hz)", "current": "Proud a účiník (A, mA)", "battery": "Stavy baterií, nejslabší první", "cover": "Rolety, žaluzie, garážová vrata: poloha", "tilt": "Rolety s nastavitelnými lamelami: úhel lamel", "light": "Všechna světla", "dimmer": "Stmívatelná světla", "switch": "Spínače, zásuvky a pomocníci zap./vyp.", "climate": "Termostaty a tepelná čerpadla: aktuální, cílová, režim", "media": "Televize, reproduktory a další přehrávače", "binary": "Senzory pohybu, kontaktu, oken, kouře …", "person": "Osoby s jejich trackery a propojeným účtem", "users": "Přihlašovací účty Home Assistantu (vyžaduje práva správce)", "presence": "Trackery zařízení", "scene": "Scény s poslední aktivací", "labels": "Každá entita s alespoň jedním štítkem", "auto": "Automatizace a skripty", "helper": "input_*, čítače, časovače, plány", "sensor": "Senzory, které nepatří do žádné měřicí záložky", "unavailable": "Entity, které jsou nyní nedostupné nebo neznámé"},
   },
   ru: {
+    selTip: "Выбрать несколько сущностей (чтобы скрыть, включить / отключить или задать хранение в регистраторе сразу для всех)",
+    selCount: "Выбрано: {n}",
+    selAll: "Выбрать все показанные",
+    selClear: "Снять выбор",
+    bHide: "Скрыть",
+    bUnhide: "Показать",
+    bEnable: "Включить",
+    bDisable: "Отключить",
+    bRet: "Хранение …",
+    bHideAsk: "Скрыть сущностей: {n}? Они исчезнут из автоматически создаваемых панелей и списков Home Assistant; продолжат работать.",
+    bUnhideAsk: "Снова показать скрытых сущностей: {n}?",
+    bEnableAsk: "Включить сущностей: {n}? Home Assistant перезагрузит затронутые интеграции примерно через 30 секунд.",
+    bDisableAsk: "ОТКЛЮЧИТЬ сущностей: {n}? Они перестанут работать, пока вы их снова не включите: нет состояния, нет новой истории, а автоматизации, скрипты и панели, которые их используют, перестанут работать. Home Assistant перезагрузит затронутые интеграции примерно через 30 секунд. Старая история останется в базе данных.",
+    bRetAsk: "Задать хранение в регистраторе для сущностей ({n}) равным {d}? Правило действует только при включённой ночной задаче (см. окно «Регистратор»).",
+    bRetNoneAsk: "Удалить правило хранения у сущностей: {n}?",
+    bRunning: "{i} / {n} …",
+    bDone: "Готово: изменено сущностей: {n}.",
+    bFailed: "Не удалось: {f} (первая ошибка: {e}).",
+    bRetTitle: "Хранение в регистраторе для сущностей: {n}",
+    bResult: "Результат",
     tabHidden: "Скрытые / отключённые",
     tabHiddenDesc: "Скрытые или отключённые сущности (у отключённых нет состояния, они читаются из реестра сущностей; только администраторы)",
     hHidden: "скрыта",
@@ -2042,6 +2242,26 @@ const L10N = {
     d: {"all": "Все сущности, которые знает Home Assistant", "illuminance": "Датчики яркости (лк)", "temperature": "Датчики, измеряющие температуру", "humidity": "Датчики влажности", "power": "Мгновенная мощность (Вт, кВт)", "energy": "Счётчики энергии (Вт·ч, кВт·ч)", "consumption": "Газ, вода, объём и всё, что называется потреблением", "voltage": "Датчики напряжения (В, мВ, кВ)", "frequency": "Датчики частоты (Гц)", "current": "Ток и коэффициент мощности (А, мА)", "battery": "Уровни батарей, самые слабые первыми", "cover": "Жалюзи, рольставни, гаражные ворота: положение", "tilt": "Жалюзи с регулируемыми ламелями: угол ламелей", "light": "Все лампы", "dimmer": "Лампы с регулировкой яркости", "switch": "Выключатели, розетки и помощники вкл./выкл.", "climate": "Термостаты и тепловые насосы: текущая, целевая, режим", "media": "Телевизоры, колонки и другие плееры", "binary": "Датчики движения, контакта, окон, дыма …", "person": "Персоны с их трекерами и связанной учётной записью", "users": "Учётные записи Home Assistant (нужны права администратора)", "presence": "Трекеры устройств", "scene": "Сцены с последней активацией", "labels": "Каждая сущность хотя бы с одним ярлыком", "auto": "Автоматизации и скрипты", "helper": "input_*, счётчики, таймеры, расписания", "sensor": "Датчики, не подходящие ни под одну вкладку измерений", "unavailable": "Сущности, которые сейчас недоступны или неизвестны"},
   },
   sv: {
+    selTip: "Markera flera entiteter (för att dölja, slå på / av eller sätta recorderlagring för alla på en gång)",
+    selCount: "{n} markerade",
+    selAll: "Markera alla visade",
+    selClear: "Rensa markering",
+    bHide: "Dölj",
+    bUnhide: "Visa",
+    bEnable: "Slå på",
+    bDisable: "Stäng av",
+    bRet: "Lagring …",
+    bHideAsk: "Dölja {n} entiteter? De försvinner från Home Assistants automatiskt skapade instrumentpaneler och listor; de fortsätter fungera.",
+    bUnhideAsk: "Visa {n} dolda entiteter igen?",
+    bEnableAsk: "Slå på {n} entiteter? Home Assistant laddar om de berörda integrationerna efter cirka 30 sekunder.",
+    bDisableAsk: "STÄNGA AV {n} entiteter? De slutar fungera tills du slår på dem igen: inget tillstånd, ingen ny historik, och automationer, skript och instrumentpaneler som använder dem slutar fungera. Home Assistant laddar om de berörda integrationerna efter cirka 30 sekunder. Gammal historik finns kvar i databasen.",
+    bRetAsk: "Sätta recorderlagringen för {n} entiteter till {d}? Regeln gäller bara medan nattjobbet är på (se Recorder-dialogen).",
+    bRetNoneAsk: "Ta bort lagringsregeln för {n} entiteter?",
+    bRunning: "{i} / {n} …",
+    bDone: "Klart: {n} entiteter ändrade.",
+    bFailed: "{f} misslyckades (första felet: {e}).",
+    bRetTitle: "Recorderlagring för {n} entiteter",
+    bResult: "Resultat",
     tabHidden: "Dolda / avstängda",
     tabHiddenDesc: "Entiteter som är dolda eller avstängda (avstängda entiteter har inget tillstånd och läses från entitetsregistret; endast administratörer)",
     hHidden: "dold",
@@ -2274,6 +2494,26 @@ const L10N = {
     d: {"all": "Varje entitet som Home Assistant känner till", "illuminance": "Ljussensorer (lux)", "temperature": "Sensorer som mäter en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energimätare (Wh, kWh)", "consumption": "Gas, vatten, volym och allt som heter förbrukning", "voltage": "Spänningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Ström och effektfaktor (A, mA)", "battery": "Batterinivåer, de svagaste först", "cover": "Rullgardiner, jalusier, garageportar: position", "tilt": "Rullgardiner med justerbara lameller: lamellvinkel", "light": "Alla lampor", "dimmer": "Dimbara lampor", "switch": "Strömbrytare, uttag och på/av-hjälpare", "climate": "Termostater och värmepumpar: aktuell, mål, läge", "media": "TV-apparater, högtalare och andra spelare", "binary": "Sensorer för rörelse, kontakt, fönster, rök …", "person": "Personer med sina spårare och länkat konto", "users": "Inloggningskonton i Home Assistant (kräver administratörsrättigheter)", "presence": "Enhetsspårare", "scene": "Scener med senaste aktivering", "labels": "Varje entitet med minst en etikett", "auto": "Automationer och skript", "helper": "input_*, räknare, timers, scheman", "sensor": "Sensorer som inte passar någon mätflik", "unavailable": "Entiteter som just nu är otillgängliga eller okända"},
   },
   nb: {
+    selTip: "Velg flere entiteter (for å skjule, slå på / av eller sette recorder-lagring for alle på en gang)",
+    selCount: "{n} valgt",
+    selAll: "Velg alle viste",
+    selClear: "Tøm valget",
+    bHide: "Skjul",
+    bUnhide: "Vis",
+    bEnable: "Slå på",
+    bDisable: "Slå av",
+    bRet: "Lagring …",
+    bHideAsk: "Skjule {n} entiteter? De forsvinner fra Home Assistants automatisk genererte dashbord og lister; de fungerer fortsatt.",
+    bUnhideAsk: "Vise {n} skjulte entiteter igjen?",
+    bEnableAsk: "Slå på {n} entiteter? Home Assistant laster de berørte integrasjonene på nytt etter omtrent 30 sekunder.",
+    bDisableAsk: "SLÅ AV {n} entiteter? De slutter å virke til du slår dem på igjen: ingen tilstand, ingen ny historikk, og automasjoner, skript og dashbord som bruker dem slutter å virke. Home Assistant laster de berørte integrasjonene på nytt etter omtrent 30 sekunder. Gammel historikk blir i databasen.",
+    bRetAsk: "Sette recorder-lagringen for {n} entiteter til {d}? Regelen virker bare mens nattjobben er på (se Recorder-dialogen).",
+    bRetNoneAsk: "Fjerne lagringsregelen for {n} entiteter?",
+    bRunning: "{i} / {n} …",
+    bDone: "Ferdig: {n} entiteter endret.",
+    bFailed: "{f} mislyktes (første feil: {e}).",
+    bRetTitle: "Recorder-lagring for {n} entiteter",
+    bResult: "Resultat",
     tabHidden: "Skjulte / deaktiverte",
     tabHiddenDesc: "Entiteter som er skjult eller slått av (deaktiverte entiteter har ingen tilstand og leses fra entitetsregisteret; bare administratorer)",
     hHidden: "skjult",
@@ -2506,6 +2746,26 @@ const L10N = {
     d: {"all": "Alle entiteter Home Assistant kjenner", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer som måler en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energitellere (Wh, kWh)", "consumption": "Gass, vann, volum og alt som heter forbruk", "voltage": "Spenningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batterinivåer, de svakeste først", "cover": "Persienner, rullegardiner, garasjeporter: posisjon", "tilt": "Persienner med justerbare lameller: lamellvinkel", "light": "Alle lys", "dimmer": "Lys som kan dimmes", "switch": "Brytere, stikkontakter og på/av-hjelpere", "climate": "Termostater og varmepumper: nåværende, mål, modus", "media": "TV-er, høyttalere og andre spillere", "binary": "Bevegelses-, kontakt-, vindus-, røyksensorer …", "person": "Personer med sine sporere og koblet konto", "users": "Innloggingskontoer i Home Assistant (krever administratorrettigheter)", "presence": "Enhetssporere", "scene": "Scener med siste aktivering", "labels": "Alle entiteter med minst én etikett", "auto": "Automasjoner og skript", "helper": "input_*, tellere, tidtakere, tidsplaner", "sensor": "Sensorer som ikke passer i noen målefane", "unavailable": "Entiteter som akkurat nå er utilgjengelige eller ukjente"},
   },
   da: {
+    selTip: "Vælg flere entiteter (for at skjule, slå til / fra eller sætte recorder-opbevaring for alle på én gang)",
+    selCount: "{n} valgt",
+    selAll: "Vælg alle viste",
+    selClear: "Ryd valg",
+    bHide: "Skjul",
+    bUnhide: "Vis",
+    bEnable: "Slå til",
+    bDisable: "Slå fra",
+    bRet: "Opbevaring …",
+    bHideAsk: "Skjule {n} entiteter? De forsvinder fra Home Assistants automatisk genererede dashboards og lister; de virker stadig.",
+    bUnhideAsk: "Vise {n} skjulte entiteter igen?",
+    bEnableAsk: "Slå {n} entiteter til? Home Assistant genindlæser de berørte integrationer efter cirka 30 sekunder.",
+    bDisableAsk: "SLÅ {n} entiteter FRA? De holder op med at virke, til du slår dem til igen: ingen tilstand, ingen ny historik, og automatiseringer, scripts og dashboards, der bruger dem, holder op med at virke. Home Assistant genindlæser de berørte integrationer efter cirka 30 sekunder. Gammel historik bliver i databasen.",
+    bRetAsk: "Sætte recorder-opbevaringen for {n} entiteter til {d}? Reglen virker kun, mens natjobbet er til (se Recorder-dialogen).",
+    bRetNoneAsk: "Fjerne opbevaringsreglen for {n} entiteter?",
+    bRunning: "{i} / {n} …",
+    bDone: "Færdig: {n} entiteter ændret.",
+    bFailed: "{f} mislykkedes (første fejl: {e}).",
+    bRetTitle: "Recorder-opbevaring for {n} entiteter",
+    bResult: "Resultat",
     tabHidden: "Skjulte / deaktiverede",
     tabHiddenDesc: "Entiteter, der er skjult eller slukket (deaktiverede entiteter har ingen tilstand og læses fra entitetsregistret; kun administratorer)",
     hHidden: "skjult",
@@ -2738,6 +2998,26 @@ const L10N = {
     d: {"all": "Alle entiteter, som Home Assistant kender", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer, der måler en temperatur", "humidity": "Fugtsensorer", "power": "Øjeblikkelig effekt (W, kW)", "energy": "Energitællere (Wh, kWh)", "consumption": "Gas, vand, volumen og alt, der hedder forbrug", "voltage": "Spændingssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batteriniveauer, de svageste først", "cover": "Persienner, rullegardiner, garageporte: position", "tilt": "Persienner med justerbare lameller: lamelvinkel", "light": "Alle lys", "dimmer": "Lys, der kan dæmpes", "switch": "Kontakter, stikkontakter og til/fra-hjælpere", "climate": "Termostater og varmepumper: aktuel, mål, tilstand", "media": "Tv, højttalere og andre afspillere", "binary": "Bevægelses-, kontakt-, vindues-, røgsensorer …", "person": "Personer med deres trackere og tilknyttede konto", "users": "Login-konti i Home Assistant (kræver administratorrettigheder)", "presence": "Enhedstrackere", "scene": "Scener med deres seneste aktivering", "labels": "Alle entiteter med mindst én etiket", "auto": "Automatiseringer og scripts", "helper": "input_*, tællere, timere, tidsplaner", "sensor": "Sensorer, der ikke passer i nogen målefane", "unavailable": "Entiteter, der lige nu er utilgængelige eller ukendte"},
   },
   af: {
+    selTip: "Kies verskeie entiteite (om hulle saam te versteek, aan- / af te skakel of die opnemerbewaring te stel)",
+    selCount: "{n} gekies",
+    selAll: "Kies alles wat gewys word",
+    selClear: "Maak keuse skoon",
+    bHide: "Versteek",
+    bUnhide: "Wys",
+    bEnable: "Skakel aan",
+    bDisable: "Skakel af",
+    bRet: "Bewaring …",
+    bHideAsk: "{n} entiteite versteek? Hulle verdwyn uit Home Assistant se outomaties gegenereerde kontrolepanele en lyste; hulle werk steeds.",
+    bUnhideAsk: "{n} versteekte entiteite weer wys?",
+    bEnableAsk: "{n} entiteite aanskakel? Home Assistant laai die geraakte integrasies ná ongeveer 30 sekondes weer.",
+    bDisableAsk: "{n} entiteite AFSKAKEL? Hulle werk nie meer totdat jy hulle weer aanskakel nie: geen toestand, geen nuwe geskiedenis, en outomatiserings, skrifte en kontrolepanele wat hulle gebruik werk nie meer nie. Home Assistant laai die geraakte integrasies ná ongeveer 30 sekondes weer. Ou geskiedenis bly in die databasis.",
+    bRetAsk: "Die opnemerbewaring van {n} entiteite op {d} stel? Die reël werk net terwyl die naggeleentheid aan is (sien die Opnemer-dialoog).",
+    bRetNoneAsk: "Die bewaringsreël van {n} entiteite verwyder?",
+    bRunning: "{i} / {n} …",
+    bDone: "Klaar: {n} entiteite verander.",
+    bFailed: "{f} het misluk (eerste fout: {e}).",
+    bRetTitle: "Opnemerbewaring vir {n} entiteite",
+    bResult: "Resultaat",
     tabHidden: "Versteek / gedeaktiveer",
     tabHiddenDesc: "Entiteite wat versteek of afgeskakel is (gedeaktiveerde entiteite het geen toestand nie en word uit die entiteitregister gelees; slegs administrateurs)",
     hHidden: "versteek",
@@ -3548,7 +3828,8 @@ class EntityInventoryPanel extends HTMLElement {
     this._active = "all";
     try { this._active = localStorage.getItem("eiTab") || "all"; } catch (e) { /* ignore */ }
     this._sort = {}; this._q = ""; this._area = ""; this._int = ""; this._paused = false;
-    try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; this._onlyNotes = localStorage.getItem("ei__onlyNotes") === "1"; this._wide = localStorage.getItem("ei__wide") === "1"; this._blur = localStorage.getItem("ei__blur") === "1"; this._recCols = localStorage.getItem("ei__recCols") === "1"; } catch (e) { /* ignore */ }
+    try { this._showHidden = localStorage.getItem("ei__showHidden") === "1"; this._hideOff = localStorage.getItem("ei__hideOff") === "1"; this._onlyNotes = localStorage.getItem("ei__onlyNotes") === "1"; this._wide = localStorage.getItem("ei__wide") === "1"; this._blur = localStorage.getItem("ei__blur") === "1"; this._recCols = localStorage.getItem("ei__recCols") === "1"; this._sel = new Set(); this._selMode = false; } catch (e) { /* ignore */ }
+    this._sel = new Set(); this._selMode = false;
     this._meta = { notes: {}, photos: {}, docs: {}, retention: {}, retention_info: {} };
     this._buildCard();
     this._initMobile();
@@ -3620,6 +3901,10 @@ class EntityInventoryPanel extends HTMLElement {
     paintBlur(); { const o = bb.onclick; bb.onclick = (ev) => { o(ev); paintBlur(); }; }
     const rb = toggle("", L.recColsTip, "_recCols");
     rb.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${RET_SYMBOL}</svg>`;
+    const sb = mkBtn("", L.selTip, () => { this._selMode = !this._selMode; if (!this._selMode) this._sel.clear(); paintSel(); this._render(); this._updateSelBar(); });
+    sb.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><path d="M5 7l1.5 1.5L9 5.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><path d="M14 7h7M14 17h7"/></svg>`;
+    const paintSel = () => { sb.style.background = this._selMode ? "var(--primary-color,#03a9f4)" : ""; sb.style.color = this._selMode ? "#fff" : ""; sb.style.borderColor = this._selMode ? "transparent" : ""; };
+    sb.style.display = this._admin ? "" : "none"; paintSel();
     const fb = toggle("M3 5h18l-7 8v6l-4 2v-8z", L.onlyNotes, "_onlyNotes"); // the funnel symbol of Device Inventory
     fb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></svg>';
     const AL = { dec: "M11 3h2v18h-2zM3 6h7v2H3zM14 6h7v2h-7zM5 11h5v2H5zM14 11h5v2h-5zM3 16h7v2H3zM14 16h5v2h-5z", left: "M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z", right: "M3 3h18v2H3V3zm6 4h12v2H9V7zM3 11h18v2H3v-2zm6 4h12v2H9v-2zM3 19h18v2H3v-2z" };
@@ -3641,7 +3926,7 @@ class EntityInventoryPanel extends HTMLElement {
     grp.append(pb, ob);
     this._edit = false; this._tgt = "view";
     this._editBox = document.createElement("span"); this._editBox.style.cssText = "display:inline-flex;gap:6px;align-items:center;margin-left:auto";
-    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, this._selLab, hb, alB, wb, ub, fb, bb, rb, this._editBox);
+    bar.append(grp, cb, this._pauseB, this._cnt, qi, this._selArea, this._selInt, this._selLab, hb, alB, wb, ub, fb, bb, rb, sb, this._editBox);
     this._paintEdit();
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
@@ -3691,7 +3976,8 @@ class EntityInventoryPanel extends HTMLElement {
     this._wrap.addEventListener("mouseover", (ev) => this._hover(ev));
     this._wrap.addEventListener("mouseout", (ev) => { if (!ev.relatedTarget || !ev.relatedTarget.closest || !ev.relatedTarget.closest("[data-act]")) this._hidePop(); });
     this._wrap.addEventListener("scroll", () => { if (this._wrap.scrollTop + this._wrap.clientHeight > this._wrap.scrollHeight - 500) this._more(); }, { passive: true });
-    card.append(head, bar, this._wrap);
+    this._selBar = document.createElement("div"); this._selBar.style.cssText = "display:none;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 6px;padding:6px 8px;border-radius:8px;background:rgba(127,127,127,.15)";
+    card.append(head, bar, this._selBar, this._wrap);
     this._body.appendChild(card);
   }
 
@@ -3954,7 +4240,7 @@ class EntityInventoryPanel extends HTMLElement {
     });
     this._cols_ = cols; this._shown = Math.min(list.length, CHUNK);
     if ((cols.includes("retention") || cols.includes("recrows") || cols.includes("recint")) && this._admin) this._loadRecAge();
-    this._wrap.innerHTML = `<style>${wcss}</style><table><thead><tr>${this._edit ? '<th data-col="#" style="position:relative"># <span class="grip" data-cfg="grip" title="↔"></span></th>' : "<th>#</th>"}${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
+    this._wrap.innerHTML = `<style>${wcss}</style><table><thead><tr>${this._edit ? '<th data-col="#" style="position:relative"># <span class="grip" data-cfg="grip" title="↔"></span></th>' : (this._selMode ? `<th><input type="checkbox" data-selall title="${esc(this._L.selAll)}"></th>` : "<th>#</th>")}${th}</tr></thead><tbody>${this._rowsHtml(0, this._shown)}</tbody></table>`;
     this._fillIcons();
     if (prevTop > 0) { while (this._shown < list.length && this._wrap.scrollHeight < prevTop + this._wrap.clientHeight + 400) this._more(); } // keep the scroll position after a refresh
     this._wrap.scrollTop = prevTop; this._wrap.scrollLeft = prevLeft;
@@ -4454,7 +4740,7 @@ class EntityInventoryPanel extends HTMLElement {
     const cols = this._cols_, out = [];
     for (let i = from; i < to; i++) {
       const e = this._list[i];
-      out.push(`<tr data-id="${esc(e.id)}"><td class="dim" data-col="#">${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._padDecimals(this._cell(e, c)[0], c)}</td>`).join("")}</tr>`);
+      out.push(`<tr data-id="${esc(e.id)}"><td class="dim" data-col="#">${this._selMode && !e.user ? `<input type="checkbox" data-sel${this._sel.has(e.id) ? " checked" : ""}> ` : ""}${i + 1}</td>${cols.map((c) => `<td data-col="${c}"${this._offSet && this._offSet.has(c) ? " data-off=1" : ""}>${this._padDecimals(this._cell(e, c)[0], c)}</td>`).join("")}</tr>`);
     }
     return out.join("");
   }
@@ -4466,6 +4752,96 @@ class EntityInventoryPanel extends HTMLElement {
     tb.insertAdjacentHTML("beforeend", this._rowsHtml(this._shown, to));
     this._fillIcons();
     this._shown = to;
+  }
+
+  // multiple selection: a checkbox per row (shift = range) and one in the heading for everything that is shown
+  _selClick(cb, ev) {
+    const ids = (this._list || []).filter((e) => !e.user).map((e) => e.id);
+    if (cb.hasAttribute("data-selall")) { ids.forEach((id) => (cb.checked ? this._sel.add(id) : this._sel.delete(id))); }
+    else {
+      const id = cb.closest("tr").dataset.id, i = ids.indexOf(id);
+      if (ev.shiftKey && this._selLast != null && i >= 0) {
+        const a = Math.min(i, this._selLast), b = Math.max(i, this._selLast);
+        for (let k = a; k <= b; k++) (cb.checked ? this._sel.add(ids[k]) : this._sel.delete(ids[k]));
+      } else if (cb.checked) this._sel.add(id); else this._sel.delete(id);
+      this._selLast = i;
+    }
+    this._wrap.querySelectorAll("input[data-sel]").forEach((x) => { x.checked = this._sel.has(x.closest("tr").dataset.id); });
+    this._updateSelBar();
+  }
+
+  // the bar with the actions for the selected entities
+  _updateSelBar() {
+    const L = this._L, bar = this._selBar, n = this._sel.size;
+    if (!bar) return;
+    bar.style.display = this._selMode ? "flex" : "none";
+    bar.innerHTML = "";
+    if (!this._selMode) return;
+    const t = document.createElement("span"); t.style.cssText = "font-weight:600;margin-right:6px"; t.textContent = L.selCount.replace("{n}", n); bar.appendChild(t);
+    const mk = (txt, fn, danger) => { const b = this._btn(txt, false, fn); b.style.padding = "4px 10px"; b.style.fontSize = "13px"; b.disabled = !n; if (danger) b.style.color = "var(--error-color,#db4437)"; bar.appendChild(b); return b; };
+    mk(L.bHide, () => this._bulkReg(L.bHide, L.bHideAsk, { hidden_by: "user" }));
+    mk(L.bUnhide, () => this._bulkReg(L.bUnhide, L.bUnhideAsk, { hidden_by: null }));
+    mk(L.bEnable, () => this._bulkReg(L.bEnable, L.bEnableAsk, { disabled_by: null }));
+    mk(L.bDisable, () => this._bulkReg(L.bDisable, L.bDisableAsk, { disabled_by: "user" }, true), true);
+    mk(L.bRet, () => this._bulkRetention());
+    const all = this._btn(L.selAll, false, () => { (this._list || []).filter((e) => !e.user).forEach((e) => this._sel.add(e.id)); this._wrap.querySelectorAll("input[data-sel]").forEach((x) => { x.checked = true; }); this._updateSelBar(); });
+    all.style.padding = "4px 10px"; all.style.fontSize = "13px"; all.style.marginLeft = "auto"; bar.appendChild(all);
+    const clr = this._btn(L.selClear, false, () => { this._sel.clear(); this._wrap.querySelectorAll("input[data-sel],input[data-selall]").forEach((x) => { x.checked = false; }); this._updateSelBar(); });
+    clr.style.padding = "4px 10px"; clr.style.fontSize = "13px"; clr.disabled = !n; bar.appendChild(clr);
+  }
+
+  // runs fn for every selected entity one after the other with a progress line; failed ones are counted
+  async _bulkRun(ids, fn, status) {
+    const L = this._L; let ok = 0, fail = 0, first = "";
+    for (let i = 0; i < ids.length; i++) {
+      status.textContent = L.bRunning.replace("{i}", i + 1).replace("{n}", ids.length);
+      try { await fn(ids[i]); ok++; } catch (x) { fail++; if (!first) first = (x && x.message) || String(x); }
+    }
+    return { ok, fail, first };
+  }
+
+  _bulkResult(title, res) {
+    const L = this._L, paras = [L.bDone.replace("{n}", res.ok)];
+    if (res.fail) paras.push(L.bFailed.replace("{f}", res.fail).replace("{e}", res.first));
+    this._confirmDialog(title, paras, L.tabsClose, async () => {});
+  }
+
+  // hide / show / switch on / switch off all selected entities (entity registry)
+  _bulkReg(title, ask, fields, danger) {
+    const L = this._L, ids = [...this._sel];
+    if (!ids.length) return;
+    const status = document.createElement("div");
+    this._confirmDialog(title, [ask.replace("{n}", ids.length), status], title, async () => {
+      const res = await this._bulkRun(ids, (id) => this._hass.callWS(Object.assign({ type: "config/entity_registry/update", entity_id: id }, fields)), status);
+      this._sel.clear(); this._updateSelBar(); this._wrap.querySelectorAll("input[data-sel],input[data-selall]").forEach((x) => { x.checked = false; });
+      this._loadRegAll(); setTimeout(() => this._refresh(true), 1500);
+      setTimeout(() => this._bulkResult(title, res), 100);
+    }, danger);
+  }
+
+  // set the recorder retention (days) of all selected entities
+  _bulkRetention() {
+    const L = this._L, ids = [...this._sel];
+    if (!ids.length) return;
+    const { body, close } = this._modal(L.bRetTitle.replace("{n}", ids.length), "");
+    let sel = 0;
+    const box = document.createElement("div"); box.style.cssText = "display:flex;flex-wrap:wrap;gap:6px;margin:8px 0";
+    const custom = Object.assign(document.createElement("input"), { type: "number", min: 1, max: 3650, placeholder: L.retCustom });
+    custom.style.cssText = "width:150px;padding:6px;border-radius:8px;border:1px solid var(--divider-color,#888);background:transparent;color:var(--primary-text-color);font:inherit";
+    custom.onkeydown = (ev) => ev.stopPropagation();
+    const paint = () => box.querySelectorAll("button").forEach((b) => { const on = +b.dataset.d === sel; b.style.background = on ? "var(--primary-color,#03a9f4)" : ""; b.style.color = on ? "#fff" : ""; b.style.borderColor = on ? "transparent" : ""; });
+    [0, 1, 3, 7, 14, 30, 90, 180, 365, 3650].forEach((d) => { const b = this._btn(d === 0 ? L.retNone : d === 3650 ? L.retMax : L.retDays.replace("{n}", d), false, () => { sel = d; custom.value = ""; paint(); }); b.dataset.d = d; box.appendChild(b); });
+    custom.oninput = () => { const v = parseInt(custom.value, 10); sel = v >= 1 ? Math.min(v, 3650) : 0; paint(); };
+    box.appendChild(custom); body.appendChild(box); paint();
+    const go = this._btn(L.retSave, true, () => {
+      const days = sel || null, d = sel === 3650 ? L.retMax : L.retDays.replace("{n}", sel);
+      close();
+      this._confirmDialog(L.bRetTitle.replace("{n}", ids.length), [days ? L.bRetAsk.replace("{n}", ids.length).replace("{d}", d) : L.bRetNoneAsk.replace("{n}", ids.length)], L.retSave, async () => {
+        await this._call({ type: "entity_inventory/set_retention_bulk", entity_ids: ids, days });
+        this._sel.clear(); this._updateSelBar(); this._wrap.querySelectorAll("input[data-sel],input[data-selall]").forEach((x) => { x.checked = false; });
+      });
+    });
+    body.appendChild(this._footer(this._btn(L.cancel, false, close), go));
   }
 
   // the click target after a redraw: the element that was pressed, looked up again in the new table
@@ -4500,6 +4876,8 @@ class EntityInventoryPanel extends HTMLElement {
 
   _click(ev) {
     ev = this._fixTarget(ev);
+    const sc = ev.target.closest && ev.target.closest("input[data-sel],input[data-selall]");
+    if (sc) { this._selClick(sc, ev); return; }
     const chip = ev.target.closest && ev.target.closest(".chip[data-label]");
     if (chip) { this._labelDialog(chip.dataset.label); return; }
     const mv = ev.target.closest("[data-cfg=mv]");

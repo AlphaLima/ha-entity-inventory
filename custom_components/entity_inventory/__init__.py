@@ -304,7 +304,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.http.register_view(DocUploadView)
     hass.http.register_view(PhotoServeView)
     hass.http.register_view(DocServeView)
-    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention, ws_recorder_age, ws_set_default_retention, ws_retention_preview):
+    for command in (ws_list, ws_set_note, ws_delete_photo, ws_delete_doc, ws_rename_doc, ws_set_retention, ws_retention_enabled, ws_run_retention, ws_recorder_age, ws_set_default_retention, ws_retention_preview, ws_set_retention_bulk):
         websocket_api.async_register_command(hass, command)
 
     @callback
@@ -440,6 +440,29 @@ def ws_set_retention(hass: HomeAssistant, connection, msg: dict[str, Any]) -> No
         manager.data["retention"].pop(msg["entity_id"], None)
     else:
         manager.data["retention"][msg["entity_id"]] = msg["days"]
+    manager.save()
+    connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
+
+
+@websocket_api.websocket_command(
+    {
+        vol.Required("type"): f"{DOMAIN}/set_retention_bulk",
+        vol.Required("entity_ids"): [str],
+        vol.Required("days"): vol.Any(None, vol.All(int, vol.Range(min=1, max=MAX_RETENTION_DAYS))),
+    }
+)
+@websocket_api.require_admin
+@callback
+def ws_set_retention_bulk(hass: HomeAssistant, connection, msg: dict[str, Any]) -> None:
+    """Sets (or, with days = null, removes) the retention rule of many entities at once."""
+    manager: Manager = hass.data[DOMAIN]
+    for entity_id in msg["entity_ids"][:5000]:
+        if not ENTITY_RE.match(entity_id):
+            continue
+        if msg["days"] is None:
+            manager.data["retention"].pop(entity_id, None)
+        else:
+            manager.data["retention"][entity_id] = msg["days"]
     manager.save()
     connection.send_result(msg["id"], manager.payload(connection.refresh_token_id))
 

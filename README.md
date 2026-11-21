@@ -30,6 +30,7 @@ The *Temperature* tab with 171 sensors, sorted by value: the value (decimal sepa
 - **Access column `r/w`:** read-only (`r`), write-only (`w`) or both (`rw`) per entity.
 - **Entity symbol** in its own column; a click opens a dialog to change it.
 - **Hidden / disabled tab:** every entity that is hidden or switched off (disabled entities have no state and are read from the entity registry; administrators only), with a column that tells which. The rename dialog hides / shows an entity and switches it on / off (`hidden_by`, `disabled_by`); the toolbar button *show hidden / disabled entities* adds them to the other tabs.
+- **Multiple selection:** a toolbar button switches on a checkbox column (shift-click selects a range, the checkbox in the heading selects everything shown). A bar offers *hide / show*, *switch on / off* and *recorder retention* for all selected entities at once; every action asks first and states the number and the consequences. Administrators only.
 - **Labels and scenes:** a labels column with the coloured Home Assistant labels, a tab with every labelled entity, a selector to show only one label (or *without label*), a tab with scenes and their last activation.
 - **User accounts tab:** all Home Assistant accounts with user name, role, login provider and linked person (administrators only).
 - **Filters:** search over name, ID, area, device, integration, comments and document names; area, integration and label selectors; buttons to hide unavailable / hidden entities and to show only entries that have a comment or a photo.
@@ -102,6 +103,16 @@ Diese Anleitung beschreibt das Panel Schritt für Schritt. Alles, was etwas änd
 - **Suchfeld:** Es sucht in Name, Entity-ID, Bereich, Gerät, Integration, Kommentaren und Dokumentnamen.
 - **Auswahlfelder:** *Bereich*, *Integration* und *Label* schränken die Liste ein. Das Label-Feld erscheint nur, wenn der Tab Labels hat; *Ohne Label* zeigt die Entitäten ohne Label.
 - **Pause-Knopf:** Hält die Live-Aktualisierung an, damit die Liste still steht.
+
+### Mehrere Entitäten gleichzeitig ändern
+
+Der Knopf mit den zwei Kästchen in der Werkzeugleiste (nur für Administratoren) schaltet den **Auswahlmodus** ein. Es erscheint ein Kästchen in jeder Zeile (Umschalt+Klick wählt einen ganzen Bereich), das Kästchen in der Überschrift wählt alle **angezeigten** Zeilen (nach Tab, Suche und Filter). Eine Leiste über der Tabelle zeigt „N ausgewählt" und bietet:
+
+- **Verstecken / Einblenden**,
+- **Einschalten / Ausschalten** (Aktiviert-Schalter von Home Assistant; Home Assistant lädt die betroffenen Integrationen nach etwa 30 Sekunden neu),
+- **Aufbewahrung …** (Recorder-Aufbewahrung in Tagen oder „keine Regel" für alle gewählten Entitäten).
+
+Jede Aktion fragt vorher nach und nennt die Anzahl und die Folgen; „Ausschalten" ist rot markiert. Danach zeigt ein Fenster, wie viele geändert wurden und ob welche fehlgeschlagen sind. Schalte den Auswahlmodus mit demselben Knopf wieder aus.
 
 ### 5. Die Schalter der Werkzeugleiste
 
