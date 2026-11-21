@@ -3681,7 +3681,7 @@ class EntityInventoryPanel extends HTMLElement {
     const base = TABCOLS[this._active] || BASE, cfg = this._layout(tgt);
     const cols = cfg.order.filter((c) => base.includes(c));
     if (all) return cols;
-    if (tgt === "view" && !this._edit) { // the recorder columns are switched by the button in the toolbar (not by the column editor)
+    if ((tgt === "view" && !this._edit) || (tgt === "print" && (!this._edit || this._printing))) { // the recorder columns are switched by the button in the toolbar (screen and printout; not by the column editor)
       return cols.filter((c) => (c === "retention" || c === "recrows" || c === "recint" || c === "recupd") ? this._recCols : !cfg.off.has(c));
     }
     return cols.filter((c) => !cfg.off.has(c));
@@ -4477,8 +4477,12 @@ class EntityInventoryPanel extends HTMLElement {
     return ic ? (ic.shadowRoot ? find(ic.shadowRoot, 0) : find(ic, 0)) : null;
   }
 
-  _print() {
-    const L = this._L, { cols, head, rows } = this._tableData("print"), list = this._list || [], pcfg = this._layout("print");
+  async _print() {
+    if (this._recCols && this._admin) await this._loadRecAge(); // the recorder columns are printed too: their values must be there
+    let data;
+    this._printing = true; // the printout takes the recorder columns from the toolbar switch, also while the column editor is open
+    try { data = this._tableData("print"); } finally { this._printing = false; }
+    const L = this._L, { cols, head, rows } = data, list = this._list || [], pcfg = this._layout("print");
     const wst = (c) => (pcfg.w[c] ? ` style="width:${pcfg.w[c]}mm;max-width:${pcfg.w[c]}mm;word-break:break-word;white-space:normal"` : "");
     const title = this._label(this._active), path = this._tabIconPath();
     const stand = `${L.stand}: ${new Date().toLocaleString(this._hass.language || "en")} | ${rows.length} ${L.entities}`;
