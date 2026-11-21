@@ -2735,6 +2735,13 @@ const DI_ICONS = {
   hiddenEntity: '<rect x="4" y="4" width="16" height="16" rx="3" stroke-dasharray="3.2 3.2"/>', // dashed frame: hidden / disabled entities (the eye is the blur symbol)
 };
 const RET_SYMBOL = '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>';
+// symbols as column headings (narrow columns): stored for = database, entries = list, interval = stopwatch
+const HEAD_SYM = {
+  retention: RET_SYMBOL,
+  recrows: '<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1" fill="currentColor"/><circle cx="3.5" cy="12" r="1" fill="currentColor"/><circle cx="3.5" cy="18" r="1" fill="currentColor"/>',
+  recint: '<circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 2M9.5 2.5h5"/>',
+};
+const headSym = (c) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${HEAD_SYM[c]}</svg>`;
 const diIcon = (n, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${DI_ICONS[n]}</svg>`;
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
@@ -3533,9 +3540,9 @@ class EntityInventoryPanel extends HTMLElement {
     const th = cols.map((c) => {
       const nm = cfg.n[c] || L["c_" + c] || c;
       if (this._edit) { // controls right in the heading: show / print, move left / right, own name, drag the right edge to resize
-        return `<th data-col="${c}" draggable="true" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><span class="cfgl">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : c === "retention" && !cfg.n[c] ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${RET_SYMBOL}</svg>` : esc(nm)}</span><div class="cfgbox"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"></div><span class="grip" data-cfg="grip" title="↔"></span></th>`;
+        return `<th data-col="${c}" draggable="true" style="position:relative;cursor:default${cfg.off.has(c) ? ";opacity:.45" : ""}"><span class="cfgl">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : HEAD_SYM[c] && !cfg.n[c] ? headSym(c) : esc(nm)}</span><div class="cfgbox"><div class="cfgc"><input type="checkbox" data-cfg="vis"${cfg.off.has(c) ? "" : " checked"}><button data-cfg="mv" data-d="-1">◀</button><button data-cfg="mv" data-d="1">▶</button></div><input type="text" data-cfg="name" value="${esc(cfg.n[c] || "")}" placeholder="${esc(L["c_" + c] || c)}" title="${esc(L.renameTip)}"></div><span class="grip" data-cfg="grip" title="↔"></span></th>`;
       }
-      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : c === "retention" && !cfg.n[c] ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${RET_SYMBOL}</svg>` : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
+      return `<th data-col="${c}" title="${esc(nm)}">${c === "led" && !cfg.n[c] ? "●" : c === "icon" && !cfg.n[c] ? svgIcon("shape", 16) : HEAD_SYM[c] && !cfg.n[c] ? headSym(c) : esc(nm)}${c === sc ? (sd > 0 ? " ▲" : " ▼") : ""}</th>`;
     }).join("");
     const wcss = ["#", ...cols].filter((c) => cfg.w[c]).map((c) => { const w = Math.round(tgt === "print" ? cfg.w[c] * MM : cfg.w[c]); return `td[data-col="${c}"],th[data-col="${c}"]{width:${w}px;max-width:${w}px;min-width:${w}px;overflow:hidden;text-overflow:${c === "#" || NOCLIP.includes(c) ? "clip" : "ellipsis"}}`; }).join("");
     // long lists are drawn in blocks (the DOM is the slow part); the rest follows while scrolling. Sorting, search, CSV and print use the whole list.
@@ -4119,7 +4126,7 @@ class EntityInventoryPanel extends HTMLElement {
     tb.querySelectorAll("tbody tr").forEach((r) => [...r.children].forEach((td) => { const c = td.dataset.col; if (!c) return; const x = natural(td); if (!(w[c] >= x)) w[c] = x; }));
     // the heading counts with its text only (the editor controls fit into 76 px anyway when the column is that wide)
     const probe = document.createElement("span"); probe.style.cssText = "position:absolute;visibility:hidden;white-space:nowrap;font:inherit;font-weight:600"; tb.appendChild(probe);
-    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "#" ? "#" : c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : c === "retention" && !this._layout(tgt).n.retention ? "mmmmm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
+    tb.querySelectorAll("thead th[data-col]").forEach((th) => { const c = th.dataset.col; probe.textContent = c === "#" ? "#" : c === "led" ? "●" : c === "icon" && !this._layout(tgt).n.icon ? "mm" : HEAD_SYM[c] && !this._layout(tgt).n[c] ? "mmmm" : this._colName(tgt, c); w[c] = Math.max(Math.ceil(probe.getBoundingClientRect().width) + 14, w[c] || 0); });
     probe.remove();
     Object.keys(w).forEach((c) => { cfg.w[c] = tgt === "print" ? Math.round(w[c] / MM) : w[c]; });
     this._saveLayout(tgt); this._render();
