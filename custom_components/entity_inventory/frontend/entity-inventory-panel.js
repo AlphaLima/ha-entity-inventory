@@ -4755,18 +4755,24 @@ class EntityInventoryPanel extends HTMLElement {
     this._shown = to;
   }
 
-  _setCur(id, scroll) {
+  _setCur(id, scroll, focus) {
     this._cur = id;
     this._wrap.querySelectorAll("tr.cur").forEach((t) => t.classList.remove("cur"));
     const tr = [...this._wrap.querySelectorAll("tbody tr[data-id]")].find((t) => t.dataset.id === id);
-    if (tr) { tr.classList.add("cur"); if (scroll) tr.scrollIntoView({ block: "nearest" }); }
+    if (tr) {
+      tr.classList.add("cur");
+      if (scroll) tr.scrollIntoView({ block: "nearest" });
+      const cb = focus && tr.querySelector("input[data-sel]");
+      if (cb) cb.focus({ preventScroll: true }); // the checkbox of the row keeps the focus, so the space bar works on it directly
+    }
   }
 
   _selKey(ev) {
     if (!this.isConnected || !this._selMode || !this._wrap || ev.ctrlKey || ev.altKey || ev.metaKey) return;
     if (!["ArrowDown", "ArrowUp", " "].includes(ev.key)) return;
-    const t = ev.composedPath()[0];
-    if (t && (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(t.tagName) || t.isContentEditable)) return; // typing in a field / a focused checkbox or button keeps its own keys
+    const t = ev.composedPath()[0], rowCb = !!(t && t.matches && t.matches("input[data-sel]"));
+    if (t && !rowCb && (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(t.tagName) || t.isContentEditable)) return; // typing in a field / a focused button keeps its own keys
+    if (rowCb && ev.key === " ") return; // a focused row checkbox toggles itself (its click is handled in _selClick)
     if ([...this.shadowRoot.children].some((c) => c.style && c.style.position === "fixed")) return; // a dialog is open
     const ids = (this._list || []).filter((e) => !e.user).map((e) => e.id);
     if (!ids.length) return;
@@ -4787,7 +4793,7 @@ class EntityInventoryPanel extends HTMLElement {
     ev.preventDefault();
     i = ev.key === "ArrowDown" ? Math.min(ids.length - 1, i + 1) : Math.max(0, i < 0 ? 0 : i - 1);
     while (i >= this._shown && this._shown < ids.length) this._more(); // draw further rows when the cursor goes beyond the drawn ones
-    this._setCur(ids[i], true);
+    this._setCur(ids[i], true, rowCb);
   }
 
   // multiple selection: a checkbox per row (shift = range) and one in the heading for everything that is shown
@@ -4801,6 +4807,7 @@ class EntityInventoryPanel extends HTMLElement {
         for (let k = a; k <= b; k++) (cb.checked ? this._sel.add(ids[k]) : this._sel.delete(ids[k]));
       } else if (cb.checked) this._sel.add(id); else this._sel.delete(id);
       this._selLast = i;
+      this._setCur(id);
     }
     this._wrap.querySelectorAll("input[data-sel]").forEach((x) => { x.checked = this._sel.has(x.closest("tr").dataset.id); });
     this._updateSelBar();
