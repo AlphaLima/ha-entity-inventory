@@ -92,6 +92,8 @@ Diese Anleitung beschreibt das Panel Schritt für Schritt. Alles, was etwas änd
 
 **Verstecken:** Im selben Dialog gibt es den Haken *Diese Entität verstecken*. Versteckte Entitäten erscheinen nicht mehr in den automatisch erzeugten Dashboards und Listen von Home Assistant, funktionieren aber weiter (Automationen, Verlauf). Hier siehst du sie mit dem Knopf *Versteckte / deaktivierte Entitäten anzeigen* wieder und kannst den Haken dort entfernen.
 
+**Aktivieren / abschalten:** Der Haken *Entität aktiviert* entspricht dem Schalter „Aktiviert“ in den Entitäts-Einstellungen von Home Assistant. Nimmst du ihn weg (nach einer Rückfrage), wird die Entität nicht mehr geladen: kein Zustand, kein neuer Verlauf, und sie funktioniert in Automationen, Skripten und Dashboards nicht mehr, die sie nutzen. Home Assistant lädt die Integration etwa 30 Sekunden nach dem Speichern neu; alter Verlauf bleibt in der Datenbank. Abgeschaltete Entitäten findest du mit dem Knopf *Versteckte / deaktivierte Entitäten anzeigen* und aktivierst sie dort wieder.
+
 **Umbenennen:** Im Dialog änderst du den *Namen* und, wenn nötig, die *Entity-ID*. Achtung: Automationen, Skripte, Dashboards und Templates, die die alte ID nutzen, ändert Home Assistant **nicht** mit. Ändere die ID nur, wenn du sie danach prüfst. Kommentare, Fotos und Dokumente ziehen mit.
 
 ### 4. Suchen und filtern
