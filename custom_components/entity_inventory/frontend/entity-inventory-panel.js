@@ -2763,7 +2763,7 @@ const headSym = (c) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="no
 const diIcon = (n, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${DI_ICONS[n]}</svg>`;
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
-const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "retention", "recrows", "recint", "recupd", "photos", "docs", "note"];
+const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "retention", "recrows", "recint", "recupd", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "photos", "docs", "note"];
 // columns blurred by the "blur sensitive data" button (and the names of user accounts)
 const HELPER_PLATFORMS = new Set(["group", "derivative", "integration", "threshold", "utility_meter", "min_max", "statistics", "trend", "filter", "history_stats", "random", "tod", "switch_as_x", "generic_hygrostat", "generic_thermostat", "compensation", "bayesian"]); // helper integrations (template is left out: YAML templates share the platform)
 const BLURCOLS = ["userid", "username", "trackers", "person", "note"];
@@ -3471,12 +3471,16 @@ class EntityInventoryPanel extends HTMLElement {
       for (let j = i - 1; j >= 0; j--) { const q = order.indexOf(ALLCOLS[j]); if (q >= 0) { at = q + 1; break; } }
       order.splice(at, 0, k);
     });
-    return (this._lay[tgt] = { order, off: new Set(c.off || DEFAULT_OFF[tgt]), w: c.w || {}, n: c.n || {} });
+    if (!c.recAfterUnit) { // layouts saved before: the recorder columns go behind the unit once
+      const REC = ["retention", "recrows", "recint", "recupd"], rest = order.filter((k) => !REC.includes(k)), at = rest.indexOf("unit");
+      if (at >= 0) { rest.splice(at + 1, 0, ...REC); order.splice(0, order.length, ...rest); }
+    }
+    return (this._lay[tgt] = { order, off: new Set(c.off || DEFAULT_OFF[tgt]), w: c.w || {}, n: c.n || {}, recAfterUnit: true });
   }
 
   _saveLayout(tgt) {
     const c = this._layout(tgt);
-    try { localStorage.setItem(tgt === "print" ? "eiPrint" : "eiView", JSON.stringify({ order: c.order, off: [...c.off], w: c.w, n: c.n })); } catch (e) { /* ignore */ }
+    try { localStorage.setItem(tgt === "print" ? "eiPrint" : "eiView", JSON.stringify({ order: c.order, off: [...c.off], w: c.w, n: c.n, recAfterUnit: true })); } catch (e) { /* ignore */ }
   }
 
   // columns of the active tab in the order of the layout; all = also the hidden ones (column editor)
