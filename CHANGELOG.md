@@ -2,6 +2,9 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.2b5 – 2026-11-21
+- Printout includes the recorder columns when they are switched on in the toolbar (like the screen)
+
 ## 0.3.2b4 – 2026-11-21
 - Long press or right click on a column heading renames the column (display names)
 - Column editor: the box with checkbox, arrows and name is no longer clipped by a stored column width
