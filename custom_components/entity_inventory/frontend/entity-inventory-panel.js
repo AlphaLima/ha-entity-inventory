@@ -39,7 +39,7 @@ const L10N = {
       light: "All lights", dimmer: "Lights that can be dimmed", switch: "Switches, sockets and on/off helpers",
       climate: "Thermostats and heat pumps: current, target, mode", media: "TVs, speakers and other players",
       binary: "Motion, contact, window, smoke … sensors", person: "Persons with their trackers and linked login", users: "Login accounts of Home Assistant (needs admin rights)", presence: "Device trackers",
-      scene: "Scenes with their last activation", labels: "Every entity that has at least one label", auto: "Automations and scripts", helper: "input_*, counters, timers, schedules", sensor: "Sensors that fit no measurement tab",
+      scene: "Scenes with their last activation", labels: "Every entity that has at least one label", auto: "Automations and scripts", helper: "input_*, counters, timers, schedules and the helper integrations (group, threshold, utility meter, statistics …)", sensor: "Sensors that fit no measurement tab",
       unavailable: "Entities that are unavailable or unknown right now",
     },
   },
@@ -80,7 +80,7 @@ const L10N = {
       light: "Alle Lichter", dimmer: "Lichter, die sich dimmen lassen", switch: "Schalter, Steckdosen und Ein/Aus-Helfer",
       climate: "Thermostate und Wärmepumpen: Ist, Soll, Modus", media: "Fernseher, Lautsprecher und andere Player",
       binary: "Bewegung, Kontakt, Fenster, Rauch … Sensoren", person: "Personen mit Trackern und verknüpftem Login", users: "Anmeldekonten von Home Assistant (braucht Admin-Rechte)", presence: "Geräte-Tracker",
-      scene: "Szenen mit ihrer letzten Aktivierung", labels: "Jede Entität, die mindestens ein Label hat", auto: "Automationen und Skripte", helper: "input_*, Zähler, Timer, Zeitpläne", sensor: "Sensoren, die in keinen Mess-Tab passen",
+      scene: "Szenen mit ihrer letzten Aktivierung", labels: "Jede Entität, die mindestens ein Label hat", auto: "Automationen und Skripte", helper: "input_*, Zähler, Timer, Zeitpläne und die Helfer-Integrationen (Gruppe, Schwellwert, Verbrauchszähler, Statistik …)", sensor: "Sensoren, die in keinen Mess-Tab passen",
       unavailable: "Entitäten, die gerade nicht verfügbar oder unbekannt sind",
     },
   },
@@ -1874,6 +1874,7 @@ const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" heig
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
 const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "retention", "photos", "docs", "note"];
 // columns blurred by the "blur sensitive data" button (and the names of user accounts)
+const HELPER_PLATFORMS = new Set(["group", "derivative", "integration", "threshold", "utility_meter", "min_max", "statistics", "trend", "filter", "history_stats", "random", "tod", "switch_as_x", "generic_hygrostat", "generic_thermostat", "compensation", "bayesian"]); // helper integrations (template is left out: YAML templates share the platform)
 const BLURCOLS = ["userid", "username", "trackers", "person", "note"];
 const DEFAULT_OFF = { view: ["retention"], print: ["led", "icon", "retention"] }; // the recorder column is off until you want it (the dialog is also reachable from the rename dialog)
 const MM = 96 / 25.4; // pixels per millimetre (widths of the printout are stored in mm)
@@ -2075,7 +2076,8 @@ class EntityInventoryPanel extends HTMLElement {
     else if (d === "device_tracker") t.push("presence");
     else if (d === "scene") t.push("scene");
     else if (["automation", "script"].includes(d)) t.push("auto");
-    else if (/^(input_|counter$|timer$|schedule$)/.test(d)) t.push("helper");
+    // helpers: input_*, counters, timers, schedules and the entities of the helper integrations of Home Assistant (an input_boolean is also a switch)
+    if ((/^(input_|counter$|timer$|schedule$)/.test(d) || HELPER_PLATFORMS.has(e.platform)) && !t.includes("helper")) t.push("helper");
   }
 
   _valueText(e) {
