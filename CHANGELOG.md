@@ -2,6 +2,9 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.2b2 – 2026-11-21
+- Back button: opening a device, integration, person or label page from the table remembers the panel, so Back returns to it
+
 ## 0.3.2b1 – 2026-11-21
 - Recorder retention per entity: dialog, Recorder column with the storage time of each entity, nightly purge_entities job (off by default)
 - Button to blur sensitive data (user IDs, user names, trackers, persons, comments) on screen and in print
