@@ -2,6 +2,12 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.2b6 – 2026-11-21
+- Multiple selection: hide / show, switch on / off and recorder retention for many entities at once (keyboard: arrows and space bar)
+- Tab for hidden / disabled entities (disabled ones read from the entity registry)
+- Rename dialog: hide / show and enable / disable an entity
+- Recorder: printout includes the recorder columns, column editor fix, long press renames a column
+
 ## 0.3.2b5 – 2026-11-21
 - Printout includes the recorder columns when they are switched on in the toolbar (like the screen)
 
