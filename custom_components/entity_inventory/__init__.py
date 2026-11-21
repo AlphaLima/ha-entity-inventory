@@ -138,15 +138,15 @@ class Manager:
             self.save()
 
 
-def _oldest_states(hass: HomeAssistant) -> dict[str, float]:
-    """entity_id -> time (unix seconds) of the oldest state the recorder still has (one aggregate query)."""
+def _oldest_states(hass: HomeAssistant) -> dict[str, list[float]]:
+    """entity_id -> [oldest, newest time (unix seconds), number of states] the recorder holds (one aggregate query)."""
     with session_scope(hass=hass, read_only=True) as session:
         rows = session.execute(
-            select(StatesMeta.entity_id, func.min(States.last_updated_ts))
+            select(StatesMeta.entity_id, func.min(States.last_updated_ts), func.max(States.last_updated_ts), func.count(States.state_id))
             .join(States, States.metadata_id == StatesMeta.metadata_id)
             .group_by(StatesMeta.entity_id)
         ).all()
-    return {entity_id: float(ts) for entity_id, ts in rows if entity_id and ts}
+    return {entity_id: [float(first), float(last), int(count)] for entity_id, first, last, count in rows if entity_id and first}
 
 
 def _recorder_info(hass: HomeAssistant) -> dict[str, Any] | None:
@@ -509,7 +509,11 @@ async def ws_recorder_age(hass: HomeAssistant, connection, msg: dict[str, Any]) 
             connection.send_error(msg["id"], "recorder_error", str(err))
             return
         cache = manager.age_cache = {"at": now, "oldest": oldest}
-    connection.send_result(msg["id"], {"now": now, "oldest": cache["oldest"]})
+    data = cache["oldest"]
+    connection.send_result(
+        msg["id"],
+        {"now": now, "oldest": {k: v[0] for k, v in data.items()}, "last": {k: v[1] for k, v in data.items()}, "count": {k: v[2] for k, v in data.items()}},
+    )
 
 
 @websocket_api.websocket_command({vol.Required("type"): f"{DOMAIN}/run_retention"})
