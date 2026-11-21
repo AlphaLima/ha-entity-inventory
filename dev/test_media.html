@@ -3902,7 +3902,7 @@ class EntityInventoryPanel extends HTMLElement {
     paintBlur(); { const o = bb.onclick; bb.onclick = (ev) => { o(ev); paintBlur(); }; }
     const rb = toggle("", L.recColsTip, "_recCols");
     rb.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${RET_SYMBOL}</svg>`;
-    const sb = mkBtn("", L.selTip, () => { this._selMode = !this._selMode; if (!this._selMode) this._sel.clear(); paintSel(); this._render(); this._updateSelBar(); });
+    const sb = mkBtn("", L.selTip, () => { sb.blur(); this._selMode = !this._selMode; if (!this._selMode) this._sel.clear(); paintSel(); this._render(); this._updateSelBar(); });
     sb.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><path d="M5 7l1.5 1.5L9 5.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><path d="M14 7h7M14 17h7"/></svg>`;
     const paintSel = () => { sb.style.background = this._selMode ? "var(--primary-color,#03a9f4)" : ""; sb.style.color = this._selMode ? "#fff" : ""; sb.style.borderColor = this._selMode ? "transparent" : ""; };
     sb.style.display = this._admin ? "" : "none"; paintSel();
@@ -4774,7 +4774,7 @@ class EntityInventoryPanel extends HTMLElement {
     if (!this.isConnected || !this._selMode || !this._wrap || ev.ctrlKey || ev.altKey || ev.metaKey) return;
     if (!["ArrowDown", "ArrowUp", " "].includes(ev.key)) return;
     const t = ev.composedPath()[0], rowCb = !!(t && t.matches && t.matches("input[data-sel]"));
-    if (t && !rowCb && (/^(INPUT|TEXTAREA|SELECT|BUTTON)$/.test(t.tagName) || t.isContentEditable)) return; // typing in a field / a focused button keeps its own keys
+    if (t && !rowCb && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable || (t.tagName === "BUTTON" && ev.key === " "))) return; // typing in a field keeps its own keys, a focused button its space bar (the arrow keys still move the row)
     if (rowCb && ev.key === " ") return; // a focused row checkbox toggles itself (its click is handled in _selClick)
     if ([...this.shadowRoot.children].some((c) => c.style && c.style.position === "fixed")) return; // a dialog is open
     const ids = (this._list || []).filter((e) => !e.user).map((e) => e.id);
