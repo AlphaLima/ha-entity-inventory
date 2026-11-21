@@ -6,6 +6,19 @@
 
 const L10N = {
   en: {
+    scTitle: "State class",
+    scNone: "none (no state class)",
+    scMeasurement: "measurement: a momentary value that goes up and down, e.g. temperature, power, humidity.",
+    scTotal: "total: a counter that can also go down, e.g. a meter with a reset or a balance.",
+    scTotalInc: "total_increasing: a counter that only goes up (and starts again at 0), e.g. energy in kWh, gas, water.",
+    scStatsBusy: "Checking the long-term statistics …",
+    scStatsYes: "Long-term statistics exist for this entity ({what}, unit {unit}, source {src}). Home Assistant keeps them in hourly values for the Energy dashboard and history charts.",
+    scStatsNo: "No long-term statistics: only entities with a state class (and a unit) get them. Without them only the single value history is kept, and it is deleted after the recorder retention.",
+    scStatsFail: "The long-term statistics could not be read.",
+    scChange: "Can it be changed? Not here and not in the entity settings of Home Assistant: the integration that delivers the sensor decides. Exceptions: in configuration.yaml with customize (state_class:), and for template helpers you create yourself.",
+    scRecNote: "The retention of Entity Inventory shortens only the single value history of an entity. The long-term statistics stay untouched.",
+    scDevTools: "Developer tools → Statistics",
+    scTip: "State class of the entity (click for an explanation)",
     c_recupd: "Last report",
     recUpdTip: "The time of the last report of the entity (last_updated, what the recorder stores) – also when only an attribute changed or the same value was reported again",
     recColsTip: "Show the recorder columns (stored for, entries, average interval) (highlighted = shown)",
@@ -73,6 +86,19 @@ const L10N = {
     },
   },
   de: {
+    scTitle: "Statusklasse",
+    scNone: "keine (keine Statusklasse)",
+    scMeasurement: "measurement: ein Momentwert, der steigt und fällt, z. B. Temperatur, Leistung, Luftfeuchte.",
+    scTotal: "total: ein Zähler, der auch sinken kann, z. B. ein Zähler mit Rücksetzung oder ein Saldo.",
+    scTotalInc: "total_increasing: ein Zähler, der nur steigt (und wieder bei 0 beginnt), z. B. Energie in kWh, Gas, Wasser.",
+    scStatsBusy: "Prüfe die Langzeitstatistik …",
+    scStatsYes: "Für diese Entität gibt es Langzeitstatistiken ({what}, Einheit {unit}, Quelle {src}). Home Assistant bewahrt sie als Stundenwerte für das Energie-Dashboard und die Verlaufsgrafiken auf.",
+    scStatsNo: "Keine Langzeitstatistik: Nur Entitäten mit einer Statusklasse (und einer Einheit) bekommen sie. Ohne sie bleibt nur der Verlauf der Einzelwerte, und der wird nach der Aufbewahrung des Recorders gelöscht.",
+    scStatsFail: "Die Langzeitstatistik konnte nicht gelesen werden.",
+    scChange: "Lässt sich das ändern? Nicht hier und auch nicht in den Entitäts-Einstellungen von Home Assistant: Das bestimmt die Integration, die den Sensor liefert. Ausnahmen: in der configuration.yaml mit customize (state_class:) und bei Template-Helfern, die du selbst anlegst.",
+    scRecNote: "Die Aufbewahrung im Entity Inventory kürzt nur den Verlauf der Einzelwerte einer Entität. Die Langzeitstatistik bleibt unberührt.",
+    scDevTools: "Entwicklerwerkzeuge → Statistiken",
+    scTip: "Statusklasse der Entität (Klick: Erklärung)",
     c_recupd: "Letzte Meldung",
     recUpdTip: "Zeitpunkt der letzten Meldung der Entität (last_updated, das speichert der Recorder) – auch wenn sich nur ein Attribut änderte oder derselbe Wert erneut gemeldet wurde",
     recColsTip: "Recorder-Spalten anzeigen (gespeichert seit, Einträge, Ø Intervall) (farbig = angezeigt)",
@@ -140,6 +166,19 @@ const L10N = {
     },
   },
   fr: {
+    scTitle: "Classe d’état",
+    scNone: "aucune (pas de classe d’état)",
+    scMeasurement: "measurement : une valeur instantanée qui monte et descend, p. ex. température, puissance, humidité.",
+    scTotal: "total : un compteur qui peut aussi diminuer, p. ex. un compteur avec remise à zéro ou un solde.",
+    scTotalInc: "total_increasing : un compteur qui ne fait qu’augmenter (et repart de 0), p. ex. énergie en kWh, gaz, eau.",
+    scStatsBusy: "Vérification des statistiques à long terme …",
+    scStatsYes: "Des statistiques à long terme existent pour cette entité ({what}, unité {unit}, source {src}). Home Assistant les conserve en valeurs horaires pour le tableau de bord Énergie et les graphiques d’historique.",
+    scStatsNo: "Pas de statistiques à long terme : seules les entités avec une classe d’état (et une unité) en ont. Sans elles, seul l’historique des valeurs individuelles est conservé, et il est supprimé après la conservation de l’enregistreur.",
+    scStatsFail: "Les statistiques à long terme n’ont pas pu être lues.",
+    scChange: "Peut-on la modifier ? Pas ici ni dans les paramètres d’entité de Home Assistant : c’est l’intégration qui fournit le capteur qui décide. Exceptions : dans configuration.yaml avec customize (state_class:) et pour les assistants modèles que vous créez vous-même.",
+    scRecNote: "La conservation d’Entity Inventory ne raccourcit que l’historique des valeurs individuelles d’une entité. Les statistiques à long terme restent intactes.",
+    scDevTools: "Outils de développement → Statistiques",
+    scTip: "Classe d’état de l’entité (clic pour une explication)",
     c_recupd: "Dernier rapport",
     recColsTip: "Afficher les colonnes de l’enregistreur (conservé depuis, entrées, intervalle moyen) (en couleur = affichées)",
     c_recrows: "Entrées",
@@ -349,6 +388,19 @@ const L10N = {
     d: {"all": "Toutes les entités connues de Home Assistant", "illuminance": "Capteurs de luminosité (lux)", "temperature": "Capteurs qui mesurent une température", "humidity": "Capteurs d'humidité", "power": "Puissance instantanée (W, kW)", "energy": "Compteurs d'énergie (Wh, kWh)", "consumption": "Gaz, eau, volume et tout ce qui s'appelle consommation", "voltage": "Capteurs de tension (V, mV, kV)", "frequency": "Capteurs de fréquence (Hz)", "current": "Courant et facteur de puissance (A, mA)", "battery": "Niveaux de batterie, les plus faibles d'abord", "cover": "Stores, volets, portes de garage : position", "tilt": "Volets à lames orientables : angle des lames", "light": "Toutes les lumières", "dimmer": "Lumières variables", "switch": "Interrupteurs, prises et entrées marche/arrêt", "climate": "Thermostats et pompes à chaleur : actuel, consigne, mode", "media": "Téléviseurs, enceintes et autres lecteurs", "binary": "Capteurs de mouvement, contact, fenêtre, fumée …", "person": "Personnes avec leurs traceurs et leur compte lié", "users": "Comptes de connexion de Home Assistant (droits d'administrateur requis)", "presence": "Traceurs d'appareils", "scene": "Scènes avec leur dernière activation", "labels": "Toute entité ayant au moins une étiquette", "auto": "Automatisations et scripts", "helper": "input_*, compteurs, minuteurs, planifications", "sensor": "Capteurs qui ne rentrent dans aucun onglet de mesure", "unavailable": "Entités actuellement indisponibles ou inconnues"},
   },
   es: {
+    scTitle: "Clase de estado",
+    scNone: "ninguna (sin clase de estado)",
+    scMeasurement: "measurement: un valor instantáneo que sube y baja, p. ej. temperatura, potencia, humedad.",
+    scTotal: "total: un contador que también puede bajar, p. ej. un contador con reinicio o un saldo.",
+    scTotalInc: "total_increasing: un contador que solo sube (y vuelve a empezar en 0), p. ej. energía en kWh, gas, agua.",
+    scStatsBusy: "Comprobando las estadísticas a largo plazo …",
+    scStatsYes: "Existen estadísticas a largo plazo para esta entidad ({what}, unidad {unit}, origen {src}). Home Assistant las guarda como valores por hora para el panel de energía y los gráficos del historial.",
+    scStatsNo: "Sin estadísticas a largo plazo: solo las entidades con clase de estado (y unidad) las tienen. Sin ellas solo se conserva el historial de valores individuales, que se elimina tras la conservación del grabador.",
+    scStatsFail: "No se pudieron leer las estadísticas a largo plazo.",
+    scChange: "¿Se puede cambiar? No aquí ni en los ajustes de entidad de Home Assistant: lo decide la integración que aporta el sensor. Excepciones: en configuration.yaml con customize (state_class:) y en los ayudantes de plantilla que creas tú.",
+    scRecNote: "La conservación de Entity Inventory solo acorta el historial de valores individuales de una entidad. Las estadísticas a largo plazo no se tocan.",
+    scDevTools: "Herramientas de desarrollo → Estadísticas",
+    scTip: "Clase de estado de la entidad (clic para una explicación)",
     c_recupd: "Último informe",
     recColsTip: "Mostrar las columnas del grabador (guardado desde, entradas, intervalo medio) (resaltado = visibles)",
     c_recrows: "Entradas",
@@ -558,6 +610,19 @@ const L10N = {
     d: {"all": "Todas las entidades que conoce Home Assistant", "illuminance": "Sensores de luminosidad (lux)", "temperature": "Sensores que miden una temperatura", "humidity": "Sensores de humedad", "power": "Potencia instantánea (W, kW)", "energy": "Contadores de energía (Wh, kWh)", "consumption": "Gas, agua, volumen y todo lo que se llama consumo", "voltage": "Sensores de tensión (V, mV, kV)", "frequency": "Sensores de frecuencia (Hz)", "current": "Corriente y factor de potencia (A, mA)", "battery": "Niveles de batería, los más débiles primero", "cover": "Persianas, contraventanas, puertas de garaje: posición", "tilt": "Persianas con lamas orientables: ángulo de las lamas", "light": "Todas las luces", "dimmer": "Luces regulables", "switch": "Interruptores, enchufes y ayudantes de encendido/apagado", "climate": "Termostatos y bombas de calor: actual, objetivo, modo", "media": "Televisores, altavoces y otros reproductores", "binary": "Sensores de movimiento, contacto, ventana, humo …", "person": "Personas con sus rastreadores y su cuenta vinculada", "users": "Cuentas de acceso de Home Assistant (requiere derechos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Escenas con su última activación", "labels": "Cada entidad que tiene al menos una etiqueta", "auto": "Automatizaciones y scripts", "helper": "input_*, contadores, temporizadores, programaciones", "sensor": "Sensores que no encajan en ninguna pestaña de medición", "unavailable": "Entidades que ahora no están disponibles o son desconocidas"},
   },
   nl: {
+    scTitle: "Statusklasse",
+    scNone: "geen (geen statusklasse)",
+    scMeasurement: "measurement: een momentane waarde die stijgt en daalt, bijv. temperatuur, vermogen, vochtigheid.",
+    scTotal: "total: een teller die ook kan dalen, bijv. een teller met reset of een saldo.",
+    scTotalInc: "total_increasing: een teller die alleen stijgt (en opnieuw bij 0 begint), bijv. energie in kWh, gas, water.",
+    scStatsBusy: "Langetermijnstatistieken worden gecontroleerd …",
+    scStatsYes: "Voor deze entiteit bestaan langetermijnstatistieken ({what}, eenheid {unit}, bron {src}). Home Assistant bewaart ze als uurwaarden voor het energiedashboard en de geschiedenisgrafieken.",
+    scStatsNo: "Geen langetermijnstatistieken: alleen entiteiten met een statusklasse (en eenheid) krijgen ze. Zonder blijft alleen de geschiedenis van losse waarden over, en die wordt na de bewaartijd van de recorder verwijderd.",
+    scStatsFail: "De langetermijnstatistieken konden niet worden gelezen.",
+    scChange: "Kan dit worden gewijzigd? Niet hier en ook niet in de entiteitsinstellingen van Home Assistant: de integratie die de sensor levert bepaalt het. Uitzonderingen: in configuration.yaml met customize (state_class:) en bij sjabloonhelpers die je zelf maakt.",
+    scRecNote: "De bewaartijd van Entity Inventory verkort alleen de geschiedenis van losse waarden van een entiteit. De langetermijnstatistieken blijven ongemoeid.",
+    scDevTools: "Ontwikkelaarstools → Statistieken",
+    scTip: "Statusklasse van de entiteit (klik voor uitleg)",
     c_recupd: "Laatste melding",
     recColsTip: "Recorderkolommen tonen (bewaard sinds, items, gem. interval) (gemarkeerd = getoond)",
     c_recrows: "Items",
@@ -767,6 +832,19 @@ const L10N = {
     d: {"all": "Elke entiteit die Home Assistant kent", "illuminance": "Helderheidssensoren (lux)", "temperature": "Sensoren die een temperatuur meten", "humidity": "Vochtigheidssensoren", "power": "Momentaan vermogen (W, kW)", "energy": "Energietellers (Wh, kWh)", "consumption": "Gas, water, volume en alles wat verbruik heet", "voltage": "Spanningssensoren (V, mV, kV)", "frequency": "Frequentiesensoren (Hz)", "current": "Stroom en arbeidsfactor (A, mA)", "battery": "Batterijniveaus, de zwakste eerst", "cover": "Zonwering, rolluiken, garagedeuren: positie", "tilt": "Zonwering met verstelbare lamellen: lamelhoek", "light": "Alle lampen", "dimmer": "Dimbare lampen", "switch": "Schakelaars, stopcontacten en aan/uit-hulpmiddelen", "climate": "Thermostaten en warmtepompen: huidig, doel, modus", "media": "Tv's, luidsprekers en andere spelers", "binary": "Beweging-, contact-, raam-, rooksensoren …", "person": "Personen met hun trackers en gekoppelde account", "users": "Inlogaccounts van Home Assistant (beheerdersrechten nodig)", "presence": "Apparaattrackers", "scene": "Scènes met hun laatste activering", "labels": "Elke entiteit met minstens één label", "auto": "Automatiseringen en scripts", "helper": "input_*, tellers, timers, schema's", "sensor": "Sensoren die in geen meettabblad passen", "unavailable": "Entiteiten die nu niet beschikbaar of onbekend zijn"},
   },
   it: {
+    scTitle: "Classe di stato",
+    scNone: "nessuna (nessuna classe di stato)",
+    scMeasurement: "measurement: un valore istantaneo che sale e scende, ad es. temperatura, potenza, umidità.",
+    scTotal: "total: un contatore che può anche diminuire, ad es. un contatore con azzeramento o un saldo.",
+    scTotalInc: "total_increasing: un contatore che solo sale (e riparte da 0), ad es. energia in kWh, gas, acqua.",
+    scStatsBusy: "Controllo delle statistiche a lungo termine …",
+    scStatsYes: "Esistono statistiche a lungo termine per questa entità ({what}, unità {unit}, origine {src}). Home Assistant le conserva come valori orari per la dashboard energia e i grafici della cronologia.",
+    scStatsNo: "Nessuna statistica a lungo termine: le hanno solo le entità con una classe di stato (e un’unità). Senza, resta solo la cronologia dei singoli valori, che viene eliminata dopo la conservazione del recorder.",
+    scStatsFail: "Impossibile leggere le statistiche a lungo termine.",
+    scChange: "Si può cambiare? Non qui e nemmeno nelle impostazioni dell’entità di Home Assistant: decide l’integrazione che fornisce il sensore. Eccezioni: in configuration.yaml con customize (state_class:) e per gli helper template che crei tu.",
+    scRecNote: "La conservazione di Entity Inventory accorcia solo la cronologia dei singoli valori di un’entità. Le statistiche a lungo termine restano intatte.",
+    scDevTools: "Strumenti per sviluppatori → Statistiche",
+    scTip: "Classe di stato dell’entità (clic per una spiegazione)",
     c_recupd: "Ultimo aggiornamento",
     recColsTip: "Mostra le colonne del recorder (conservato da, voci, intervallo medio) (evidenziato = mostrate)",
     c_recrows: "Voci",
@@ -976,6 +1054,19 @@ const L10N = {
     d: {"all": "Ogni entità che Home Assistant conosce", "illuminance": "Sensori di luminosità (lux)", "temperature": "Sensori che misurano una temperatura", "humidity": "Sensori di umidità", "power": "Potenza istantanea (W, kW)", "energy": "Contatori di energia (Wh, kWh)", "consumption": "Gas, acqua, volume e tutto ciò che si chiama consumo", "voltage": "Sensori di tensione (V, mV, kV)", "frequency": "Sensori di frequenza (Hz)", "current": "Corrente e fattore di potenza (A, mA)", "battery": "Livelli delle batterie, le più deboli per prime", "cover": "Tapparelle, persiane, porte del garage: posizione", "tilt": "Tapparelle con lamelle orientabili: angolo delle lamelle", "light": "Tutte le luci", "dimmer": "Luci dimmerabili", "switch": "Interruttori, prese e aiutanti on/off", "climate": "Termostati e pompe di calore: attuale, obiettivo, modalità", "media": "TV, altoparlanti e altri lettori", "binary": "Sensori di movimento, contatto, finestra, fumo …", "person": "Persone con i loro tracker e l'account collegato", "users": "Account di accesso di Home Assistant (servono diritti di amministratore)", "presence": "Tracker di dispositivi", "scene": "Scene con la loro ultima attivazione", "labels": "Ogni entità con almeno un'etichetta", "auto": "Automazioni e script", "helper": "input_*, contatori, timer, pianificazioni", "sensor": "Sensori che non rientrano in nessuna scheda di misura", "unavailable": "Entità al momento non disponibili o sconosciute"},
   },
   pl: {
+    scTitle: "Klasa stanu",
+    scNone: "brak (bez klasy stanu)",
+    scMeasurement: "measurement: wartość chwilowa, która rośnie i maleje, np. temperatura, moc, wilgotność.",
+    scTotal: "total: licznik, który może też maleć, np. licznik z resetem lub saldo.",
+    scTotalInc: "total_increasing: licznik, który tylko rośnie (i zaczyna od 0), np. energia w kWh, gaz, woda.",
+    scStatsBusy: "Sprawdzanie statystyk długoterminowych …",
+    scStatsYes: "Dla tej encji istnieją statystyki długoterminowe ({what}, jednostka {unit}, źródło {src}). Home Assistant przechowuje je jako wartości godzinowe dla panelu energii i wykresów historii.",
+    scStatsNo: "Brak statystyk długoterminowych: mają je tylko encje z klasą stanu (i jednostką). Bez nich zostaje tylko historia pojedynczych wartości, usuwana po okresie przechowywania rejestratora.",
+    scStatsFail: "Nie można odczytać statystyk długoterminowych.",
+    scChange: "Czy można to zmienić? Nie tutaj ani w ustawieniach encji Home Assistanta: decyduje integracja dostarczająca czujnik. Wyjątki: w configuration.yaml z customize (state_class:) oraz w pomocnikach szablonowych tworzonych przez ciebie.",
+    scRecNote: "Przechowywanie w Entity Inventory skraca tylko historię pojedynczych wartości encji. Statystyki długoterminowe pozostają nietknięte.",
+    scDevTools: "Narzędzia deweloperskie → Statystyki",
+    scTip: "Klasa stanu encji (kliknij po wyjaśnienie)",
     c_recupd: "Ostatni raport",
     recColsTip: "Pokaż kolumny rejestratora (przechowywane od, wpisy, średni odstęp) (podświetlone = pokazane)",
     c_recrows: "Wpisy",
@@ -1185,6 +1276,19 @@ const L10N = {
     d: {"all": "Każda encja, którą zna Home Assistant", "illuminance": "Czujniki jasności (lx)", "temperature": "Czujniki mierzące temperaturę", "humidity": "Czujniki wilgotności", "power": "Moc chwilowa (W, kW)", "energy": "Liczniki energii (Wh, kWh)", "consumption": "Gaz, woda, objętość i wszystko, co nazywa się zużyciem", "voltage": "Czujniki napięcia (V, mV, kV)", "frequency": "Czujniki częstotliwości (Hz)", "current": "Prąd i współczynnik mocy (A, mA)", "battery": "Poziomy baterii, najsłabsze najpierw", "cover": "Rolety, żaluzje, bramy garażowe: pozycja", "tilt": "Rolety z regulowanymi lamelami: kąt lameli", "light": "Wszystkie światła", "dimmer": "Światła ze ściemnianiem", "switch": "Przełączniki, gniazdka i pomocnicy wł./wył.", "climate": "Termostaty i pompy ciepła: aktualna, zadana, tryb", "media": "Telewizory, głośniki i inne odtwarzacze", "binary": "Czujniki ruchu, kontaktu, okien, dymu …", "person": "Osoby z ich trackerami i powiązanym kontem", "users": "Konta logowania Home Assistanta (wymaga praw administratora)", "presence": "Trackery urządzeń", "scene": "Sceny z ostatnią aktywacją", "labels": "Każda encja z co najmniej jedną etykietą", "auto": "Automatyzacje i skrypty", "helper": "input_*, liczniki, timery, harmonogramy", "sensor": "Czujniki, które nie pasują do żadnej karty pomiarowej", "unavailable": "Encje, które są teraz niedostępne lub nieznane"},
   },
   pt: {
+    scTitle: "Classe de estado",
+    scNone: "nenhuma (sem classe de estado)",
+    scMeasurement: "measurement: um valor instantâneo que sobe e desce, p. ex. temperatura, potência, humidade.",
+    scTotal: "total: um contador que também pode descer, p. ex. um contador com reposição ou um saldo.",
+    scTotalInc: "total_increasing: um contador que só sobe (e recomeça em 0), p. ex. energia em kWh, gás, água.",
+    scStatsBusy: "A verificar as estatísticas de longo prazo …",
+    scStatsYes: "Existem estatísticas de longo prazo para esta entidade ({what}, unidade {unit}, origem {src}). O Home Assistant guarda-as como valores horários para o painel de energia e os gráficos do histórico.",
+    scStatsNo: "Sem estatísticas de longo prazo: só as entidades com classe de estado (e unidade) as têm. Sem elas só fica o histórico de valores individuais, que é eliminado após a retenção do gravador.",
+    scStatsFail: "Não foi possível ler as estatísticas de longo prazo.",
+    scChange: "Pode ser alterada? Não aqui nem nas definições da entidade do Home Assistant: quem decide é a integração que fornece o sensor. Exceções: no configuration.yaml com customize (state_class:) e nos auxiliares de modelo que criar.",
+    scRecNote: "A retenção do Entity Inventory só encurta o histórico de valores individuais de uma entidade. As estatísticas de longo prazo ficam intactas.",
+    scDevTools: "Ferramentas de programador → Estatísticas",
+    scTip: "Classe de estado da entidade (clique para uma explicação)",
     c_recupd: "Última atualização",
     recColsTip: "Mostrar as colunas do gravador (guardado desde, entradas, intervalo médio) (realçado = visíveis)",
     c_recrows: "Entradas",
@@ -1394,6 +1498,19 @@ const L10N = {
     d: {"all": "Todas as entidades que o Home Assistant conhece", "illuminance": "Sensores de luminosidade (lux)", "temperature": "Sensores que medem uma temperatura", "humidity": "Sensores de humidade", "power": "Potência instantânea (W, kW)", "energy": "Contadores de energia (Wh, kWh)", "consumption": "Gás, água, volume e tudo o que se chama consumo", "voltage": "Sensores de tensão (V, mV, kV)", "frequency": "Sensores de frequência (Hz)", "current": "Corrente e fator de potência (A, mA)", "battery": "Níveis de bateria, os mais fracos primeiro", "cover": "Persianas, estores, portões de garagem: posição", "tilt": "Persianas com lâminas ajustáveis: ângulo das lâminas", "light": "Todas as luzes", "dimmer": "Luzes reguláveis", "switch": "Interruptores, tomadas e auxiliares ligar/desligar", "climate": "Termóstatos e bombas de calor: atual, alvo, modo", "media": "TVs, colunas e outros leitores", "binary": "Sensores de movimento, contacto, janela, fumo …", "person": "Pessoas com os seus rastreadores e conta associada", "users": "Contas de início de sessão do Home Assistant (requer direitos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Cenas com a sua última ativação", "labels": "Todas as entidades com pelo menos uma etiqueta", "auto": "Automações e scripts", "helper": "input_*, contadores, temporizadores, agendas", "sensor": "Sensores que não cabem em nenhum separador de medição", "unavailable": "Entidades que neste momento estão indisponíveis ou desconhecidas"},
   },
   cs: {
+    scTitle: "Třída stavu",
+    scNone: "žádná (bez třídy stavu)",
+    scMeasurement: "measurement: okamžitá hodnota, která stoupá a klesá, např. teplota, výkon, vlhkost.",
+    scTotal: "total: počítadlo, které může i klesat, např. počítadlo s vynulováním nebo zůstatek.",
+    scTotalInc: "total_increasing: počítadlo, které jen roste (a začíná znovu od 0), např. energie v kWh, plyn, voda.",
+    scStatsBusy: "Kontroluji dlouhodobé statistiky …",
+    scStatsYes: "Pro tuto entitu existují dlouhodobé statistiky ({what}, jednotka {unit}, zdroj {src}). Home Assistant je uchovává jako hodinové hodnoty pro energetický přehled a grafy historie.",
+    scStatsNo: "Žádné dlouhodobé statistiky: mají je jen entity s třídou stavu (a jednotkou). Bez nich zůstává jen historie jednotlivých hodnot, která se maže po uchování rekordéru.",
+    scStatsFail: "Dlouhodobé statistiky se nepodařilo přečíst.",
+    scChange: "Dá se to změnit? Ne zde ani v nastavení entity Home Assistantu: rozhoduje integrace, která senzor dodává. Výjimky: v configuration.yaml s customize (state_class:) a u šablonových pomocníků, které si vytvoříte sami.",
+    scRecNote: "Uchovávání v Entity Inventory zkracuje jen historii jednotlivých hodnot entity. Dlouhodobé statistiky zůstávají nedotčené.",
+    scDevTools: "Vývojářské nástroje → Statistiky",
+    scTip: "Třída stavu entity (kliknutím vysvětlení)",
     c_recupd: "Poslední hlášení",
     recColsTip: "Zobrazit sloupce rekordéru (uloženo od, záznamy, průměrný interval) (zvýrazněno = zobrazeny)",
     c_recrows: "Záznamy",
@@ -1603,6 +1720,19 @@ const L10N = {
     d: {"all": "Každá entita, kterou Home Assistant zná", "illuminance": "Senzory jasu (lx)", "temperature": "Senzory, které měří teplotu", "humidity": "Senzory vlhkosti", "power": "Okamžitý výkon (W, kW)", "energy": "Měřiče energie (Wh, kWh)", "consumption": "Plyn, voda, objem a vše, co se jmenuje spotřeba", "voltage": "Senzory napětí (V, mV, kV)", "frequency": "Senzory frekvence (Hz)", "current": "Proud a účiník (A, mA)", "battery": "Stavy baterií, nejslabší první", "cover": "Rolety, žaluzie, garážová vrata: poloha", "tilt": "Rolety s nastavitelnými lamelami: úhel lamel", "light": "Všechna světla", "dimmer": "Stmívatelná světla", "switch": "Spínače, zásuvky a pomocníci zap./vyp.", "climate": "Termostaty a tepelná čerpadla: aktuální, cílová, režim", "media": "Televize, reproduktory a další přehrávače", "binary": "Senzory pohybu, kontaktu, oken, kouře …", "person": "Osoby s jejich trackery a propojeným účtem", "users": "Přihlašovací účty Home Assistantu (vyžaduje práva správce)", "presence": "Trackery zařízení", "scene": "Scény s poslední aktivací", "labels": "Každá entita s alespoň jedním štítkem", "auto": "Automatizace a skripty", "helper": "input_*, čítače, časovače, plány", "sensor": "Senzory, které nepatří do žádné měřicí záložky", "unavailable": "Entity, které jsou nyní nedostupné nebo neznámé"},
   },
   ru: {
+    scTitle: "Класс состояния",
+    scNone: "нет (без класса состояния)",
+    scMeasurement: "measurement: мгновенное значение, которое растёт и падает, например температура, мощность, влажность.",
+    scTotal: "total: счётчик, который может и уменьшаться, например счётчик со сбросом или баланс.",
+    scTotalInc: "total_increasing: счётчик, который только растёт (и снова начинается с 0), например энергия в кВт·ч, газ, вода.",
+    scStatsBusy: "Проверка долгосрочной статистики …",
+    scStatsYes: "Для этой сущности есть долгосрочная статистика ({what}, единица {unit}, источник {src}). Home Assistant хранит её как почасовые значения для панели энергии и графиков истории.",
+    scStatsNo: "Долгосрочной статистики нет: она есть только у сущностей с классом состояния (и единицей). Без неё остаётся только история отдельных значений, и она удаляется по истечении срока хранения регистратора.",
+    scStatsFail: "Не удалось прочитать долгосрочную статистику.",
+    scChange: "Можно ли это изменить? Не здесь и не в настройках сущности Home Assistant: это определяет интеграция, поставляющая датчик. Исключения: в configuration.yaml через customize (state_class:) и для шаблонных помощников, которые вы создаёте сами.",
+    scRecNote: "Хранение в Entity Inventory сокращает только историю отдельных значений сущности. Долгосрочная статистика остаётся нетронутой.",
+    scDevTools: "Инструменты разработчика → Статистика",
+    scTip: "Класс состояния сущности (щёлкните для пояснения)",
     c_recupd: "Последний отчёт",
     recColsTip: "Показать столбцы регистратора (хранится с, записи, средний интервал) (выделено = показаны)",
     c_recrows: "Записи",
@@ -1812,6 +1942,19 @@ const L10N = {
     d: {"all": "Все сущности, которые знает Home Assistant", "illuminance": "Датчики яркости (лк)", "temperature": "Датчики, измеряющие температуру", "humidity": "Датчики влажности", "power": "Мгновенная мощность (Вт, кВт)", "energy": "Счётчики энергии (Вт·ч, кВт·ч)", "consumption": "Газ, вода, объём и всё, что называется потреблением", "voltage": "Датчики напряжения (В, мВ, кВ)", "frequency": "Датчики частоты (Гц)", "current": "Ток и коэффициент мощности (А, мА)", "battery": "Уровни батарей, самые слабые первыми", "cover": "Жалюзи, рольставни, гаражные ворота: положение", "tilt": "Жалюзи с регулируемыми ламелями: угол ламелей", "light": "Все лампы", "dimmer": "Лампы с регулировкой яркости", "switch": "Выключатели, розетки и помощники вкл./выкл.", "climate": "Термостаты и тепловые насосы: текущая, целевая, режим", "media": "Телевизоры, колонки и другие плееры", "binary": "Датчики движения, контакта, окон, дыма …", "person": "Персоны с их трекерами и связанной учётной записью", "users": "Учётные записи Home Assistant (нужны права администратора)", "presence": "Трекеры устройств", "scene": "Сцены с последней активацией", "labels": "Каждая сущность хотя бы с одним ярлыком", "auto": "Автоматизации и скрипты", "helper": "input_*, счётчики, таймеры, расписания", "sensor": "Датчики, не подходящие ни под одну вкладку измерений", "unavailable": "Сущности, которые сейчас недоступны или неизвестны"},
   },
   sv: {
+    scTitle: "Tillståndsklass",
+    scNone: "ingen (ingen tillståndsklass)",
+    scMeasurement: "measurement: ett ögonblicksvärde som går upp och ner, t.ex. temperatur, effekt, luftfuktighet.",
+    scTotal: "total: en räknare som också kan minska, t.ex. en räknare med nollställning eller ett saldo.",
+    scTotalInc: "total_increasing: en räknare som bara ökar (och börjar om på 0), t.ex. energi i kWh, gas, vatten.",
+    scStatsBusy: "Kontrollerar långtidsstatistiken …",
+    scStatsYes: "Det finns långtidsstatistik för den här entiteten ({what}, enhet {unit}, källa {src}). Home Assistant sparar den som timvärden för energipanelen och historikgraferna.",
+    scStatsNo: "Ingen långtidsstatistik: bara entiteter med en tillståndsklass (och en enhet) får den. Utan den finns bara historiken för enskilda värden kvar, och den raderas efter recorderns lagring.",
+    scStatsFail: "Långtidsstatistiken kunde inte läsas.",
+    scChange: "Går det att ändra? Inte här och inte i Home Assistants entitetsinställningar: integrationen som levererar sensorn bestämmer. Undantag: i configuration.yaml med customize (state_class:) och för mallhjälpare som du skapar själv.",
+    scRecNote: "Lagringen i Entity Inventory förkortar bara historiken för enskilda värden hos en entitet. Långtidsstatistiken lämnas orörd.",
+    scDevTools: "Utvecklarverktyg → Statistik",
+    scTip: "Entitetens tillståndsklass (klicka för en förklaring)",
     c_recupd: "Senaste rapport",
     recColsTip: "Visa recorderkolumnerna (sparat sedan, poster, snittintervall) (markerad = visas)",
     c_recrows: "Poster",
@@ -2021,6 +2164,19 @@ const L10N = {
     d: {"all": "Varje entitet som Home Assistant känner till", "illuminance": "Ljussensorer (lux)", "temperature": "Sensorer som mäter en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energimätare (Wh, kWh)", "consumption": "Gas, vatten, volym och allt som heter förbrukning", "voltage": "Spänningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Ström och effektfaktor (A, mA)", "battery": "Batterinivåer, de svagaste först", "cover": "Rullgardiner, jalusier, garageportar: position", "tilt": "Rullgardiner med justerbara lameller: lamellvinkel", "light": "Alla lampor", "dimmer": "Dimbara lampor", "switch": "Strömbrytare, uttag och på/av-hjälpare", "climate": "Termostater och värmepumpar: aktuell, mål, läge", "media": "TV-apparater, högtalare och andra spelare", "binary": "Sensorer för rörelse, kontakt, fönster, rök …", "person": "Personer med sina spårare och länkat konto", "users": "Inloggningskonton i Home Assistant (kräver administratörsrättigheter)", "presence": "Enhetsspårare", "scene": "Scener med senaste aktivering", "labels": "Varje entitet med minst en etikett", "auto": "Automationer och skript", "helper": "input_*, räknare, timers, scheman", "sensor": "Sensorer som inte passar någon mätflik", "unavailable": "Entiteter som just nu är otillgängliga eller okända"},
   },
   nb: {
+    scTitle: "Tilstandsklasse",
+    scNone: "ingen (ingen tilstandsklasse)",
+    scMeasurement: "measurement: en øyeblikksverdi som går opp og ned, f.eks. temperatur, effekt, luftfuktighet.",
+    scTotal: "total: en teller som også kan synke, f.eks. en teller med nullstilling eller en saldo.",
+    scTotalInc: "total_increasing: en teller som bare øker (og begynner på 0 igjen), f.eks. energi i kWh, gass, vann.",
+    scStatsBusy: "Sjekker langtidsstatistikken …",
+    scStatsYes: "Det finnes langtidsstatistikk for denne entiteten ({what}, enhet {unit}, kilde {src}). Home Assistant lagrer den som timeverdier for energipanelet og historikkgrafene.",
+    scStatsNo: "Ingen langtidsstatistikk: Bare entiteter med en tilstandsklasse (og en enhet) får den. Uten den er det bare historikken til enkeltverdier igjen, og den slettes etter recorderens lagring.",
+    scStatsFail: "Langtidsstatistikken kunne ikke leses.",
+    scChange: "Kan det endres? Ikke her og heller ikke i Home Assistants entitetsinnstillinger: Integrasjonen som leverer sensoren bestemmer. Unntak: i configuration.yaml med customize (state_class:) og for malhjelpere du lager selv.",
+    scRecNote: "Lagringen i Entity Inventory forkorter bare historikken til enkeltverdier for en entitet. Langtidsstatistikken blir urørt.",
+    scDevTools: "Utviklerverktøy → Statistikk",
+    scTip: "Entitetens tilstandsklasse (klikk for forklaring)",
     c_recupd: "Siste melding",
     recColsTip: "Vis recorder-kolonnene (lagret siden, poster, snittintervall) (utheva = vist)",
     c_recrows: "Poster",
@@ -2230,6 +2386,19 @@ const L10N = {
     d: {"all": "Alle entiteter Home Assistant kjenner", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer som måler en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energitellere (Wh, kWh)", "consumption": "Gass, vann, volum og alt som heter forbruk", "voltage": "Spenningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batterinivåer, de svakeste først", "cover": "Persienner, rullegardiner, garasjeporter: posisjon", "tilt": "Persienner med justerbare lameller: lamellvinkel", "light": "Alle lys", "dimmer": "Lys som kan dimmes", "switch": "Brytere, stikkontakter og på/av-hjelpere", "climate": "Termostater og varmepumper: nåværende, mål, modus", "media": "TV-er, høyttalere og andre spillere", "binary": "Bevegelses-, kontakt-, vindus-, røyksensorer …", "person": "Personer med sine sporere og koblet konto", "users": "Innloggingskontoer i Home Assistant (krever administratorrettigheter)", "presence": "Enhetssporere", "scene": "Scener med siste aktivering", "labels": "Alle entiteter med minst én etikett", "auto": "Automasjoner og skript", "helper": "input_*, tellere, tidtakere, tidsplaner", "sensor": "Sensorer som ikke passer i noen målefane", "unavailable": "Entiteter som akkurat nå er utilgjengelige eller ukjente"},
   },
   da: {
+    scTitle: "Tilstandsklasse",
+    scNone: "ingen (ingen tilstandsklasse)",
+    scMeasurement: "measurement: en øjebliksværdi, der stiger og falder, f.eks. temperatur, effekt, luftfugtighed.",
+    scTotal: "total: en tæller, der også kan falde, f.eks. en tæller med nulstilling eller en saldo.",
+    scTotalInc: "total_increasing: en tæller, der kun stiger (og starter forfra ved 0), f.eks. energi i kWh, gas, vand.",
+    scStatsBusy: "Tjekker langtidsstatistikken …",
+    scStatsYes: "Der findes langtidsstatistik for denne entitet ({what}, enhed {unit}, kilde {src}). Home Assistant gemmer den som timeværdier til energipanelet og historikgraferne.",
+    scStatsNo: "Ingen langtidsstatistik: Kun entiteter med en tilstandsklasse (og en enhed) får den. Uden den er der kun historikken for enkeltværdier tilbage, og den slettes efter recorderens opbevaring.",
+    scStatsFail: "Langtidsstatistikken kunne ikke læses.",
+    scChange: "Kan det ændres? Ikke her og heller ikke i Home Assistants entitetsindstillinger: Integrationen, der leverer sensoren, bestemmer. Undtagelser: i configuration.yaml med customize (state_class:) og for skabelonhjælpere, du selv opretter.",
+    scRecNote: "Opbevaringen i Entity Inventory forkorter kun historikken for enkeltværdier for en entitet. Langtidsstatistikken forbliver urørt.",
+    scDevTools: "Udviklerværktøjer → Statistik",
+    scTip: "Entitetens tilstandsklasse (klik for en forklaring)",
     c_recupd: "Seneste melding",
     recColsTip: "Vis recorder-kolonnerne (gemt siden, poster, gns. interval) (fremhævet = vist)",
     c_recrows: "Poster",
@@ -2439,6 +2608,19 @@ const L10N = {
     d: {"all": "Alle entiteter, som Home Assistant kender", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer, der måler en temperatur", "humidity": "Fugtsensorer", "power": "Øjeblikkelig effekt (W, kW)", "energy": "Energitællere (Wh, kWh)", "consumption": "Gas, vand, volumen og alt, der hedder forbrug", "voltage": "Spændingssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batteriniveauer, de svageste først", "cover": "Persienner, rullegardiner, garageporte: position", "tilt": "Persienner med justerbare lameller: lamelvinkel", "light": "Alle lys", "dimmer": "Lys, der kan dæmpes", "switch": "Kontakter, stikkontakter og til/fra-hjælpere", "climate": "Termostater og varmepumper: aktuel, mål, tilstand", "media": "Tv, højttalere og andre afspillere", "binary": "Bevægelses-, kontakt-, vindues-, røgsensorer …", "person": "Personer med deres trackere og tilknyttede konto", "users": "Login-konti i Home Assistant (kræver administratorrettigheder)", "presence": "Enhedstrackere", "scene": "Scener med deres seneste aktivering", "labels": "Alle entiteter med mindst én etiket", "auto": "Automatiseringer og scripts", "helper": "input_*, tællere, timere, tidsplaner", "sensor": "Sensorer, der ikke passer i nogen målefane", "unavailable": "Entiteter, der lige nu er utilgængelige eller ukendte"},
   },
   af: {
+    scTitle: "Toestandsklas",
+    scNone: "geen (geen toestandsklas)",
+    scMeasurement: "measurement: 'n oombliklike waarde wat styg en daal, bv. temperatuur, drywing, humiditeit.",
+    scTotal: "total: 'n teller wat ook kan daal, bv. 'n teller met terugstelling of 'n saldo.",
+    scTotalInc: "total_increasing: 'n teller wat net styg (en weer by 0 begin), bv. energie in kWh, gas, water.",
+    scStatsBusy: "Kontroleer die langtermynstatistiek …",
+    scStatsYes: "Daar is langtermynstatistiek vir hierdie entiteit ({what}, eenheid {unit}, bron {src}). Home Assistant hou dit as uurwaardes vir die energiepaneel en geskiedenisgrafieke.",
+    scStatsNo: "Geen langtermynstatistiek nie: net entiteite met 'n toestandsklas (en 'n eenheid) kry dit. Daarsonder bly net die geskiedenis van enkelwaardes oor, en dit word na die opnemer se bewaring uitgevee.",
+    scStatsFail: "Die langtermynstatistiek kon nie gelees word nie.",
+    scChange: "Kan dit verander word? Nie hier nie en ook nie in Home Assistant se entiteitinstellings nie: die integrasie wat die sensor lewer, besluit. Uitsonderings: in configuration.yaml met customize (state_class:) en vir sjabloonhelpers wat jy self skep.",
+    scRecNote: "Die bewaring in Entity Inventory verkort net die geskiedenis van enkelwaardes van 'n entiteit. Die langtermynstatistiek bly onaangeraak.",
+    scDevTools: "Ontwikkelaarsgereedskap → Statistiek",
+    scTip: "Toestandsklas van die entiteit (klik vir 'n verduideliking)",
     c_recupd: "Laaste verslag",
     recColsTip: "Wys die opnemerkolomme (gestoor sedert, inskrywings, gem. interval) (uitgelig = gewys)",
     c_recrows: "Inskrywings",
@@ -3089,7 +3271,7 @@ class EntityInventoryPanel extends HTMLElement {
       case "device": return [esc(e.device), e.device.toLowerCase()];
       case "platform": return [esc(e.platform), e.platform];
       case "class": return [esc(e.dc), e.dc];
-      case "sc": return [esc(e.sc), e.sc];
+      case "sc": return [e.sc ? `<span title="${esc(L.scTip)}" style="cursor:pointer">${esc(e.sc)}</span>` : "", e.sc];
       case "maker": return [esc(e.maker), e.maker];
       case "model": return [esc(e.model), e.model];
       case "changed": return [`<span title="${esc(new Date(e.ts).toLocaleString())}">${esc(this._ago(e.ts))}</span>`, e.ts];
@@ -3946,6 +4128,28 @@ class EntityInventoryPanel extends HTMLElement {
     body.appendChild(this._footer(pvBtn, run, this._btn(admin ? L.cancel : L.tabsClose, !admin, close), ...(admin ? [save] : [])));
   }
 
+  // state class of an entity: what it means and whether Home Assistant keeps long-term statistics for it (not changeable from here)
+  _scDialog(e) {
+    const L = this._L, { body, close } = this._modal(`${L.scTitle} – ${e.name}`, e.id);
+    const p = (txt, css) => { const d = document.createElement("div"); d.style.cssText = css || "margin:8px 0;font-size:13px;line-height:1.5;white-space:pre-wrap"; d.textContent = txt; body.appendChild(d); return d; };
+    p(`${L.scTitle}: ${e.sc || L.scNone}`, "font-size:15px;font-weight:600;margin:6px 0");
+    const key = { measurement: L.scMeasurement, total: L.scTotal, total_increasing: L.scTotalInc }[e.sc];
+    if (key) p(key);
+    const stat = p(L.scStatsBusy);
+    (async () => {
+      try {
+        const list = await this._hass.callWS({ type: "recorder/list_statistic_ids" }), it = (list || []).find((x) => x.statistic_id === e.id);
+        if (!it) { stat.textContent = L.scStatsNo; return; }
+        const what = [it.has_mean ? "mean" : "", it.has_sum ? "sum" : ""].filter(Boolean).join(" + ") || "–";
+        stat.textContent = L.scStatsYes.replace("{what}", what).replace("{unit}", it.statistics_unit_of_measurement || "–").replace("{src}", it.source || "–");
+      } catch (x) { stat.textContent = L.scStatsFail; }
+    })();
+    p(L.scChange);
+    p(L.scRecNote, "margin:8px 0;font-size:12px;opacity:.75;line-height:1.5");
+    const go = this._btn(L.scDevTools, false, () => { close(); history.pushState({ from: location.pathname + location.search }, "", "/developer-tools/statistics"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); });
+    body.appendChild(this._footer(go, this._btn(L.tabsClose, true, close)));
+  }
+
   _photosDialog(e) {
     const L = this._L, { body, close } = this._modal(`${L.photosTitle} – ${e.name}`, e.id);
     const draw = () => {
@@ -4119,6 +4323,9 @@ class EntityInventoryPanel extends HTMLElement {
     if (td.dataset.col === "id") {
       const e = (this._rows || []).find((r) => r.id === id);
       if (e) this._nameDialog(e, "id");
+    } else if (td.dataset.col === "sc") {
+      const e = (this._rows || []).find((r) => r.id === id);
+      if (e) this._scDialog(e);
     } else if (["device", "platform", "area"].includes(td.dataset.col)) { // device page / integration page / area page of HA
       const e = (this._rows || []).find((r) => r.id === id), c = td.dataset.col;
       const path = !e ? "" : c === "device" ? (e.deviceId && `/config/devices/device/${e.deviceId}?historyBack=1`) : c === "platform" ? (e.platform && e.platform !== "core" && `/config/integrations/integration/${e.platform}?historyBack=1`) : (e.areaId && `/config/areas/area/${e.areaId}?historyBack=1`);
