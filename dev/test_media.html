@@ -2022,7 +2022,7 @@ class EntityInventoryPanel extends HTMLElement {
     [name, icon, desc].forEach((x) => { x.onkeydown = (ev) => ev.stopPropagation(); });
     const total = (this._rows || []).filter((e) => (e.labels || []).includes(id)).length, here = (this._list || []).filter((e) => (e.labels || []).includes(id)).length;
     const info = document.createElement("div"); info.style.cssText = "font-size:12px;opacity:.65;margin-top:10px"; info.textContent = L.labelCount.replace("{n}", here).replace("{m}", total); body.appendChild(info);
-    const go = (path) => { close(); history.pushState(null, "", path); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); };
+    const go = (path) => { close(); history.pushState({ from: location.pathname + location.search }, "", path); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); };
     const save = this._btn(L.save, true, async () => {
       save.textContent = "…";
       try {
@@ -3076,15 +3076,15 @@ class EntityInventoryPanel extends HTMLElement {
     const td = ev.target.closest("td[data-col]"), tr = ev.target.closest("tr[data-id]");
     if (!td || !tr) return;
     const id = tr.dataset.id;
-    if (id.startsWith("user:")) { if (td.dataset.col === "name" || td.dataset.col === "person") { history.pushState(null, "", "/config/person"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); } return; }
+    if (id.startsWith("user:")) { if (td.dataset.col === "name" || td.dataset.col === "person") { history.pushState({ from: location.pathname + location.search }, "", "/config/person"); window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } })); } return; }
     if (td.dataset.col === "id") {
       const e = (this._rows || []).find((r) => r.id === id);
       if (e) this._nameDialog(e, "id");
     } else if (["device", "platform", "area"].includes(td.dataset.col)) { // device page / integration page / area page of HA
       const e = (this._rows || []).find((r) => r.id === id), c = td.dataset.col;
-      const path = !e ? "" : c === "device" ? (e.deviceId && `/config/devices/device/${e.deviceId}`) : c === "platform" ? (e.platform && e.platform !== "core" && `/config/integrations/integration/${e.platform}`) : (e.areaId && `/config/areas/area/${e.areaId}`);
+      const path = !e ? "" : c === "device" ? (e.deviceId && `/config/devices/device/${e.deviceId}?historyBack=1`) : c === "platform" ? (e.platform && e.platform !== "core" && `/config/integrations/integration/${e.platform}?historyBack=1`) : (e.areaId && `/config/areas/area/${e.areaId}?historyBack=1`);
       if (path) {
-        history.pushState(null, "", path);
+        history.pushState({ from: location.pathname + location.search }, "", path);
         window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } }));
       }
     } else if (td.dataset.col === "name") {
