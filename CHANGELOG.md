@@ -2,6 +2,15 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.2b1 – 2026-11-21
+- Recorder retention per entity: dialog, Recorder column with the storage time of each entity, nightly purge_entities job (off by default)
+- Button to blur sensitive data (user IDs, user names, trackers, persons, comments) on screen and in print
+- Same symbols as Device Inventory for the same functions
+- Decimals are padded with zeros with the decimal-separator alignment; value cells keep their decimal widths
+- Copy symbol moves the text aside without changing the column width
+- Helpers tab also lists input_boolean and the helper integrations
+- Column editor: # column width, widths below the content width
+
 ## 0.3.1 – 2026-11-20
 - Manifest: sorted keys and category as required by hassfest and HACS validation
 - Norwegian translation file (no.json)
