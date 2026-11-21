@@ -3,6 +3,8 @@
 
 const L10N = {
   en: {
+    hideEntity: "Hide this entity",
+    hideEntityHelp: "Hidden entities are not shown in automatically generated dashboards and lists of Home Assistant. They keep working (automations, history). Here you see them with the \"hidden entities\" button.",
     scTitle: "State class",
     scNone: "none (no state class)",
     scMeasurement: "measurement: a momentary value that goes up and down, e.g. temperature, power, humidity.",
@@ -83,6 +85,8 @@ const L10N = {
     },
   },
   de: {
+    hideEntity: "Diese Entität verstecken",
+    hideEntityHelp: "Versteckte Entitäten erscheinen nicht in automatisch erzeugten Dashboards und Listen von Home Assistant. Sie funktionieren weiter (Automationen, Verlauf). Hier siehst du sie mit dem Knopf „Versteckte Entitäten“.",
     scTitle: "Statusklasse",
     scNone: "keine (keine Statusklasse)",
     scMeasurement: "measurement: ein Momentwert, der steigt und fällt, z. B. Temperatur, Leistung, Luftfeuchte.",
@@ -163,6 +167,8 @@ const L10N = {
     },
   },
   fr: {
+    hideEntity: "Masquer cette entité",
+    hideEntityHelp: "Les entités masquées n’apparaissent pas dans les tableaux de bord et listes générés automatiquement par Home Assistant. Elles continuent de fonctionner (automatisations, historique). Ici, vous les voyez avec le bouton « entités masquées ».",
     scTitle: "Classe d’état",
     scNone: "aucune (pas de classe d’état)",
     scMeasurement: "measurement : une valeur instantanée qui monte et descend, p. ex. température, puissance, humidité.",
@@ -385,6 +391,8 @@ const L10N = {
     d: {"all": "Toutes les entités connues de Home Assistant", "illuminance": "Capteurs de luminosité (lux)", "temperature": "Capteurs qui mesurent une température", "humidity": "Capteurs d'humidité", "power": "Puissance instantanée (W, kW)", "energy": "Compteurs d'énergie (Wh, kWh)", "consumption": "Gaz, eau, volume et tout ce qui s'appelle consommation", "voltage": "Capteurs de tension (V, mV, kV)", "frequency": "Capteurs de fréquence (Hz)", "current": "Courant et facteur de puissance (A, mA)", "battery": "Niveaux de batterie, les plus faibles d'abord", "cover": "Stores, volets, portes de garage : position", "tilt": "Volets à lames orientables : angle des lames", "light": "Toutes les lumières", "dimmer": "Lumières variables", "switch": "Interrupteurs, prises et entrées marche/arrêt", "climate": "Thermostats et pompes à chaleur : actuel, consigne, mode", "media": "Téléviseurs, enceintes et autres lecteurs", "binary": "Capteurs de mouvement, contact, fenêtre, fumée …", "person": "Personnes avec leurs traceurs et leur compte lié", "users": "Comptes de connexion de Home Assistant (droits d'administrateur requis)", "presence": "Traceurs d'appareils", "scene": "Scènes avec leur dernière activation", "labels": "Toute entité ayant au moins une étiquette", "auto": "Automatisations et scripts", "helper": "input_*, compteurs, minuteurs, planifications", "sensor": "Capteurs qui ne rentrent dans aucun onglet de mesure", "unavailable": "Entités actuellement indisponibles ou inconnues"},
   },
   es: {
+    hideEntity: "Ocultar esta entidad",
+    hideEntityHelp: "Las entidades ocultas no aparecen en los paneles y listas generados automáticamente por Home Assistant. Siguen funcionando (automatizaciones, historial). Aquí las ves con el botón «entidades ocultas».",
     scTitle: "Clase de estado",
     scNone: "ninguna (sin clase de estado)",
     scMeasurement: "measurement: un valor instantáneo que sube y baja, p. ej. temperatura, potencia, humedad.",
@@ -607,6 +615,8 @@ const L10N = {
     d: {"all": "Todas las entidades que conoce Home Assistant", "illuminance": "Sensores de luminosidad (lux)", "temperature": "Sensores que miden una temperatura", "humidity": "Sensores de humedad", "power": "Potencia instantánea (W, kW)", "energy": "Contadores de energía (Wh, kWh)", "consumption": "Gas, agua, volumen y todo lo que se llama consumo", "voltage": "Sensores de tensión (V, mV, kV)", "frequency": "Sensores de frecuencia (Hz)", "current": "Corriente y factor de potencia (A, mA)", "battery": "Niveles de batería, los más débiles primero", "cover": "Persianas, contraventanas, puertas de garaje: posición", "tilt": "Persianas con lamas orientables: ángulo de las lamas", "light": "Todas las luces", "dimmer": "Luces regulables", "switch": "Interruptores, enchufes y ayudantes de encendido/apagado", "climate": "Termostatos y bombas de calor: actual, objetivo, modo", "media": "Televisores, altavoces y otros reproductores", "binary": "Sensores de movimiento, contacto, ventana, humo …", "person": "Personas con sus rastreadores y su cuenta vinculada", "users": "Cuentas de acceso de Home Assistant (requiere derechos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Escenas con su última activación", "labels": "Cada entidad que tiene al menos una etiqueta", "auto": "Automatizaciones y scripts", "helper": "input_*, contadores, temporizadores, programaciones", "sensor": "Sensores que no encajan en ninguna pestaña de medición", "unavailable": "Entidades que ahora no están disponibles o son desconocidas"},
   },
   nl: {
+    hideEntity: "Deze entiteit verbergen",
+    hideEntityHelp: "Verborgen entiteiten verschijnen niet in automatisch gegenereerde dashboards en lijsten van Home Assistant. Ze blijven werken (automatiseringen, geschiedenis). Hier zie je ze met de knop “verborgen entiteiten”.",
     scTitle: "Statusklasse",
     scNone: "geen (geen statusklasse)",
     scMeasurement: "measurement: een momentane waarde die stijgt en daalt, bijv. temperatuur, vermogen, vochtigheid.",
@@ -829,6 +839,8 @@ const L10N = {
     d: {"all": "Elke entiteit die Home Assistant kent", "illuminance": "Helderheidssensoren (lux)", "temperature": "Sensoren die een temperatuur meten", "humidity": "Vochtigheidssensoren", "power": "Momentaan vermogen (W, kW)", "energy": "Energietellers (Wh, kWh)", "consumption": "Gas, water, volume en alles wat verbruik heet", "voltage": "Spanningssensoren (V, mV, kV)", "frequency": "Frequentiesensoren (Hz)", "current": "Stroom en arbeidsfactor (A, mA)", "battery": "Batterijniveaus, de zwakste eerst", "cover": "Zonwering, rolluiken, garagedeuren: positie", "tilt": "Zonwering met verstelbare lamellen: lamelhoek", "light": "Alle lampen", "dimmer": "Dimbare lampen", "switch": "Schakelaars, stopcontacten en aan/uit-hulpmiddelen", "climate": "Thermostaten en warmtepompen: huidig, doel, modus", "media": "Tv's, luidsprekers en andere spelers", "binary": "Beweging-, contact-, raam-, rooksensoren …", "person": "Personen met hun trackers en gekoppelde account", "users": "Inlogaccounts van Home Assistant (beheerdersrechten nodig)", "presence": "Apparaattrackers", "scene": "Scènes met hun laatste activering", "labels": "Elke entiteit met minstens één label", "auto": "Automatiseringen en scripts", "helper": "input_*, tellers, timers, schema's", "sensor": "Sensoren die in geen meettabblad passen", "unavailable": "Entiteiten die nu niet beschikbaar of onbekend zijn"},
   },
   it: {
+    hideEntity: "Nascondi questa entità",
+    hideEntityHelp: "Le entità nascoste non compaiono nelle dashboard e negli elenchi generati automaticamente da Home Assistant. Continuano a funzionare (automazioni, cronologia). Qui le vedi con il pulsante «entità nascoste».",
     scTitle: "Classe di stato",
     scNone: "nessuna (nessuna classe di stato)",
     scMeasurement: "measurement: un valore istantaneo che sale e scende, ad es. temperatura, potenza, umidità.",
@@ -1051,6 +1063,8 @@ const L10N = {
     d: {"all": "Ogni entità che Home Assistant conosce", "illuminance": "Sensori di luminosità (lux)", "temperature": "Sensori che misurano una temperatura", "humidity": "Sensori di umidità", "power": "Potenza istantanea (W, kW)", "energy": "Contatori di energia (Wh, kWh)", "consumption": "Gas, acqua, volume e tutto ciò che si chiama consumo", "voltage": "Sensori di tensione (V, mV, kV)", "frequency": "Sensori di frequenza (Hz)", "current": "Corrente e fattore di potenza (A, mA)", "battery": "Livelli delle batterie, le più deboli per prime", "cover": "Tapparelle, persiane, porte del garage: posizione", "tilt": "Tapparelle con lamelle orientabili: angolo delle lamelle", "light": "Tutte le luci", "dimmer": "Luci dimmerabili", "switch": "Interruttori, prese e aiutanti on/off", "climate": "Termostati e pompe di calore: attuale, obiettivo, modalità", "media": "TV, altoparlanti e altri lettori", "binary": "Sensori di movimento, contatto, finestra, fumo …", "person": "Persone con i loro tracker e l'account collegato", "users": "Account di accesso di Home Assistant (servono diritti di amministratore)", "presence": "Tracker di dispositivi", "scene": "Scene con la loro ultima attivazione", "labels": "Ogni entità con almeno un'etichetta", "auto": "Automazioni e script", "helper": "input_*, contatori, timer, pianificazioni", "sensor": "Sensori che non rientrano in nessuna scheda di misura", "unavailable": "Entità al momento non disponibili o sconosciute"},
   },
   pl: {
+    hideEntity: "Ukryj tę encję",
+    hideEntityHelp: "Ukryte encje nie pojawiają się w automatycznie generowanych pulpitach i listach Home Assistanta. Nadal działają (automatyzacje, historia). Tutaj zobaczysz je przyciskiem „ukryte encje”.",
     scTitle: "Klasa stanu",
     scNone: "brak (bez klasy stanu)",
     scMeasurement: "measurement: wartość chwilowa, która rośnie i maleje, np. temperatura, moc, wilgotność.",
@@ -1273,6 +1287,8 @@ const L10N = {
     d: {"all": "Każda encja, którą zna Home Assistant", "illuminance": "Czujniki jasności (lx)", "temperature": "Czujniki mierzące temperaturę", "humidity": "Czujniki wilgotności", "power": "Moc chwilowa (W, kW)", "energy": "Liczniki energii (Wh, kWh)", "consumption": "Gaz, woda, objętość i wszystko, co nazywa się zużyciem", "voltage": "Czujniki napięcia (V, mV, kV)", "frequency": "Czujniki częstotliwości (Hz)", "current": "Prąd i współczynnik mocy (A, mA)", "battery": "Poziomy baterii, najsłabsze najpierw", "cover": "Rolety, żaluzje, bramy garażowe: pozycja", "tilt": "Rolety z regulowanymi lamelami: kąt lameli", "light": "Wszystkie światła", "dimmer": "Światła ze ściemnianiem", "switch": "Przełączniki, gniazdka i pomocnicy wł./wył.", "climate": "Termostaty i pompy ciepła: aktualna, zadana, tryb", "media": "Telewizory, głośniki i inne odtwarzacze", "binary": "Czujniki ruchu, kontaktu, okien, dymu …", "person": "Osoby z ich trackerami i powiązanym kontem", "users": "Konta logowania Home Assistanta (wymaga praw administratora)", "presence": "Trackery urządzeń", "scene": "Sceny z ostatnią aktywacją", "labels": "Każda encja z co najmniej jedną etykietą", "auto": "Automatyzacje i skrypty", "helper": "input_*, liczniki, timery, harmonogramy", "sensor": "Czujniki, które nie pasują do żadnej karty pomiarowej", "unavailable": "Encje, które są teraz niedostępne lub nieznane"},
   },
   pt: {
+    hideEntity: "Ocultar esta entidade",
+    hideEntityHelp: "As entidades ocultas não aparecem nos painéis e listas gerados automaticamente pelo Home Assistant. Continuam a funcionar (automações, histórico). Aqui vê-as com o botão «entidades ocultas».",
     scTitle: "Classe de estado",
     scNone: "nenhuma (sem classe de estado)",
     scMeasurement: "measurement: um valor instantâneo que sobe e desce, p. ex. temperatura, potência, humidade.",
@@ -1495,6 +1511,8 @@ const L10N = {
     d: {"all": "Todas as entidades que o Home Assistant conhece", "illuminance": "Sensores de luminosidade (lux)", "temperature": "Sensores que medem uma temperatura", "humidity": "Sensores de humidade", "power": "Potência instantânea (W, kW)", "energy": "Contadores de energia (Wh, kWh)", "consumption": "Gás, água, volume e tudo o que se chama consumo", "voltage": "Sensores de tensão (V, mV, kV)", "frequency": "Sensores de frequência (Hz)", "current": "Corrente e fator de potência (A, mA)", "battery": "Níveis de bateria, os mais fracos primeiro", "cover": "Persianas, estores, portões de garagem: posição", "tilt": "Persianas com lâminas ajustáveis: ângulo das lâminas", "light": "Todas as luzes", "dimmer": "Luzes reguláveis", "switch": "Interruptores, tomadas e auxiliares ligar/desligar", "climate": "Termóstatos e bombas de calor: atual, alvo, modo", "media": "TVs, colunas e outros leitores", "binary": "Sensores de movimento, contacto, janela, fumo …", "person": "Pessoas com os seus rastreadores e conta associada", "users": "Contas de início de sessão do Home Assistant (requer direitos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Cenas com a sua última ativação", "labels": "Todas as entidades com pelo menos uma etiqueta", "auto": "Automações e scripts", "helper": "input_*, contadores, temporizadores, agendas", "sensor": "Sensores que não cabem em nenhum separador de medição", "unavailable": "Entidades que neste momento estão indisponíveis ou desconhecidas"},
   },
   cs: {
+    hideEntity: "Skrýt tuto entitu",
+    hideEntityHelp: "Skryté entity se nezobrazují v automaticky vytvářených přehledech a seznamech Home Assistantu. Dál fungují (automatizace, historie). Zde je zobrazíte tlačítkem „skryté entity“.",
     scTitle: "Třída stavu",
     scNone: "žádná (bez třídy stavu)",
     scMeasurement: "measurement: okamžitá hodnota, která stoupá a klesá, např. teplota, výkon, vlhkost.",
@@ -1717,6 +1735,8 @@ const L10N = {
     d: {"all": "Každá entita, kterou Home Assistant zná", "illuminance": "Senzory jasu (lx)", "temperature": "Senzory, které měří teplotu", "humidity": "Senzory vlhkosti", "power": "Okamžitý výkon (W, kW)", "energy": "Měřiče energie (Wh, kWh)", "consumption": "Plyn, voda, objem a vše, co se jmenuje spotřeba", "voltage": "Senzory napětí (V, mV, kV)", "frequency": "Senzory frekvence (Hz)", "current": "Proud a účiník (A, mA)", "battery": "Stavy baterií, nejslabší první", "cover": "Rolety, žaluzie, garážová vrata: poloha", "tilt": "Rolety s nastavitelnými lamelami: úhel lamel", "light": "Všechna světla", "dimmer": "Stmívatelná světla", "switch": "Spínače, zásuvky a pomocníci zap./vyp.", "climate": "Termostaty a tepelná čerpadla: aktuální, cílová, režim", "media": "Televize, reproduktory a další přehrávače", "binary": "Senzory pohybu, kontaktu, oken, kouře …", "person": "Osoby s jejich trackery a propojeným účtem", "users": "Přihlašovací účty Home Assistantu (vyžaduje práva správce)", "presence": "Trackery zařízení", "scene": "Scény s poslední aktivací", "labels": "Každá entita s alespoň jedním štítkem", "auto": "Automatizace a skripty", "helper": "input_*, čítače, časovače, plány", "sensor": "Senzory, které nepatří do žádné měřicí záložky", "unavailable": "Entity, které jsou nyní nedostupné nebo neznámé"},
   },
   ru: {
+    hideEntity: "Скрыть эту сущность",
+    hideEntityHelp: "Скрытые сущности не показываются в автоматически создаваемых панелях и списках Home Assistant. Они продолжают работать (автоматизации, история). Здесь их можно увидеть кнопкой «скрытые сущности».",
     scTitle: "Класс состояния",
     scNone: "нет (без класса состояния)",
     scMeasurement: "measurement: мгновенное значение, которое растёт и падает, например температура, мощность, влажность.",
@@ -1939,6 +1959,8 @@ const L10N = {
     d: {"all": "Все сущности, которые знает Home Assistant", "illuminance": "Датчики яркости (лк)", "temperature": "Датчики, измеряющие температуру", "humidity": "Датчики влажности", "power": "Мгновенная мощность (Вт, кВт)", "energy": "Счётчики энергии (Вт·ч, кВт·ч)", "consumption": "Газ, вода, объём и всё, что называется потреблением", "voltage": "Датчики напряжения (В, мВ, кВ)", "frequency": "Датчики частоты (Гц)", "current": "Ток и коэффициент мощности (А, мА)", "battery": "Уровни батарей, самые слабые первыми", "cover": "Жалюзи, рольставни, гаражные ворота: положение", "tilt": "Жалюзи с регулируемыми ламелями: угол ламелей", "light": "Все лампы", "dimmer": "Лампы с регулировкой яркости", "switch": "Выключатели, розетки и помощники вкл./выкл.", "climate": "Термостаты и тепловые насосы: текущая, целевая, режим", "media": "Телевизоры, колонки и другие плееры", "binary": "Датчики движения, контакта, окон, дыма …", "person": "Персоны с их трекерами и связанной учётной записью", "users": "Учётные записи Home Assistant (нужны права администратора)", "presence": "Трекеры устройств", "scene": "Сцены с последней активацией", "labels": "Каждая сущность хотя бы с одним ярлыком", "auto": "Автоматизации и скрипты", "helper": "input_*, счётчики, таймеры, расписания", "sensor": "Датчики, не подходящие ни под одну вкладку измерений", "unavailable": "Сущности, которые сейчас недоступны или неизвестны"},
   },
   sv: {
+    hideEntity: "Dölj den här entiteten",
+    hideEntityHelp: "Dolda entiteter visas inte i automatiskt skapade instrumentpaneler och listor i Home Assistant. De fortsätter fungera (automationer, historik). Här ser du dem med knappen ”dolda entiteter”.",
     scTitle: "Tillståndsklass",
     scNone: "ingen (ingen tillståndsklass)",
     scMeasurement: "measurement: ett ögonblicksvärde som går upp och ner, t.ex. temperatur, effekt, luftfuktighet.",
@@ -2161,6 +2183,8 @@ const L10N = {
     d: {"all": "Varje entitet som Home Assistant känner till", "illuminance": "Ljussensorer (lux)", "temperature": "Sensorer som mäter en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energimätare (Wh, kWh)", "consumption": "Gas, vatten, volym och allt som heter förbrukning", "voltage": "Spänningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Ström och effektfaktor (A, mA)", "battery": "Batterinivåer, de svagaste först", "cover": "Rullgardiner, jalusier, garageportar: position", "tilt": "Rullgardiner med justerbara lameller: lamellvinkel", "light": "Alla lampor", "dimmer": "Dimbara lampor", "switch": "Strömbrytare, uttag och på/av-hjälpare", "climate": "Termostater och värmepumpar: aktuell, mål, läge", "media": "TV-apparater, högtalare och andra spelare", "binary": "Sensorer för rörelse, kontakt, fönster, rök …", "person": "Personer med sina spårare och länkat konto", "users": "Inloggningskonton i Home Assistant (kräver administratörsrättigheter)", "presence": "Enhetsspårare", "scene": "Scener med senaste aktivering", "labels": "Varje entitet med minst en etikett", "auto": "Automationer och skript", "helper": "input_*, räknare, timers, scheman", "sensor": "Sensorer som inte passar någon mätflik", "unavailable": "Entiteter som just nu är otillgängliga eller okända"},
   },
   nb: {
+    hideEntity: "Skjul denne entiteten",
+    hideEntityHelp: "Skjulte entiteter vises ikke i automatisk genererte dashbord og lister i Home Assistant. De fungerer fortsatt (automasjoner, historikk). Her ser du dem med knappen «skjulte entiteter».",
     scTitle: "Tilstandsklasse",
     scNone: "ingen (ingen tilstandsklasse)",
     scMeasurement: "measurement: en øyeblikksverdi som går opp og ned, f.eks. temperatur, effekt, luftfuktighet.",
@@ -2383,6 +2407,8 @@ const L10N = {
     d: {"all": "Alle entiteter Home Assistant kjenner", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer som måler en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energitellere (Wh, kWh)", "consumption": "Gass, vann, volum og alt som heter forbruk", "voltage": "Spenningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batterinivåer, de svakeste først", "cover": "Persienner, rullegardiner, garasjeporter: posisjon", "tilt": "Persienner med justerbare lameller: lamellvinkel", "light": "Alle lys", "dimmer": "Lys som kan dimmes", "switch": "Brytere, stikkontakter og på/av-hjelpere", "climate": "Termostater og varmepumper: nåværende, mål, modus", "media": "TV-er, høyttalere og andre spillere", "binary": "Bevegelses-, kontakt-, vindus-, røyksensorer …", "person": "Personer med sine sporere og koblet konto", "users": "Innloggingskontoer i Home Assistant (krever administratorrettigheter)", "presence": "Enhetssporere", "scene": "Scener med siste aktivering", "labels": "Alle entiteter med minst én etikett", "auto": "Automasjoner og skript", "helper": "input_*, tellere, tidtakere, tidsplaner", "sensor": "Sensorer som ikke passer i noen målefane", "unavailable": "Entiteter som akkurat nå er utilgjengelige eller ukjente"},
   },
   da: {
+    hideEntity: "Skjul denne entitet",
+    hideEntityHelp: "Skjulte entiteter vises ikke i automatisk genererede dashboards og lister i Home Assistant. De virker stadig (automatiseringer, historik). Her ser du dem med knappen »skjulte entiteter«.",
     scTitle: "Tilstandsklasse",
     scNone: "ingen (ingen tilstandsklasse)",
     scMeasurement: "measurement: en øjebliksværdi, der stiger og falder, f.eks. temperatur, effekt, luftfugtighed.",
@@ -2605,6 +2631,8 @@ const L10N = {
     d: {"all": "Alle entiteter, som Home Assistant kender", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer, der måler en temperatur", "humidity": "Fugtsensorer", "power": "Øjeblikkelig effekt (W, kW)", "energy": "Energitællere (Wh, kWh)", "consumption": "Gas, vand, volumen og alt, der hedder forbrug", "voltage": "Spændingssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batteriniveauer, de svageste først", "cover": "Persienner, rullegardiner, garageporte: position", "tilt": "Persienner med justerbare lameller: lamelvinkel", "light": "Alle lys", "dimmer": "Lys, der kan dæmpes", "switch": "Kontakter, stikkontakter og til/fra-hjælpere", "climate": "Termostater og varmepumper: aktuel, mål, tilstand", "media": "Tv, højttalere og andre afspillere", "binary": "Bevægelses-, kontakt-, vindues-, røgsensorer …", "person": "Personer med deres trackere og tilknyttede konto", "users": "Login-konti i Home Assistant (kræver administratorrettigheder)", "presence": "Enhedstrackere", "scene": "Scener med deres seneste aktivering", "labels": "Alle entiteter med mindst én etiket", "auto": "Automatiseringer og scripts", "helper": "input_*, tællere, timere, tidsplaner", "sensor": "Sensorer, der ikke passer i nogen målefane", "unavailable": "Entiteter, der lige nu er utilgængelige eller ukendte"},
   },
   af: {
+    hideEntity: "Versteek hierdie entiteit",
+    hideEntityHelp: "Versteekte entiteite word nie in outomaties gegenereerde kontrolepanele en lyste van Home Assistant gewys nie. Hulle werk steeds (outomatiserings, geskiedenis). Hier sien jy hulle met die knoppie “versteekte entiteite”.",
     scTitle: "Toestandsklas",
     scNone: "geen (geen toestandsklas)",
     scMeasurement: "measurement: 'n oombliklike waarde wat styg en daal, bv. temperatuur, drywing, humiditeit.",
@@ -3912,12 +3940,18 @@ class EntityInventoryPanel extends HTMLElement {
     if (reg.has_entity_name && e.device) hint(L.nameHintDev.replace("{dev}", e.device));
     if (reg.original_name) hint(L.nameDefault.replace("{n}", reg.original_name));
     hint(L.idWarn);
+    // hide / show the entity (hidden_by of the entity registry; "user" = hidden by you)
+    const hideRow = document.createElement("label"); hideRow.style.cssText = "display:flex;gap:8px;align-items:center;margin-top:14px;font-size:14px;cursor:pointer";
+    const hideCb = Object.assign(document.createElement("input"), { type: "checkbox", checked: !!reg.hidden_by });
+    hideRow.append(hideCb, document.createTextNode(L.hideEntity)); body.appendChild(hideRow);
+    hint(L.hideEntityHelp);
     const doSave = async (name) => {
       const newId = idInp.value.trim(), dom = e.id.slice(0, e.id.indexOf("."));
       if (newId !== e.id && !(newId.startsWith(dom + ".") && /^[a-z0-9_]+\.[a-z0-9_]+$/.test(newId))) { alert(L.idInvalid.replace("{d}", dom)); return; }
       try {
         const msg = { type: "config/entity_registry/update", entity_id: e.id, name: name || null };
         if (newId !== e.id) msg.new_entity_id = newId;
+        if (hideCb.checked !== !!reg.hidden_by) msg.hidden_by = hideCb.checked ? "user" : null;
         await this._hass.callWS(msg); close();
         setTimeout(() => { this._refresh(true); this._loadMeta(); }, 1500);
       }

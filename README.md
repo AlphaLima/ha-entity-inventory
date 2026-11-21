@@ -90,6 +90,8 @@ Diese Anleitung beschreibt das Panel Schritt für Schritt. Alles, was etwas änd
 
 **Abgeschnittene Texte:** Ist ein Text in der Spalte zu lang, zeigt der Tooltip (Maus kurz stehen lassen) den ganzen Text.
 
+**Verstecken:** Im selben Dialog gibt es den Haken *Diese Entität verstecken*. Versteckte Entitäten erscheinen nicht mehr in den automatisch erzeugten Dashboards und Listen von Home Assistant, funktionieren aber weiter (Automationen, Verlauf). Hier siehst du sie mit dem Knopf *Versteckte / deaktivierte Entitäten anzeigen* wieder und kannst den Haken dort entfernen.
+
 **Umbenennen:** Im Dialog änderst du den *Namen* und, wenn nötig, die *Entity-ID*. Achtung: Automationen, Skripte, Dashboards und Templates, die die alte ID nutzen, ändert Home Assistant **nicht** mit. Ändere die ID nur, wenn du sie danach prüfst. Kommentare, Fotos und Dokumente ziehen mit.
 
 ### 4. Suchen und filtern
