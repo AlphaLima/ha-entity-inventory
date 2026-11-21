@@ -2,6 +2,12 @@
 
 Versions follow [Semantic Versioning](https://semver.org/). Each version is a git tag `vX.Y.Z` and a GitHub release; HACS shows that number.
 
+## 0.3.2b3 – 2026-11-21
+- Recorder retention: default retention for all entities, global purge_keep_days shown, hints for keeping data longer, preview and explaining confirm dialogs, all languages
+- Recorder columns (stored for, entries, average interval, last report) with a switch in the toolbar, placed behind the unit
+- State class: information dialog with the long-term statistics
+- Fix: a click on a cell is no longer lost when the table is redrawn
+
 ## 0.3.2b2 – 2026-11-21
 - Back button: opening a device, integration, person or label page from the table remembers the panel, so Back returns to it
 
