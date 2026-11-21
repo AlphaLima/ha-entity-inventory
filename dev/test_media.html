@@ -6,6 +6,11 @@
 
 const L10N = {
   en: {
+    tabHidden: "Hidden / disabled",
+    tabHiddenDesc: "Entities that are hidden or switched off (disabled entities have no state and are read from the entity registry; administrators only)",
+    hHidden: "hidden",
+    hDisabled: "disabled",
+    c_hstat: "Hidden / disabled",
     enableEntity: "Entity enabled",
     enableEntityHelp: "A switched-off entity is not loaded: it has no state, no new history and stops working in automations, scripts and dashboards that use it. Home Assistant reloads the integration about 30 seconds after you save. Old history stays in the database.",
     enableEntityAsk: "Really switch this entity off? It stops working until you enable it again (the integration is reloaded after about 30 seconds).",
@@ -91,6 +96,11 @@ const L10N = {
     },
   },
   de: {
+    tabHidden: "Versteckt / deaktiviert",
+    tabHiddenDesc: "Entitäten, die versteckt oder abgeschaltet sind (deaktivierte Entitäten haben keinen Zustand und werden aus der Entitäten-Registry gelesen; nur für Administratoren)",
+    hHidden: "versteckt",
+    hDisabled: "deaktiviert",
+    c_hstat: "Versteckt / deaktiviert",
     enableEntity: "Entität aktiviert",
     enableEntityHelp: "Eine abgeschaltete Entität wird nicht geladen: Sie hat keinen Zustand, schreibt keinen neuen Verlauf und funktioniert in Automationen, Skripten und Dashboards, die sie nutzen, nicht mehr. Home Assistant lädt die Integration etwa 30 Sekunden nach dem Speichern neu. Alter Verlauf bleibt in der Datenbank.",
     enableEntityAsk: "Diese Entität wirklich abschalten? Sie funktioniert nicht mehr, bis du sie wieder aktivierst (die Integration wird nach etwa 30 Sekunden neu geladen).",
@@ -176,6 +186,11 @@ const L10N = {
     },
   },
   fr: {
+    tabHidden: "Masquées / désactivées",
+    tabHiddenDesc: "Entités masquées ou désactivées (les entités désactivées n’ont pas d’état et sont lues dans le registre des entités ; administrateurs uniquement)",
+    hHidden: "masquée",
+    hDisabled: "désactivée",
+    c_hstat: "Masquée / désactivée",
     enableEntity: "Entité activée",
     enableEntityHelp: "Une entité désactivée n’est pas chargée : elle n’a pas d’état, n’écrit plus d’historique et ne fonctionne plus dans les automatisations, scripts et tableaux de bord qui l’utilisent. Home Assistant recharge l’intégration environ 30 secondes après l’enregistrement. L’ancien historique reste dans la base de données.",
     enableEntityAsk: "Vraiment désactiver cette entité ? Elle ne fonctionne plus tant que vous ne la réactivez pas (l’intégration est rechargée après environ 30 secondes).",
@@ -403,6 +418,11 @@ const L10N = {
     d: {"all": "Toutes les entités connues de Home Assistant", "illuminance": "Capteurs de luminosité (lux)", "temperature": "Capteurs qui mesurent une température", "humidity": "Capteurs d'humidité", "power": "Puissance instantanée (W, kW)", "energy": "Compteurs d'énergie (Wh, kWh)", "consumption": "Gaz, eau, volume et tout ce qui s'appelle consommation", "voltage": "Capteurs de tension (V, mV, kV)", "frequency": "Capteurs de fréquence (Hz)", "current": "Courant et facteur de puissance (A, mA)", "battery": "Niveaux de batterie, les plus faibles d'abord", "cover": "Stores, volets, portes de garage : position", "tilt": "Volets à lames orientables : angle des lames", "light": "Toutes les lumières", "dimmer": "Lumières variables", "switch": "Interrupteurs, prises et entrées marche/arrêt", "climate": "Thermostats et pompes à chaleur : actuel, consigne, mode", "media": "Téléviseurs, enceintes et autres lecteurs", "binary": "Capteurs de mouvement, contact, fenêtre, fumée …", "person": "Personnes avec leurs traceurs et leur compte lié", "users": "Comptes de connexion de Home Assistant (droits d'administrateur requis)", "presence": "Traceurs d'appareils", "scene": "Scènes avec leur dernière activation", "labels": "Toute entité ayant au moins une étiquette", "auto": "Automatisations et scripts", "helper": "input_*, compteurs, minuteurs, planifications", "sensor": "Capteurs qui ne rentrent dans aucun onglet de mesure", "unavailable": "Entités actuellement indisponibles ou inconnues"},
   },
   es: {
+    tabHidden: "Ocultas / desactivadas",
+    tabHiddenDesc: "Entidades ocultas o desactivadas (las desactivadas no tienen estado y se leen del registro de entidades; solo administradores)",
+    hHidden: "oculta",
+    hDisabled: "desactivada",
+    c_hstat: "Oculta / desactivada",
     enableEntity: "Entidad activada",
     enableEntityHelp: "Una entidad desactivada no se carga: no tiene estado, no escribe historial nuevo y deja de funcionar en las automatizaciones, scripts y paneles que la usan. Home Assistant recarga la integración unos 30 segundos después de guardar. El historial antiguo permanece en la base de datos.",
     enableEntityAsk: "¿Desactivar de verdad esta entidad? Dejará de funcionar hasta que la actives de nuevo (la integración se recarga tras unos 30 segundos).",
@@ -630,6 +650,11 @@ const L10N = {
     d: {"all": "Todas las entidades que conoce Home Assistant", "illuminance": "Sensores de luminosidad (lux)", "temperature": "Sensores que miden una temperatura", "humidity": "Sensores de humedad", "power": "Potencia instantánea (W, kW)", "energy": "Contadores de energía (Wh, kWh)", "consumption": "Gas, agua, volumen y todo lo que se llama consumo", "voltage": "Sensores de tensión (V, mV, kV)", "frequency": "Sensores de frecuencia (Hz)", "current": "Corriente y factor de potencia (A, mA)", "battery": "Niveles de batería, los más débiles primero", "cover": "Persianas, contraventanas, puertas de garaje: posición", "tilt": "Persianas con lamas orientables: ángulo de las lamas", "light": "Todas las luces", "dimmer": "Luces regulables", "switch": "Interruptores, enchufes y ayudantes de encendido/apagado", "climate": "Termostatos y bombas de calor: actual, objetivo, modo", "media": "Televisores, altavoces y otros reproductores", "binary": "Sensores de movimiento, contacto, ventana, humo …", "person": "Personas con sus rastreadores y su cuenta vinculada", "users": "Cuentas de acceso de Home Assistant (requiere derechos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Escenas con su última activación", "labels": "Cada entidad que tiene al menos una etiqueta", "auto": "Automatizaciones y scripts", "helper": "input_*, contadores, temporizadores, programaciones", "sensor": "Sensores que no encajan en ninguna pestaña de medición", "unavailable": "Entidades que ahora no están disponibles o son desconocidas"},
   },
   nl: {
+    tabHidden: "Verborgen / uitgeschakeld",
+    tabHiddenDesc: "Entiteiten die verborgen of uitgeschakeld zijn (uitgeschakelde entiteiten hebben geen status en worden uit het entiteitenregister gelezen; alleen beheerders)",
+    hHidden: "verborgen",
+    hDisabled: "uitgeschakeld",
+    c_hstat: "Verborgen / uitgeschakeld",
     enableEntity: "Entiteit ingeschakeld",
     enableEntityHelp: "Een uitgeschakelde entiteit wordt niet geladen: ze heeft geen status, schrijft geen nieuwe geschiedenis en werkt niet meer in automatiseringen, scripts en dashboards die haar gebruiken. Home Assistant herlaadt de integratie ongeveer 30 seconden na het opslaan. Oude geschiedenis blijft in de database.",
     enableEntityAsk: "Deze entiteit echt uitschakelen? Ze werkt niet meer totdat je haar weer inschakelt (de integratie wordt na ongeveer 30 seconden herladen).",
@@ -857,6 +882,11 @@ const L10N = {
     d: {"all": "Elke entiteit die Home Assistant kent", "illuminance": "Helderheidssensoren (lux)", "temperature": "Sensoren die een temperatuur meten", "humidity": "Vochtigheidssensoren", "power": "Momentaan vermogen (W, kW)", "energy": "Energietellers (Wh, kWh)", "consumption": "Gas, water, volume en alles wat verbruik heet", "voltage": "Spanningssensoren (V, mV, kV)", "frequency": "Frequentiesensoren (Hz)", "current": "Stroom en arbeidsfactor (A, mA)", "battery": "Batterijniveaus, de zwakste eerst", "cover": "Zonwering, rolluiken, garagedeuren: positie", "tilt": "Zonwering met verstelbare lamellen: lamelhoek", "light": "Alle lampen", "dimmer": "Dimbare lampen", "switch": "Schakelaars, stopcontacten en aan/uit-hulpmiddelen", "climate": "Thermostaten en warmtepompen: huidig, doel, modus", "media": "Tv's, luidsprekers en andere spelers", "binary": "Beweging-, contact-, raam-, rooksensoren …", "person": "Personen met hun trackers en gekoppelde account", "users": "Inlogaccounts van Home Assistant (beheerdersrechten nodig)", "presence": "Apparaattrackers", "scene": "Scènes met hun laatste activering", "labels": "Elke entiteit met minstens één label", "auto": "Automatiseringen en scripts", "helper": "input_*, tellers, timers, schema's", "sensor": "Sensoren die in geen meettabblad passen", "unavailable": "Entiteiten die nu niet beschikbaar of onbekend zijn"},
   },
   it: {
+    tabHidden: "Nascoste / disattivate",
+    tabHiddenDesc: "Entità nascoste o disattivate (quelle disattivate non hanno stato e vengono lette dal registro delle entità; solo amministratori)",
+    hHidden: "nascosta",
+    hDisabled: "disattivata",
+    c_hstat: "Nascosta / disattivata",
     enableEntity: "Entità attivata",
     enableEntityHelp: "Un’entità disattivata non viene caricata: non ha stato, non scrive nuova cronologia e smette di funzionare in automazioni, script e dashboard che la usano. Home Assistant ricarica l’integrazione circa 30 secondi dopo il salvataggio. La vecchia cronologia resta nel database.",
     enableEntityAsk: "Disattivare davvero questa entità? Smette di funzionare finché non la riattivi (l’integrazione viene ricaricata dopo circa 30 secondi).",
@@ -1084,6 +1114,11 @@ const L10N = {
     d: {"all": "Ogni entità che Home Assistant conosce", "illuminance": "Sensori di luminosità (lux)", "temperature": "Sensori che misurano una temperatura", "humidity": "Sensori di umidità", "power": "Potenza istantanea (W, kW)", "energy": "Contatori di energia (Wh, kWh)", "consumption": "Gas, acqua, volume e tutto ciò che si chiama consumo", "voltage": "Sensori di tensione (V, mV, kV)", "frequency": "Sensori di frequenza (Hz)", "current": "Corrente e fattore di potenza (A, mA)", "battery": "Livelli delle batterie, le più deboli per prime", "cover": "Tapparelle, persiane, porte del garage: posizione", "tilt": "Tapparelle con lamelle orientabili: angolo delle lamelle", "light": "Tutte le luci", "dimmer": "Luci dimmerabili", "switch": "Interruttori, prese e aiutanti on/off", "climate": "Termostati e pompe di calore: attuale, obiettivo, modalità", "media": "TV, altoparlanti e altri lettori", "binary": "Sensori di movimento, contatto, finestra, fumo …", "person": "Persone con i loro tracker e l'account collegato", "users": "Account di accesso di Home Assistant (servono diritti di amministratore)", "presence": "Tracker di dispositivi", "scene": "Scene con la loro ultima attivazione", "labels": "Ogni entità con almeno un'etichetta", "auto": "Automazioni e script", "helper": "input_*, contatori, timer, pianificazioni", "sensor": "Sensori che non rientrano in nessuna scheda di misura", "unavailable": "Entità al momento non disponibili o sconosciute"},
   },
   pl: {
+    tabHidden: "Ukryte / wyłączone",
+    tabHiddenDesc: "Encje ukryte lub wyłączone (wyłączone encje nie mają stanu i są odczytywane z rejestru encji; tylko administratorzy)",
+    hHidden: "ukryta",
+    hDisabled: "wyłączona",
+    c_hstat: "Ukryta / wyłączona",
     enableEntity: "Encja włączona",
     enableEntityHelp: "Wyłączona encja nie jest ładowana: nie ma stanu, nie zapisuje nowej historii i przestaje działać w automatyzacjach, skryptach i pulpitach, które jej używają. Home Assistant przeładowuje integrację około 30 sekund po zapisaniu. Stara historia pozostaje w bazie danych.",
     enableEntityAsk: "Na pewno wyłączyć tę encję? Przestanie działać, dopóki jej nie włączysz (integracja zostanie przeładowana po około 30 sekundach).",
@@ -1311,6 +1346,11 @@ const L10N = {
     d: {"all": "Każda encja, którą zna Home Assistant", "illuminance": "Czujniki jasności (lx)", "temperature": "Czujniki mierzące temperaturę", "humidity": "Czujniki wilgotności", "power": "Moc chwilowa (W, kW)", "energy": "Liczniki energii (Wh, kWh)", "consumption": "Gaz, woda, objętość i wszystko, co nazywa się zużyciem", "voltage": "Czujniki napięcia (V, mV, kV)", "frequency": "Czujniki częstotliwości (Hz)", "current": "Prąd i współczynnik mocy (A, mA)", "battery": "Poziomy baterii, najsłabsze najpierw", "cover": "Rolety, żaluzje, bramy garażowe: pozycja", "tilt": "Rolety z regulowanymi lamelami: kąt lameli", "light": "Wszystkie światła", "dimmer": "Światła ze ściemnianiem", "switch": "Przełączniki, gniazdka i pomocnicy wł./wył.", "climate": "Termostaty i pompy ciepła: aktualna, zadana, tryb", "media": "Telewizory, głośniki i inne odtwarzacze", "binary": "Czujniki ruchu, kontaktu, okien, dymu …", "person": "Osoby z ich trackerami i powiązanym kontem", "users": "Konta logowania Home Assistanta (wymaga praw administratora)", "presence": "Trackery urządzeń", "scene": "Sceny z ostatnią aktywacją", "labels": "Każda encja z co najmniej jedną etykietą", "auto": "Automatyzacje i skrypty", "helper": "input_*, liczniki, timery, harmonogramy", "sensor": "Czujniki, które nie pasują do żadnej karty pomiarowej", "unavailable": "Encje, które są teraz niedostępne lub nieznane"},
   },
   pt: {
+    tabHidden: "Ocultas / desativadas",
+    tabHiddenDesc: "Entidades ocultas ou desativadas (as desativadas não têm estado e são lidas do registo de entidades; só administradores)",
+    hHidden: "oculta",
+    hDisabled: "desativada",
+    c_hstat: "Oculta / desativada",
     enableEntity: "Entidade ativada",
     enableEntityHelp: "Uma entidade desativada não é carregada: não tem estado, não grava novo histórico e deixa de funcionar nas automações, scripts e painéis que a usam. O Home Assistant recarrega a integração cerca de 30 segundos após guardar. O histórico antigo fica na base de dados.",
     enableEntityAsk: "Desativar mesmo esta entidade? Deixa de funcionar até a ativar de novo (a integração é recarregada após cerca de 30 segundos).",
@@ -1538,6 +1578,11 @@ const L10N = {
     d: {"all": "Todas as entidades que o Home Assistant conhece", "illuminance": "Sensores de luminosidade (lux)", "temperature": "Sensores que medem uma temperatura", "humidity": "Sensores de humidade", "power": "Potência instantânea (W, kW)", "energy": "Contadores de energia (Wh, kWh)", "consumption": "Gás, água, volume e tudo o que se chama consumo", "voltage": "Sensores de tensão (V, mV, kV)", "frequency": "Sensores de frequência (Hz)", "current": "Corrente e fator de potência (A, mA)", "battery": "Níveis de bateria, os mais fracos primeiro", "cover": "Persianas, estores, portões de garagem: posição", "tilt": "Persianas com lâminas ajustáveis: ângulo das lâminas", "light": "Todas as luzes", "dimmer": "Luzes reguláveis", "switch": "Interruptores, tomadas e auxiliares ligar/desligar", "climate": "Termóstatos e bombas de calor: atual, alvo, modo", "media": "TVs, colunas e outros leitores", "binary": "Sensores de movimento, contacto, janela, fumo …", "person": "Pessoas com os seus rastreadores e conta associada", "users": "Contas de início de sessão do Home Assistant (requer direitos de administrador)", "presence": "Rastreadores de dispositivos", "scene": "Cenas com a sua última ativação", "labels": "Todas as entidades com pelo menos uma etiqueta", "auto": "Automações e scripts", "helper": "input_*, contadores, temporizadores, agendas", "sensor": "Sensores que não cabem em nenhum separador de medição", "unavailable": "Entidades que neste momento estão indisponíveis ou desconhecidas"},
   },
   cs: {
+    tabHidden: "Skryté / vypnuté",
+    tabHiddenDesc: "Entity, které jsou skryté nebo vypnuté (vypnuté entity nemají stav a čtou se z registru entit; jen správci)",
+    hHidden: "skrytá",
+    hDisabled: "vypnutá",
+    c_hstat: "Skrytá / vypnutá",
     enableEntity: "Entita zapnutá",
     enableEntityHelp: "Vypnutá entita se nenačítá: nemá stav, nezapisuje novou historii a přestane fungovat v automatizacích, skriptech a přehledech, které ji používají. Home Assistant znovu načte integraci asi 30 sekund po uložení. Stará historie zůstane v databázi.",
     enableEntityAsk: "Opravdu tuto entitu vypnout? Nebude fungovat, dokud ji znovu nezapnete (integrace se znovu načte asi za 30 sekund).",
@@ -1765,6 +1810,11 @@ const L10N = {
     d: {"all": "Každá entita, kterou Home Assistant zná", "illuminance": "Senzory jasu (lx)", "temperature": "Senzory, které měří teplotu", "humidity": "Senzory vlhkosti", "power": "Okamžitý výkon (W, kW)", "energy": "Měřiče energie (Wh, kWh)", "consumption": "Plyn, voda, objem a vše, co se jmenuje spotřeba", "voltage": "Senzory napětí (V, mV, kV)", "frequency": "Senzory frekvence (Hz)", "current": "Proud a účiník (A, mA)", "battery": "Stavy baterií, nejslabší první", "cover": "Rolety, žaluzie, garážová vrata: poloha", "tilt": "Rolety s nastavitelnými lamelami: úhel lamel", "light": "Všechna světla", "dimmer": "Stmívatelná světla", "switch": "Spínače, zásuvky a pomocníci zap./vyp.", "climate": "Termostaty a tepelná čerpadla: aktuální, cílová, režim", "media": "Televize, reproduktory a další přehrávače", "binary": "Senzory pohybu, kontaktu, oken, kouře …", "person": "Osoby s jejich trackery a propojeným účtem", "users": "Přihlašovací účty Home Assistantu (vyžaduje práva správce)", "presence": "Trackery zařízení", "scene": "Scény s poslední aktivací", "labels": "Každá entita s alespoň jedním štítkem", "auto": "Automatizace a skripty", "helper": "input_*, čítače, časovače, plány", "sensor": "Senzory, které nepatří do žádné měřicí záložky", "unavailable": "Entity, které jsou nyní nedostupné nebo neznámé"},
   },
   ru: {
+    tabHidden: "Скрытые / отключённые",
+    tabHiddenDesc: "Скрытые или отключённые сущности (у отключённых нет состояния, они читаются из реестра сущностей; только администраторы)",
+    hHidden: "скрыта",
+    hDisabled: "отключена",
+    c_hstat: "Скрыта / отключена",
     enableEntity: "Сущность включена",
     enableEntityHelp: "Отключённая сущность не загружается: у неё нет состояния, она не пишет новую историю и перестаёт работать в автоматизациях, скриптах и панелях, которые её используют. Home Assistant перезагружает интеграцию примерно через 30 секунд после сохранения. Старая история остаётся в базе данных.",
     enableEntityAsk: "Действительно отключить эту сущность? Она не будет работать, пока вы её снова не включите (интеграция перезагрузится примерно через 30 секунд).",
@@ -1992,6 +2042,11 @@ const L10N = {
     d: {"all": "Все сущности, которые знает Home Assistant", "illuminance": "Датчики яркости (лк)", "temperature": "Датчики, измеряющие температуру", "humidity": "Датчики влажности", "power": "Мгновенная мощность (Вт, кВт)", "energy": "Счётчики энергии (Вт·ч, кВт·ч)", "consumption": "Газ, вода, объём и всё, что называется потреблением", "voltage": "Датчики напряжения (В, мВ, кВ)", "frequency": "Датчики частоты (Гц)", "current": "Ток и коэффициент мощности (А, мА)", "battery": "Уровни батарей, самые слабые первыми", "cover": "Жалюзи, рольставни, гаражные ворота: положение", "tilt": "Жалюзи с регулируемыми ламелями: угол ламелей", "light": "Все лампы", "dimmer": "Лампы с регулировкой яркости", "switch": "Выключатели, розетки и помощники вкл./выкл.", "climate": "Термостаты и тепловые насосы: текущая, целевая, режим", "media": "Телевизоры, колонки и другие плееры", "binary": "Датчики движения, контакта, окон, дыма …", "person": "Персоны с их трекерами и связанной учётной записью", "users": "Учётные записи Home Assistant (нужны права администратора)", "presence": "Трекеры устройств", "scene": "Сцены с последней активацией", "labels": "Каждая сущность хотя бы с одним ярлыком", "auto": "Автоматизации и скрипты", "helper": "input_*, счётчики, таймеры, расписания", "sensor": "Датчики, не подходящие ни под одну вкладку измерений", "unavailable": "Сущности, которые сейчас недоступны или неизвестны"},
   },
   sv: {
+    tabHidden: "Dolda / avstängda",
+    tabHiddenDesc: "Entiteter som är dolda eller avstängda (avstängda entiteter har inget tillstånd och läses från entitetsregistret; endast administratörer)",
+    hHidden: "dold",
+    hDisabled: "avstängd",
+    c_hstat: "Dold / avstängd",
     enableEntity: "Entitet aktiverad",
     enableEntityHelp: "En avstängd entitet laddas inte: den har inget tillstånd, skriver ingen ny historik och slutar fungera i automationer, skript och instrumentpaneler som använder den. Home Assistant laddar om integrationen cirka 30 sekunder efter att du sparat. Gammal historik finns kvar i databasen.",
     enableEntityAsk: "Vill du verkligen stänga av den här entiteten? Den slutar fungera tills du aktiverar den igen (integrationen laddas om efter cirka 30 sekunder).",
@@ -2219,6 +2274,11 @@ const L10N = {
     d: {"all": "Varje entitet som Home Assistant känner till", "illuminance": "Ljussensorer (lux)", "temperature": "Sensorer som mäter en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energimätare (Wh, kWh)", "consumption": "Gas, vatten, volym och allt som heter förbrukning", "voltage": "Spänningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Ström och effektfaktor (A, mA)", "battery": "Batterinivåer, de svagaste först", "cover": "Rullgardiner, jalusier, garageportar: position", "tilt": "Rullgardiner med justerbara lameller: lamellvinkel", "light": "Alla lampor", "dimmer": "Dimbara lampor", "switch": "Strömbrytare, uttag och på/av-hjälpare", "climate": "Termostater och värmepumpar: aktuell, mål, läge", "media": "TV-apparater, högtalare och andra spelare", "binary": "Sensorer för rörelse, kontakt, fönster, rök …", "person": "Personer med sina spårare och länkat konto", "users": "Inloggningskonton i Home Assistant (kräver administratörsrättigheter)", "presence": "Enhetsspårare", "scene": "Scener med senaste aktivering", "labels": "Varje entitet med minst en etikett", "auto": "Automationer och skript", "helper": "input_*, räknare, timers, scheman", "sensor": "Sensorer som inte passar någon mätflik", "unavailable": "Entiteter som just nu är otillgängliga eller okända"},
   },
   nb: {
+    tabHidden: "Skjulte / deaktiverte",
+    tabHiddenDesc: "Entiteter som er skjult eller slått av (deaktiverte entiteter har ingen tilstand og leses fra entitetsregisteret; bare administratorer)",
+    hHidden: "skjult",
+    hDisabled: "deaktivert",
+    c_hstat: "Skjult / deaktivert",
     enableEntity: "Entitet aktivert",
     enableEntityHelp: "En avslått entitet lastes ikke: Den har ingen tilstand, skriver ingen ny historikk og slutter å virke i automasjoner, skript og dashbord som bruker den. Home Assistant laster integrasjonen på nytt omtrent 30 sekunder etter at du lagrer. Gammel historikk blir i databasen.",
     enableEntityAsk: "Vil du virkelig slå av denne entiteten? Den slutter å virke til du aktiverer den igjen (integrasjonen lastes på nytt etter omtrent 30 sekunder).",
@@ -2446,6 +2506,11 @@ const L10N = {
     d: {"all": "Alle entiteter Home Assistant kjenner", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer som måler en temperatur", "humidity": "Fuktsensorer", "power": "Momentan effekt (W, kW)", "energy": "Energitellere (Wh, kWh)", "consumption": "Gass, vann, volum og alt som heter forbruk", "voltage": "Spenningssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batterinivåer, de svakeste først", "cover": "Persienner, rullegardiner, garasjeporter: posisjon", "tilt": "Persienner med justerbare lameller: lamellvinkel", "light": "Alle lys", "dimmer": "Lys som kan dimmes", "switch": "Brytere, stikkontakter og på/av-hjelpere", "climate": "Termostater og varmepumper: nåværende, mål, modus", "media": "TV-er, høyttalere og andre spillere", "binary": "Bevegelses-, kontakt-, vindus-, røyksensorer …", "person": "Personer med sine sporere og koblet konto", "users": "Innloggingskontoer i Home Assistant (krever administratorrettigheter)", "presence": "Enhetssporere", "scene": "Scener med siste aktivering", "labels": "Alle entiteter med minst én etikett", "auto": "Automasjoner og skript", "helper": "input_*, tellere, tidtakere, tidsplaner", "sensor": "Sensorer som ikke passer i noen målefane", "unavailable": "Entiteter som akkurat nå er utilgjengelige eller ukjente"},
   },
   da: {
+    tabHidden: "Skjulte / deaktiverede",
+    tabHiddenDesc: "Entiteter, der er skjult eller slukket (deaktiverede entiteter har ingen tilstand og læses fra entitetsregistret; kun administratorer)",
+    hHidden: "skjult",
+    hDisabled: "deaktiveret",
+    c_hstat: "Skjult / deaktiveret",
     enableEntity: "Entitet aktiveret",
     enableEntityHelp: "En slukket entitet indlæses ikke: Den har ingen tilstand, skriver ingen ny historik og holder op med at virke i automatiseringer, scripts og dashboards, der bruger den. Home Assistant genindlæser integrationen cirka 30 sekunder efter, at du gemmer. Gammel historik bliver i databasen.",
     enableEntityAsk: "Vil du virkelig slukke denne entitet? Den holder op med at virke, til du aktiverer den igen (integrationen genindlæses efter cirka 30 sekunder).",
@@ -2673,6 +2738,11 @@ const L10N = {
     d: {"all": "Alle entiteter, som Home Assistant kender", "illuminance": "Lyssensorer (lux)", "temperature": "Sensorer, der måler en temperatur", "humidity": "Fugtsensorer", "power": "Øjeblikkelig effekt (W, kW)", "energy": "Energitællere (Wh, kWh)", "consumption": "Gas, vand, volumen og alt, der hedder forbrug", "voltage": "Spændingssensorer (V, mV, kV)", "frequency": "Frekvenssensorer (Hz)", "current": "Strøm og effektfaktor (A, mA)", "battery": "Batteriniveauer, de svageste først", "cover": "Persienner, rullegardiner, garageporte: position", "tilt": "Persienner med justerbare lameller: lamelvinkel", "light": "Alle lys", "dimmer": "Lys, der kan dæmpes", "switch": "Kontakter, stikkontakter og til/fra-hjælpere", "climate": "Termostater og varmepumper: aktuel, mål, tilstand", "media": "Tv, højttalere og andre afspillere", "binary": "Bevægelses-, kontakt-, vindues-, røgsensorer …", "person": "Personer med deres trackere og tilknyttede konto", "users": "Login-konti i Home Assistant (kræver administratorrettigheder)", "presence": "Enhedstrackere", "scene": "Scener med deres seneste aktivering", "labels": "Alle entiteter med mindst én etiket", "auto": "Automatiseringer og scripts", "helper": "input_*, tællere, timere, tidsplaner", "sensor": "Sensorer, der ikke passer i nogen målefane", "unavailable": "Entiteter, der lige nu er utilgængelige eller ukendte"},
   },
   af: {
+    tabHidden: "Versteek / gedeaktiveer",
+    tabHiddenDesc: "Entiteite wat versteek of afgeskakel is (gedeaktiveerde entiteite het geen toestand nie en word uit die entiteitregister gelees; slegs administrateurs)",
+    hHidden: "versteek",
+    hDisabled: "gedeaktiveer",
+    c_hstat: "Versteek / gedeaktiveer",
     enableEntity: "Entiteit geaktiveer",
     enableEntityHelp: "'n Afgeskakelde entiteit word nie gelaai nie: dit het geen toestand nie, skryf geen nuwe geskiedenis nie en werk nie meer in outomatiserings, skrifte en kontrolepanele wat dit gebruik nie. Home Assistant laai die integrasie ongeveer 30 sekondes ná stoor weer. Ou geskiedenis bly in die databasis.",
     enableEntityAsk: "Hierdie entiteit regtig afskakel? Dit werk nie meer totdat jy dit weer aktiveer nie (die integrasie word na ongeveer 30 sekondes herlaai).",
@@ -2915,7 +2985,7 @@ const MDI = {
   energy: "mdi:lightning-bolt-circle", consumption: "mdi:meter-electric-outline", voltage: "mdi:flash-triangle-outline", frequency: "mdi:sine-wave", current: "mdi:current-ac", battery: "mdi:battery-60",
   cover: "mdi:window-shutter", tilt: "mdi:blinds-horizontal", light: "mdi:lightbulb", dimmer: "mdi:lightbulb-on-50",
   switch: "mdi:toggle-switch", climate: "mdi:thermostat", media: "mdi:play-box-multiple", person: "mdi:account", users: "mdi:account-key", binary: "mdi:radiobox-marked",
-  presence: "mdi:account-multiple", scene: "mdi:palette", labels: "mdi:label-multiple", auto: "mdi:robot", helper: "mdi:tune-variant", sensor: "mdi:eye", unavailable: "mdi:alert-circle-outline",
+  hiddenEnt: "mdi:eye-off-outline", presence: "mdi:account-multiple", scene: "mdi:palette", labels: "mdi:label-multiple", auto: "mdi:robot", helper: "mdi:tune-variant", sensor: "mdi:eye", unavailable: "mdi:alert-circle-outline",
 };
 
 // order and groups of the tabs
@@ -2926,7 +2996,7 @@ const GROUPS = [
   ["gCover", ["cover", "tilt"]],
   ["gUsage", ["consumption"]],
   ["gAuto", ["auto", "scene", "helper"]],
-  ["gMore", ["switch", "battery", "media", "person", "users", "binary", "presence", "labels", "sensor", "unavailable"]],
+  ["gMore", ["switch", "battery", "media", "person", "users", "binary", "presence", "labels", "sensor", "hiddenEnt", "unavailable"]],
 ];
 const TABS_BY_COUNT = true; // from the second group on, the tabs of a group are ordered by the number of entities (most first)
 
@@ -2961,6 +3031,7 @@ const TABCOLS = {
   helper: ["led", "name", "id", "value", "unit", "platform", "changed"],
   sensor: ["led", "name", "id", "value", "unit", "class", "area", "device", "platform", "changed"],
   unavailable: ["led", "name", "id", "state", "area", "device", "platform", "changed"],
+  hiddenEnt: ["led", "name", "id", "hstat", "state", "area", "device", "platform", "changed"],
 };
 Object.keys(TABCOLS).forEach((k) => {
   if (k === "users") return;
@@ -3018,7 +3089,7 @@ const headSym = (c) => `<svg viewBox="0 0 24 24" width="16" height="16" fill="no
 const diIcon = (n, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle">${DI_ICONS[n]}</svg>`;
 const svgIcon = (k, size = 18) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="currentColor" style="vertical-align:middle"><path d="${ICON[k]}"/></svg>`;
 // every column key in its default order; the layout (order, visibility, width, name) is kept separately for the display and for the printer
-const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "retention", "recrows", "recint", "recupd", "state", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "photos", "docs", "note"];
+const ALLCOLS = ["led", "icon", "name", "id", "access", "value", "unit", "retention", "recrows", "recint", "recupd", "state", "hstat", "pos", "tilt", "bright", "mode", "cur", "target", "action", "trackers", "source", "username", "person", "role", "provider", "local", "system", "userid", "class", "sc", "area", "device", "platform", "labels", "changed", "photos", "docs", "note"];
 // columns blurred by the "blur sensitive data" button (and the names of user accounts)
 const HELPER_PLATFORMS = new Set(["group", "derivative", "integration", "threshold", "utility_meter", "min_max", "statistics", "trend", "filter", "history_stats", "random", "tod", "switch_as_x", "generic_hygrostat", "generic_thermostat", "compensation", "bayesian"]); // helper integrations (template is left out: YAML templates share the platform)
 const BLURCOLS = ["userid", "username", "trackers", "person", "note"];
@@ -3080,14 +3151,17 @@ class EntityInventoryPanel extends HTMLElement {
         platform: reg.platform || (domain === "sun" || domain === "zone" ? "core" : ""),
         labels: Array.isArray(reg.labels) ? reg.labels : [],
         hidden: !!reg.hidden || !!reg.disabled_by || reg.entity_category === "config",
+        hid: !!reg.hidden, dis: !!reg.disabled_by,
         ts: Date.parse(s.last_changed) || 0,
         tsu: Date.parse(s.last_updated) || 0,
         tabs: [],
       };
       this._classify(rec);
+      if (rec.hid || rec.dis) rec.tabs.push("hiddenEnt");
       rows.push(rec); rc.set(id, rec);
     }
     this._rc = rc;
+    (this._disRows || []).forEach((rec) => { if (!(rec.id in st)) rows.push(rec); }); // disabled entities have no state: they come from the entity registry
     const persons = rows.filter((e) => e.domain === "person");
     (this._users || []).forEach((u) => {
       const pe = persons.find((e) => e.a.user_id === u.id);
@@ -3136,6 +3210,26 @@ class EntityInventoryPanel extends HTMLElement {
   get _admin() { return !!(this._hass.user && this._hass.user.is_admin); }
 
   // names and colours of the labels (the entities only carry the label ids)
+  // entities that are switched off have no state and are not in hass.entities: read them from the entity registry (administrators only)
+  async _loadRegAll() {
+    if (!this._admin) return;
+    try {
+      const list = await this._hass.callWS({ type: "config/entity_registry/list" }), h = this._hass, dev = h.devices || {}, ar = h.areas || {}, L = this._L;
+      this._disRows = (list || []).filter((x) => x.disabled_by).map((reg) => {
+        const id = reg.entity_id, d = dev[reg.device_id] || null, areaId = reg.area_id || (d && d.area_id) || null, domain = id.slice(0, id.indexOf("."));
+        const rec = {
+          rr: reg, dObj: d, id, domain, s: { state: "disabled", attributes: {}, last_changed: "1970-01-01T00:00:00Z", last_updated: "1970-01-01T00:00:00Z" }, a: {}, state: "disabled", dc: reg.original_device_class || "", unit: "", sc: "",
+          name: reg.name || reg.original_name || id, deviceId: d ? reg.device_id : "", device: d ? (d.name_by_user || d.name || "") : "", maker: d ? d.manufacturer || "" : "", model: d ? d.model || "" : "",
+          areaId: areaId && ar[areaId] ? areaId : "", area: areaId && ar[areaId] ? ar[areaId].name : "", platform: reg.platform || "", labels: Array.isArray(reg.labels) ? reg.labels : [],
+          hidden: true, hid: !!reg.hidden_by, dis: true, ts: 0, tsu: 0, tabs: ["hiddenEnt"],
+        };
+        rec._v = L.hDisabled;
+        return rec;
+      });
+      this._refresh(true);
+    } catch (e) { this._disRows = []; }
+  }
+
   async _loadLabels() {
     try {
       const list = await this._hass.callWS({ type: "config/label_registry/list" });
@@ -3335,6 +3429,7 @@ class EntityInventoryPanel extends HTMLElement {
         return [`<span data-act="retention" style="cursor:pointer" title="${esc((tip ? tip + "\n" : "") + L.retTip)}">${esc(txt)}${r}</span>`, age];
       }
       case "labels": { const n = (e.labels || []).map((id) => this._labelName(id)).join(", "); return [e.user ? "" : this._labelChips(e.labels || []), n.toLowerCase()]; }
+      case "hstat": return [e.user ? "" : esc(e.dis ? this._L.hDisabled : this._L.hHidden), e.dis ? 2 : e.hid ? 1 : 0];
       case "access": { const a = e.user ? "" : accessOf(e.domain); return [a ? `<span title="${esc(L.accessTip[a])}">${a}</span>` : "", a]; }
       case "unit": return [esc(e.unit), e.unit];
       case "area": return [esc(e.area), e.area.toLowerCase()];
@@ -3458,7 +3553,7 @@ class EntityInventoryPanel extends HTMLElement {
     this._buildCard();
     this._initMobile();
     this._loadMeta(); this._metaTimer = setInterval(() => (this.isConnected ? this._loadMeta() : clearInterval(this._metaTimer)), 300000); // signed URLs last one hour
-    this._labels = {}; this._lab = ""; this._loadLabels(); this._labTimer = setInterval(() => (this.isConnected ? this._loadLabels() : clearInterval(this._labTimer)), 300000);
+    this._labels = {}; this._lab = ""; this._loadRegAll(); this._regTimer = setInterval(() => (this.isConnected ? this._loadRegAll() : clearInterval(this._regTimer)), 300000); this._loadLabels(); this._labTimer = setInterval(() => (this.isConnected ? this._loadLabels() : clearInterval(this._labTimer)), 300000);
     this._loadUsers(); this._userTimer = setInterval(() => (this.isConnected ? this._loadUsers() : clearInterval(this._userTimer)), 300000);
   }
 
@@ -3653,7 +3748,10 @@ class EntityInventoryPanel extends HTMLElement {
     this._counts = { all: { n: 0, off: 0 } };
     rows.forEach((e) => {
       if (e.user) { const c = (this._counts.users = this._counts.users || { n: 0, off: 0 }); c.n++; return; }
-      if (e.hidden && !this._showHidden) return;
+      if (e.hidden && !this._showHidden) { // hidden entities only count for the tab of the hidden ones
+        if (e.hid || e.dis) { const c = (this._counts.hiddenEnt = this._counts.hiddenEnt || { n: 0, off: 0 }); c.n++; }
+        return;
+      }
       const off = OFFLINE.has(e.state);
       this._counts.all.n++; if (off) this._counts.all.off++;
       e.tabs.forEach((k) => { const c = (this._counts[k] = this._counts[k] || { n: 0, off: 0 }); c.n++; if (off) c.off++; });
@@ -3669,7 +3767,8 @@ class EntityInventoryPanel extends HTMLElement {
     return ks.map((k, i) => [k, i]).sort((a, b) => ((c[b[0]] || { n: 0 }).n - (c[a[0]] || { n: 0 }).n) || a[1] - b[1]).map((x) => x[0]);
   }
 
-  _label(k) { return this._L.t[k] || k; }
+  _label(k) { return this._L.t[k] || (k === "hiddenEnt" ? this._L.tabHidden : k); }
+  _desc(k) { return this._L.d[k] || (k === "hiddenEnt" ? this._L.tabHiddenDesc : ""); }
 
   _drawTabs() {
     const L = this._L, c = this._counts;
@@ -3687,7 +3786,7 @@ class EntityInventoryPanel extends HTMLElement {
       if (prevG !== null && g !== prevG) { const sp = document.createElement("span"); sp.className = "sep"; this._tabs.appendChild(sp); }
       prevG = g;
       const b = document.createElement("button"); b.className = "tab" + (k === this._active ? " on" : "");
-      b.title = `${this._label(k)} (${c[k] ? c[k].n : 0})\n${L.d[k] || ""}`;
+      b.title = `${this._label(k)} (${c[k] ? c[k].n : 0})\n${this._desc(k)}`;
       const i = document.createElement("ha-icon"); i.setAttribute("icon", MDI[k] || "mdi:eye"); b.appendChild(i);
       if (c[k] && c[k].off && k !== "unavailable") { const bd = document.createElement("span"); bd.className = "badge"; bd.textContent = c[k].off; b.appendChild(bd); }
       b.onclick = () => this._select(k);
@@ -3719,7 +3818,8 @@ class EntityInventoryPanel extends HTMLElement {
 
   // hidden / disabled entities and (optionally) unavailable ones are filtered out; the "unavailable" tab always shows them
   _vis(e) {
-    return (!e.hidden || this._showHidden) && !(this._hideOff && this._active !== "unavailable" && OFFLINE.has(e.state))
+    const hid = this._active === "hiddenEnt"; // in the tab of the hidden entities they are always shown
+    return (!e.hidden || this._showHidden || hid) && !(this._hideOff && this._active !== "unavailable" && !hid && OFFLINE.has(e.state))
       && (!this._onlyNotes || e.user || !!((this._meta.notes[e.id] || {}).t || (this._meta.photos[e.id] || []).length));
   }
 
@@ -4007,7 +4107,7 @@ class EntityInventoryPanel extends HTMLElement {
           msg.disabled_by = enCb.checked ? null : "user";
         }
         await this._hass.callWS(msg); close();
-        setTimeout(() => { this._refresh(true); this._loadMeta(); }, 1500);
+        setTimeout(() => { this._loadRegAll(); this._refresh(true); this._loadMeta(); }, 1500);
       }
       catch (x) { alert(`${L.nameFail}: ${(x && x.message) || x}`); }
     };
@@ -4635,7 +4735,7 @@ class EntityInventoryPanel extends HTMLElement {
         const i = document.createElement("ha-icon"); i.setAttribute("icon", MDI[k]); i.style.setProperty("--mdc-icon-size", "24px"); ic.appendChild(i);
         const nm = document.createElement("span"); nm.style.cssText = "flex:1;min-width:0";
         const nt = document.createElement("div"); nt.textContent = this._label(k);
-        const nd = document.createElement("div"); nd.style.cssText = "font-size:11px;opacity:.6;line-height:1.25;margin-top:1px"; nd.textContent = L.d[k] || "";
+        const nd = document.createElement("div"); nd.style.cssText = "font-size:11px;opacity:.6;line-height:1.25;margin-top:1px"; nd.textContent = this._desc(k);
         nm.append(nt, nd);
         const n = document.createElement("span"); n.style.cssText = "opacity:.6;font-size:12px"; n.textContent = this._counts[k] ? this._counts[k].n : "";
         lab.append(cb, ic, nm, n); list.appendChild(lab); rows.push(cb);

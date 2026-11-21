@@ -29,6 +29,7 @@ The *Temperature* tab with 171 sensors, sorted by value: the value (decimal sepa
 - **State class dialog:** a click on the state class explains it (`measurement`, `total`, `total_increasing`), shows whether Home Assistant keeps long-term statistics for the entity (hourly values for the Energy dashboard) and links to *Developer tools → Statistics*. The state class itself is set by the integration and cannot be changed here.
 - **Access column `r/w`:** read-only (`r`), write-only (`w`) or both (`rw`) per entity.
 - **Entity symbol** in its own column; a click opens a dialog to change it.
+- **Hidden / disabled tab:** every entity that is hidden or switched off (disabled entities have no state and are read from the entity registry; administrators only), with a column that tells which. The rename dialog hides / shows an entity and switches it on / off (`hidden_by`, `disabled_by`); the toolbar button *show hidden / disabled entities* adds them to the other tabs.
 - **Labels and scenes:** a labels column with the coloured Home Assistant labels, a tab with every labelled entity, a selector to show only one label (or *without label*), a tab with scenes and their last activation.
 - **User accounts tab:** all Home Assistant accounts with user name, role, login provider and linked person (administrators only).
 - **Filters:** search over name, ID, area, device, integration, comments and document names; area, integration and label selectors; buttons to hide unavailable / hidden entities and to show only entries that have a comment or a photo.
