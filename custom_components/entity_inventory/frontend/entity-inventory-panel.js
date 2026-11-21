@@ -3478,6 +3478,17 @@ class EntityInventoryPanel extends HTMLElement {
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
     this._wrap.onclick = (ev) => this._click(ev);
+    // long press (touch or mouse) or right click on a column heading: type a new column name right in the heading; the click after a long press does not sort
+    {
+      let tm = null, fired = false, sx = 0, sy = 0;
+      const stop = () => { clearTimeout(tm); tm = null; };
+      const headOf = (ev) => (ev.target.closest && !this._edit ? ev.target.closest("thead th[data-col]") : null);
+      this._wrap.addEventListener("pointerdown", (ev) => { const th = headOf(ev); if (!th || ev.button) return; fired = false; sx = ev.clientX; sy = ev.clientY; stop(); tm = setTimeout(() => { tm = null; fired = true; this._renameHead(th); }, 600); });
+      this._wrap.addEventListener("pointermove", (ev) => { if (tm && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 8) stop(); });
+      ["pointerup", "pointercancel"].forEach((n) => this._wrap.addEventListener(n, stop));
+      this._wrap.addEventListener("click", (ev) => { if (fired) { fired = false; ev.stopPropagation(); ev.preventDefault(); } }, true);
+      this._wrap.addEventListener("contextmenu", (ev) => { const th = headOf(ev); if (th) { ev.preventDefault(); stop(); fired = true; this._renameHead(th); } });
+    }
     // remember what the pointer went down on: when the table is redrawn between pressing and releasing (live update), the click lands on the wrapper and would be lost
     this._wrap.addEventListener("mousedown", (ev) => {
       const td = ev.target.closest && ev.target.closest("td[data-col]"), tr = td && td.closest("tr[data-id]"), a = ev.target.closest && ev.target.closest("[data-act]");
@@ -4270,6 +4281,25 @@ class EntityInventoryPanel extends HTMLElement {
   }
 
   // the click target after a redraw: the element that was pressed, looked up again in the new table
+  // rename a column in the heading (display names; empty = default)
+  _renameHead(th) {
+    const L = this._L, c = th.dataset.col, cfg = this._layout("view");
+    if (this._inl || !c) return;
+    const inp = document.createElement("input");
+    inp.type = "text"; inp.value = cfg.n[c] || ""; inp.placeholder = L["c_" + c] || c; inp.title = L.renameTip;
+    inp.style.cssText = "width:100%;min-width:60px;box-sizing:border-box;font:inherit;font-weight:700;padding:1px 3px;border:1px solid var(--primary-color);border-radius:4px;background:var(--card-background-color,transparent);color:var(--primary-text-color)";
+    th.textContent = ""; th.appendChild(inp); this._inl = true; inp.focus(); inp.select();
+    let done = false;
+    const fin = (save) => {
+      if (done) return; done = true; this._inl = false;
+      if (save) { const v = inp.value.trim(); if (v) cfg.n[c] = v; else delete cfg.n[c]; this._saveLayout("view"); }
+      this._render();
+    };
+    inp.onkeydown = (ev) => { ev.stopPropagation(); if (ev.key === "Enter") fin(true); else if (ev.key === "Escape") fin(false); };
+    inp.onblur = () => fin(true);
+    inp.onclick = (ev) => ev.stopPropagation();
+  }
+
   _fixTarget(ev) {
     const t = ev.target, d = this._down;
     if (d && Date.now() - d.t < 2500 && !(t.closest && t.closest("tr[data-id]"))) {

@@ -167,6 +167,8 @@ Mit **Umschalt+Klick** auf die Zelle tippst du die Tage direkt in die Zelle ein 
 - **◀ ▶:** Spalte verschieben (alternativ die Überschrift per **Ziehen** auf eine andere Überschrift fallen lassen)
 - **Namensfeld:** eigener Spaltenname (leer = Standardname)
 
+**Spaltennamen direkt ändern:** Halte eine Überschrift etwa eine halbe Sekunde gedrückt (oder klicke mit der rechten Maustaste darauf), dann wird sie zum Eingabefeld. Enter speichert den Namen, Esc bricht ab, leer setzt den Standardnamen zurück. Das gilt für die Anzeige; die Namen für den Drucker stellst du im Spalteneditor ein. Der Klick nach dem langen Drücken sortiert nicht.
+
 Am rechten Rand jeder Überschrift sitzt der **graue Griff**: Ziehen ändert die Breite (auch schmaler als der Inhalt; zu langer Inhalt wird abgeschnitten), ein Doppelklick setzt die Breite zurück. *Auto* passt alle Breiten an den breitesten Inhalt an, *Zurücksetzen* stellt die Standardspalten wieder her, der **Haken** rechts beendet den Editor. Die Recorder-Spalten blendest du nicht hier, sondern mit dem Datenbank-Knopf ein und aus.
 
 **Drucken / PDF:** Der Drucker-Knopf druckt genau das, was du siehst (mit der Spaltenauswahl für den *Drucker*), mit Symbol, Titel und Seitenzahl, dazu Fotos und Kommentare. Mit dem Seiten-Knopf daneben wählst du Hoch- oder Querformat. Ist die Tabelle breiter als die Seite, wird sie automatisch verkleinert, damit keine Spalte fehlt. Im Druckdialog wählst du *Als PDF speichern*.
