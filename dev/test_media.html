@@ -3299,6 +3299,11 @@ class EntityInventoryPanel extends HTMLElement {
     this._wrap = document.createElement("div"); this._wrap.className = "wrap al-" + this._align;
     alB.title = { dec: L.alignDec, left: L.alignLeft, right: L.alignRight }[this._align];
     this._wrap.onclick = (ev) => this._click(ev);
+    // remember what the pointer went down on: when the table is redrawn between pressing and releasing (live update), the click lands on the wrapper and would be lost
+    this._wrap.addEventListener("mousedown", (ev) => {
+      const td = ev.target.closest && ev.target.closest("td[data-col]"), tr = td && td.closest("tr[data-id]"), a = ev.target.closest && ev.target.closest("[data-act]");
+      this._down = td && tr ? { id: tr.dataset.id, col: td.dataset.col, act: a ? a.dataset.act : null, t: Date.now() } : null;
+    }, true);
     this._wrap.addEventListener("change", (ev) => this._cfgChange(ev));
     this._wrap.addEventListener("mousedown", (ev) => this._cfgGrip(ev));
     // column editor: change the order by dragging a heading onto another one (the width is set with the grip at the right edge)
@@ -3377,6 +3382,7 @@ class EntityInventoryPanel extends HTMLElement {
   _refresh(force) {
     if (!this._hass || !this._tabs) return;
     if (this._inl) return; // a cell is being edited: do not redraw it
+    if (!force && this._down && Date.now() - this._down.t < 400) return; // the pointer is pressed on a cell: no redraw under the finger (the next tick catches up)
     const rows = this._collect(), now = Date.now();
     const changed = this._nChanged > 0 || !this._rows || rows.length !== this._rows.length;
     this._rows = rows;
@@ -4058,7 +4064,19 @@ class EntityInventoryPanel extends HTMLElement {
     this._shown = to;
   }
 
+  // the click target after a redraw: the element that was pressed, looked up again in the new table
+  _fixTarget(ev) {
+    const t = ev.target, d = this._down;
+    if (d && Date.now() - d.t < 2500 && !(t.closest && t.closest("tr[data-id]"))) {
+      const row = [...this._wrap.querySelectorAll("tr[data-id]")].find((x) => x.dataset.id === d.id);
+      const td = row && row.querySelector(`td[data-col="${d.col}"]`), el = (td && d.act && td.querySelector(`[data-act="${d.act}"]`)) || td;
+      if (el) return { target: el, shiftKey: ev.shiftKey };
+    }
+    return ev;
+  }
+
   _click(ev) {
+    ev = this._fixTarget(ev);
     const chip = ev.target.closest && ev.target.closest(".chip[data-label]");
     if (chip) { this._labelDialog(chip.dataset.label); return; }
     const mv = ev.target.closest("[data-cfg=mv]");
