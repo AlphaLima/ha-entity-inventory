@@ -112,6 +112,8 @@ Der Knopf mit den zwei Kästchen in der Werkzeugleiste (nur für Administratoren
 - **Einschalten / Ausschalten** (Aktiviert-Schalter von Home Assistant; Home Assistant lädt die betroffenen Integrationen nach etwa 30 Sekunden neu),
 - **Aufbewahrung …** (Recorder-Aufbewahrung in Tagen oder „keine Regel" für alle gewählten Entitäten).
 
+**Tastatur:** Die Zeile unter der Maus (hell hinterlegt) wechselst du mit **↑ / ↓**. Die **Leertaste** setzt oder entfernt den Haken dieser Zeile, **Umschalt+Leertaste** markiert den Bereich seit der zuletzt geänderten Zeile.
+
 Jede Aktion fragt vorher nach und nennt die Anzahl und die Folgen; „Ausschalten" ist rot markiert. Danach zeigt ein Fenster, wie viele geändert wurden und ob welche fehlgeschlagen sind. Schalte den Auswahlmodus mit demselben Knopf wieder aus.
 
 ### 5. Die Schalter der Werkzeugleiste
